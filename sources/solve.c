@@ -566,7 +566,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
 /* Uzawa algorithm for solving ( A Bt ) ( U ) = ( F )
                                ( B  S ) ( P ) = ( 0 )
    solve B A^-1 Bt P = B A^-1 F - G  then  AU = F-Bt.P */
-int uzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char verb) {
+int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char verb) {
   double   *d,*z,*w,*r,*Ad,dp,alpha,beta,err,lerr,rm,rmp,rmn,nn;
   int       m,n,it,nit,lnit,ier;
 
