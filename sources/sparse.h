@@ -98,6 +98,7 @@ int  csrConjGrad(pCsr A,double *x,double *b,double *err,int *nit);
 int  csrConjGradGen(pCsr A,double *x,double *b,double *,char *,char ,double *err,int *nit);
 int  csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv);
 int  csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec);
+int  csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char verb);
 
 
 #endif

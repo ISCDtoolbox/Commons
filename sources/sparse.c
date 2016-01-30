@@ -433,8 +433,8 @@ int csrPack(pCsr M) {
   int      i;
 
   if ( !M->hm )  return(csmPack(M));
-
   hm = M->hm;
+
   M->val = (double*)malloc(hm->nbe*sizeof(double));
   M->col = (int*)malloc(hm->nbe*sizeof(int));
   M->row = (int*)malloc((M->nr+1)*sizeof(int));

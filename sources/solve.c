@@ -230,7 +230,7 @@ int csrConjGradGen(pCsr A,double *x,double *b,double *ud,char *udt,char nohom,do
       rmp += y[i] * y[i];
   }
 
-  if ( rmp < CS_EPSD ) {
+  if ( rmp < CS_EPSD2 ) {
     if ( nohom ) 
       for (i=0; i<n; i++)  if ( udt[i] ) x[i] = ud[i];
     *er = rmp;
@@ -271,7 +271,7 @@ int csrConjGradGen(pCsr A,double *x,double *b,double *ud,char *udt,char nohom,do
     }
 
     /* P_m+1 = R_m + beta_m P_m */
-    if ( fabs(rm) <= CS_EPSD )  break;
+    if ( fabs(rm) <= CS_EPSD2 )  break;
     beta = rmn / rm;
     for (i=0; i<n; i++)
       p[i] = y[i] + beta * p[i];
@@ -560,6 +560,122 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
   *er = beta;
   *ni = it;
   return(ier);
+}
+
+
+/* Uzawa algorithm for solving ( A Bt ) ( U ) = ( F )
+                               ( B  S ) ( P ) = ( 0 )
+   solve B A^-1 Bt P = B A^-1 F - G  then  AU = F-Bt.P */
+int uzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char verb) {
+  double   *d,*z,*w,*r,*Ad,dp,alpha,beta,err,lerr,rm,rmp,rmn,nn;
+  int       m,n,it,nit,lnit,ier;
+
+  /*--- 1. solve for p: B A^-1 Bt p = B A^-1 F */
+  n  = A->nr;
+  m  = B->nr;
+  nn = csrXY(p,p,m);
+
+  /* 1.a compute Az = F; z = A^-1.F */
+  /* w = F - Bt*p */
+  w  = (double*)calloc(n,sizeof(double));
+  assert(w);
+  csrAtxpy(B,p,F,w,-1.0,1.0);
+  z = (double*)calloc(n,sizeof(double));
+  assert(z);
+
+  /* z = A^-1*w = A^-1* F */
+  err = *er;
+  nit = *ni;
+  ier = csrPrecondGrad(A,z,w,&err,&nit,1);
+  if ( ier < 1 ) {
+    if ( verb != '0' )  fprintf(stdout," # incomplete CG.\n");
+    free(z);  free(w);
+    return(0);
+  }
+
+  /* 1.b compute r = B.(A^-1. F) = B.z */
+  r = (double*)malloc(m*sizeof(double));
+  assert(r);
+  csrAx(B,z,r);
+  /* compute R0 = b - Ax0, rm = (R0,R0) */
+  rmp = csrXY(r,r,m);    
+  if ( sqrt(fabs(rmp)) < 5.0*err ) {
+    if ( verb != '0' )  fprintf(stdout," # null residual.\n");
+    free(z);  free(r);  free(w);
+    return(1);
+  }
+
+  d = (double*)calloc(m,sizeof(double));
+  assert(d);
+  memset(w,0,n*sizeof(double));
+  memcpy(d,r,m*sizeof(double));
+  Ad = (double*)calloc(m,sizeof(double));
+  assert(Ad);
+
+  /* conjugate gradient: p1 = r0 */
+  it  = 0;
+  ier = 1;
+  err = *er;
+  err = err * err * rmp;
+  nit = *ni;
+  rm  = rmp;
+  while ( ( err < rm) && (++it <= nit) ) {
+    /* alpha_m = <R_m-1,R_m-1> / <AP_m,P_m> */
+    csrAtx(B,d,z);
+    lerr = *er;
+    lnit = *ni;
+    /* compute w = A^-1.z = A^-1.Bt.d */
+    ier = csrPrecondGrad(A,w,z,&lerr,&lnit,0);
+    if ( ier < 1 || lnit == 1 )  break;
+ 
+    /* compute Ad = B.(A^-1.Bt.d) - S.d = B.w - S.d */
+    csrAx(B,w,Ad);
+    dp = csrXY(d,Ad,m);
+    if ( fabs(dp) <= CS_NUL )  break;
+    /* alpha_m = <R_m-1,R_m-1> / <AP_m,P_m> */
+    alpha = rm / dp;  
+    /*solution at the time t^(n+1)*/
+		csrlXmY(p,d,p,1.0,alpha,m);
+		/*new direction*/
+		csrlXmY(r,Ad,r,1.0,-alpha,m);
+		rmn = csrXY(r,r,m);
+    if ( rmn <= CS_NUL )  break;
+    beta = rmn / rm;
+		csrlXmY(r,d,d,1.0,beta,m);
+    rm = rmn;
+  }
+  free(z);
+  free(d);
+  free(r);
+  free(Ad);
+
+  if ( ier < 1 || it > nit ) {
+    if ( verb != '0')
+      fprintf(stdout," # incomplete CG: res=%e, nit=%d\n",rm,it);
+    return(-2);
+  }
+  err = sqrt(rm / rmp);
+  if ( verb != '0' )  fprintf(stdout,"     pressure: res=%e, nit=%d\n",err,it);
+
+  /*--- 2. solve Au = F-Bt.p */
+
+  /* 2.a compute w = F-Bt.p */
+  csrAtxpy(B,p,F,w,-1.0,1.0);
+
+  /* compute Au = w => u = A^-1.(F-Bt.p) */
+  err = *er;
+  nit = *ni;
+  ier = csrPrecondGrad(A,u,w,&err,&nit,1);
+  free(w);
+  if ( ier < 1 ) {
+    if ( verb != '0' ) 
+      fprintf(stdout," # incomplete velocity: res=%e,  nit=%d\n",err,nit);
+    return(0);
+  }
+  else if ( verb != '0' )  
+    fprintf(stdout,"     velocity: res=%e, nit=%d\n",err,nit);
+
+  return(1);
 }
 
 
