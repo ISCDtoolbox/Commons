@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_BUILD_TYPE  "Release")
-SET(CMAKE_CXX_FLAGS   "-Wunused-result -Wno-dev")
+SET(CMAKE_CXX_FLAGS   "-w")
+set(CMAKE_MACOSX_RPATH 1)
 
 project(Commons)
 
