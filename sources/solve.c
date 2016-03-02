@@ -674,6 +674,8 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   }
   else if ( verb != '0' )  
     fprintf(stdout,"     velocity: res=%e, nit=%d\n",err,nit);
+  *er = err;
+  *ni = nit;
 
   return(1);
 }
