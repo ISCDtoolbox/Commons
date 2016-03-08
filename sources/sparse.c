@@ -1,6 +1,8 @@
 #include "sparse.h"
 
+#ifdef _OPENMP
 #include "omp.h"
+#endif
 
 static int CSR_libId  = 0;
 static int CSR_libCpu = 1;
