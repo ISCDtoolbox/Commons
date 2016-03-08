@@ -774,7 +774,6 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
   x = arg->x;
   y = arg->y;
 
-  //fprintf(stdout,"Nthreads=%d\n", omp_get_num_threads());
 #pragma omp parallel for num_threads(1)
   for (i=startAdr-1; i<stopAdr; i++) {
     y[i] = 0.0;
@@ -786,7 +785,6 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
 
   if ( A->typ & CS_SYM ) {
     /* use optim: M_ii in M->row[i] */
-    //#pragma omp parallel for num_threads(2)
     for (i=startAdr-1; i<stopAdr; i++) {
       for (j=A->row[i]+1; j<A->row[i+1]; j++) {
         ic = A->col[j];

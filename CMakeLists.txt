@@ -1,17 +1,23 @@
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_BUILD_TYPE  "Release")
-SET(CMAKE_C_FLAGS   "-w -g -O2 -fopenmp")
+SET(CMAKE_C_FLAGS   "-w -g -O2")
 
 set(CMAKE_MACOSX_RPATH 1)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 project(Commons)
 
-#Find math and pthread libraries
-FIND_PACKAGE(          OpenMP)
+#Find libraries
+if(OPENMP)
+  find_package(OpenMP)
+  if (OPENMP_FOUND)
+    #add_definitions(-DUSE_OPENMP)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  endif()
+endif()
 FIND_LIBRARY(          M_LIB m)
-SET(                   LIBRARIES ${M_LIB})
-SET(                   LIBRARIES "-lpthread" ${LIBRARIES})
+SET(                   LIBRARIES ${M_LIB} "-lpthread")
 
 #Commons library
 SET(                   SOURCES_DIR sources)
