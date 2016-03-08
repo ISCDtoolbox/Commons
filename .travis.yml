@@ -1,7 +1,7 @@
-language: c++
+language: c
 compiler:
   - gcc
-  - icc
+  - clang
 os:
   - linux
   - osx
