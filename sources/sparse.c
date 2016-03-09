@@ -776,13 +776,14 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
   x = arg->x;
   y = arg->y;
 
-#pragma omp parallel for num_threads(1)
+  //pragma not executed if omp.h not included (cmake options)
+  #pragma omp parallel for num_threads(1)
   for (i=startAdr-1; i<stopAdr; i++) {
     y[i] = 0.0;
     for (j=A->row[i]; j<A->row[i+1]; j++) {
-			dd    = A->val[j] * x[A->col[j]];
+      dd    = A->val[j] * x[A->col[j]];
       y[i] += dd;
-	  }
+    }
   }
 
   if ( A->typ & CS_SYM ) {
@@ -790,7 +791,7 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
     for (i=startAdr-1; i<stopAdr; i++) {
       for (j=A->row[i]+1; j<A->row[i+1]; j++) {
         ic = A->col[j];
-				dd     = A->val[j] * x[i];
+	dd     = A->val[j] * x[i];
         y[ic] += dd;
       }
     }
