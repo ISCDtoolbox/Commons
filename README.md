@@ -2,7 +2,7 @@
 
 Contains common codes used for ICS softwares (Linear algebra, Chrono, I/O...)
 
-# Install (Linux & Mac OS)
+## Install (Linux & Mac OS)
 
 To install the Commons library on your system, first download or clone the repository on your computer:
 ```
@@ -20,3 +20,14 @@ In order to use OpenMP and benefit from multithreading, replace the cmake comman
 ```
 cmake .. -DOPENMP=1
 ```
+
+## Full ICStoolbox install
+
+In order to install every ICStoolbox tool on your system, download the following shell script on your computer (no need to clone this repository):
+[install.sh](install.sh)
+
+then type in a command prompt:
+```
+sh install.sh
+```
+If no error occured, the ICStoolbox suite should be properly installed, with sources present in ~/dev/ICStoolbox/ directory.
