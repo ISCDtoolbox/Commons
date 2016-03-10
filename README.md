@@ -23,11 +23,8 @@ cmake .. -DOPENMP=1
 
 ## Full ICStoolbox install
 
-In order to install every ICStoolbox tool on your system, download the following shell script on your computer (no need to clone this repository):
-[install.sh](install.sh)
-
-then type in a command prompt:
+In order to install every ICStoolbox tool on your system, download the [install.sh](install.sh) shell script on your computer (right click, save as...), then type in a command prompt:
 ```
 sh install.sh
 ```
-If no error occured, the ICStoolbox suite should be properly installed, with sources present in ~/dev/ICStoolbox/ directory.
+If no error occured, the ICStoolbox suite should be properly installed on your system, with sources present in ~/dev/ICStoolbox/ directory.
