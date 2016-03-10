@@ -23,7 +23,7 @@ cmake .. -DOPENMP=1
 
 ## Full ICStoolbox install
 
-In order to install every ICStoolbox tool on your system, download the [install.sh](install.sh) shell script on your computer (right click, save as...), then type in a command prompt:
+In order to install every ICStoolbox tool on your system, download the [install.sh](https://raw.githubusercontent.com/ICStoolbox/Commons/master/install.sh) shell script on your computer (right click, save as...), then type in a command prompt:
 ```
 sh install.sh
 ```
