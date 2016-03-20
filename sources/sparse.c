@@ -1,5 +1,9 @@
 #include "sparse.h"
 
+#ifdef _OPENMP
+#include "omp.h"
+#endif
+
 static int CSR_libId  = 0;
 static int CSR_libCpu = 1;
 
@@ -248,7 +252,7 @@ static int cshGet(csHash *hm,int i,int j,double *val) {
 pCsv csvNew(int nr,int nc,int nmax) {
   pCsv   M;
 
-  M = (pCsv)calloc(1,sizeof(Csr));  
+  M = (pCsv)calloc(1,sizeof(Csr));
   assert(M);
   M->nr   = nr;
   M->nc   = nc;
@@ -314,7 +318,7 @@ int csvSet(pCsv M,int i,int j,double val) {
 pCsr csrNew(int nr,int nc,int nmax,char typ) {
   pCsr   M;
 
-  M = (pCsr)calloc(1,sizeof(Csr));  
+  M = (pCsr)calloc(1,sizeof(Csr));
   assert(M);
   M->nr   = nr;
   M->nc   = nc;
@@ -535,7 +539,7 @@ pCsr csrTr(pCsr M) {
   /* count number of entries / columns in M */
   wt = (int*)calloc(M->nc,sizeof(int));
   assert(wt);
-  for (j=0; j<M->nbe; j++) 
+  for (j=0; j<M->nbe; j++)
    if ( fabs(M->val[j]) >= CS_NUL )  wt[M->col[j]]++;
 
   /* set rows pointers in Mt */
@@ -771,19 +775,23 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
   A = arg->A;
   x = arg->x;
   y = arg->y;
+
+  //pragma not executed if omp.h not included (cmake options)
+  #pragma omp parallel for num_threads(1)
   for (i=startAdr-1; i<stopAdr; i++) {
     y[i] = 0.0;
     for (j=A->row[i]; j<A->row[i+1]; j++) {
-			dd    = A->val[j] * x[A->col[j]];
+      dd    = A->val[j] * x[A->col[j]];
       y[i] += dd;
-	  }
+    }
   }
+
   if ( A->typ & CS_SYM ) {
     /* use optim: M_ii in M->row[i] */
     for (i=startAdr-1; i<stopAdr; i++) {
       for (j=A->row[i]+1; j<A->row[i+1]; j++) {
         ic = A->col[j];
-				dd     = A->val[j] * x[i];
+	dd     = A->val[j] * x[i];
         y[ic] += dd;
       }
     }
@@ -958,7 +966,7 @@ int csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m) {
     /* z = l.z + m.y */
     csr_lxmy(1,A->nc,0,&arg);
   }
-  
+
   //for (i=0; i<A->nc; i++)  z[i] = l*z[i] + m*y[i];
   return(1);
 }
@@ -1064,13 +1072,13 @@ double csrXY(double *x,double *y,int n) {
 double csrNorm(pCsr M) {
   int      i,j;
   double   nn,s;
-  
+
   if ( !CS_CSR(M) || !M->val )  return(-1);
 
   nn = 0.0;
   for (i=0; i<M->nr; i++) {
     s = 0.;
-    for (j=M->row[i]; j<M->row[i+1]; j++) 
+    for (j=M->row[i]; j<M->row[i+1]; j++)
       s += fabs(M->val[j]);
     nn = CS_MAX(nn,s);
   }
@@ -1081,7 +1089,7 @@ double csrNorm(pCsr M) {
 int csrPrint(pCsr A,int brief) {
   int    i,j;
 
-  if ( !A ) { 
+  if ( !A ) {
     fprintf(stdout,"(null)\n");
     return(0);
   }
@@ -1096,7 +1104,7 @@ int csrPrint(pCsr A,int brief) {
       for (j=A->row[i]; j<A->row[i+1]; j++) {
         fprintf(stdout,"     %4d : %E\n", A->col[j],A->val ? A->val[j] : 1);
         if ( brief && i>20 ) {
-          fprintf(stdout,"  ...\n"); 
+          fprintf(stdout,"  ...\n");
           return (1);
         }
       }
@@ -1141,7 +1149,7 @@ void csrPrVal(pCsr A,int i,int j) {
   for (k=A->row[i]; k<A->row[i+1]; k++) {
     if ( A->col[k] == j ) {
       fprintf(stdout,"A[%d][%d] = %f\n",i,j,A->val[k]);
-      return;    
+      return;
     }
   }
 }
