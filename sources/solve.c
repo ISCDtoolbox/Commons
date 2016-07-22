@@ -414,7 +414,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
     beta += r[i] * r[i];
   }
   if ( beta < CS_EPSD2 ) {
-    fprintf(stdout,"  ## GMRES Pb: beta NULL %E\n",beta);
+    fprintf(stdout,"  ## csrGMRES: beta NULL %E\n",beta);
     free(r);
     return(0);
   }
@@ -480,7 +480,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
         for (i=0; i<A->nr; i++)  V[(m+1)*A->nr+i] *= dd;
       }
       else
-        fprintf(stdout,"  ## GMRES Pb: H NULL\n");
+        fprintf(stdout,"  ## csrGMRES: H NULL\n");
 
       /* update H */
       for (i=0; i<m; i++) {
@@ -490,7 +490,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
       }
       beta = sqrt(h[iadr+m]*h[iadr+m] + h[iadr+m+1]*h[iadr+m+1]);
       if ( beta < CS_EPSD2 ) {
-        fprintf(stdout, "  ## GMRES Pb: beta NULL\n");
+        fprintf(stdout, "  ## csrGMRES: beta NULL\n");
         free(r);  free(V);
         return(0);
       }
@@ -544,7 +544,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
 				beta += r[i] * r[i];
       }
       if ( beta < CS_EPSD2 ) {
-        fprintf(stdout,"  ## GMRES Pb: Beta NULL\n");
+        fprintf(stdout,"  ## csrGMRES: Beta NULL\n");
         free(r);  free(V);
         return(0);
       }
@@ -588,7 +588,7 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   nit = *ni;
   ier = csrPrecondGrad(A,z,w,&err,&nit,1);
   if ( ier < 1 ) {
-    if ( verb != '0' )  fprintf(stdout," # incomplete CG.\n");
+    if ( verb != '0' )  fprintf(stdout," ## csrUzawa: incomplete CG.\n");
     free(z);  free(w);
     return(0);
   }
@@ -600,7 +600,7 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   /* compute R0 = b - Ax0, rm = (R0,R0) */
   rmp = csrXY(r,r,m);    
   if ( sqrt(fabs(rmp)) < 5.0*err ) {
-    if ( verb != '0' )  fprintf(stdout," # null residual.\n");
+    if ( verb != '0' )  fprintf(stdout," ## csrUzawa: null residual.\n");
     free(z);  free(r);  free(w);
     return(1);
   }
@@ -651,7 +651,7 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
 
   if ( ier < 1 || it > nit ) {
     if ( verb != '0')
-      fprintf(stdout," # incomplete CG: res=%e, nit=%d\n",rm,it);
+      fprintf(stdout," ## csrUzawa: incomplete CG: res=%e, nit=%d\n",rm,it);
     return(-2);
   }
   err = sqrt(rm / rmp);
@@ -669,7 +669,7 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   free(w);
   if ( ier < 1 ) {
     if ( verb != '0' ) 
-      fprintf(stdout," # incomplete velocity: res=%e,  nit=%d\n",err,nit);
+      fprintf(stdout," ## csrUzawa: incomplete velocity: res=%e,  nit=%d\n",err,nit);
     return(0);
   }
   else if ( verb != '0' )  
