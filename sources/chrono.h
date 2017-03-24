@@ -27,5 +27,6 @@ typedef struct mytime {
 void   chrono(int cmode,mytime *ptt);
 void   tminit(mytime *t,int maxtim);
 void   printim(double ,char *);
+char  *getim(double );
 
 #endif

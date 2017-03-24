@@ -81,3 +81,27 @@ void printim(double elps,char *stim) {
     sprintf(stim,"%dh%dm%ds",hh,mm,ss);
   }
 }
+
+/* print and return real time */
+char *getim(double elps) {
+  int    hh,mm,ss;
+  char  *data;
+	
+  data = malloc(32*sizeof(char));
+  assert(data);
+  if ( elps < 60.0 )
+    sprintf(data,"%5.3lfs",elps);
+  else if ( elps < 3600.0 ) {
+    mm = elps / 60.0;
+    ss = (int)elps - mm * 60;
+    sprintf(data,"%dm%ds (%7.3lfs)",mm,ss,elps);
+  }
+  else {
+    hh = elps / 3600;
+    mm = (elps - hh*3600) / 60;
+    ss = elps - mm*60 - hh*3600;
+    sprintf(data,"%dh%dm%ds",hh,mm,ss);
+  }
+
+  return(data);
+}
