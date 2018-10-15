@@ -2,13 +2,14 @@ language: c
 compiler:
   - gcc
   - clang
+  - icc
 os:
   - linux
   - osx
 script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. -DOPENMP=1
   - make
 notifications:
   email: false
