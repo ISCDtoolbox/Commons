@@ -44,7 +44,7 @@ target_include_directories(Commons
 
 set_property(TARGET Commons PROPERTY C_STANDARD 99)
 if (OPENMP_FOUND)
-    target_compile_options(Commons PUBLIC -Wall ${OpenMP_C_FLAGS})
+    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
     target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
 endif ()
 target_link_libraries(Commons PUBLIC ${M_LIB}
