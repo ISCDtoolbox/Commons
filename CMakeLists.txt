@@ -1,28 +1,60 @@
-cmake_minimum_required(VERSION 2.8)
-set(CMAKE_BUILD_TYPE  "Release")
-SET(CMAKE_CXX_FLAGS   "-w -g -O3")
-set(CMAKE_MACOSX_RPATH 1)
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 
-project(Commons)
+project(Commons LANGUAGES C)
+set(CMAKE_BUILD_TYPE "Release")
 
-#Find libraries
-if(OPENMP)
-  find_package(OpenMP)
-  if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-  endif()
+# Add the source files to the Commons library
+add_library(Commons SHARED sources/chrono.c
+                           sources/eigen.c
+                           sources/libmesh5.c
+                           sources/lplib3.c
+                           sources/solve.c
+                           sources/sparse.c)
+
+# Find the OpenMp (libgomp1 on Ubuntu 16.04.4, add -fopenmp with gcc compiler),
+#                  which is optional here, -DOPENMP=1 must be added in the
+#                  "cmake .." command to take into account the paralelization 
+#      the Threads (libpthread-stubs0-dev on Ubuntu 16.04.4, add -pthread with
+#                   gcc compiler), and
+#      the Math libraries (libm.a on Ubuntu 16.04.4, add -lm with gcc compiler).
+#
+# IMPORTANT REMARK: when -fopenmp option is set in gcc, the preprocessor
+#                   compiler creates a preprocessor constant _OPENMP yyyymmdd
+#                   where yyyy is the year mm the month and dd the day of the
+#                   preprocessor compilation. This preprocessor constant is used
+#                   in sparse.c to include (or not) the omp.h file and thus
+#                   considering or not the parallelization.
+#
+# MINOR REMARK: adding -lpthread option with gcc only links the pthread library
+#               while the pre-defined macros do not get defined. The -pthread
+#               option tells the compiler to link in the pthread library as well
+#               as configure the compilation for threads. Tendancy is to add
+#               -pthread option instead of -lpthread
+if (OPENMP)
+    find_package(OpenMP)
 endif()
-FIND_LIBRARY(          M_LIB m)
-SET(                   LIBRARIES ${M_LIB} "-lpthread")
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package (Threads REQUIRED)
+find_library (M_LIB m)
 
-#Commons library
-SET(                   SOURCES_DIR sources)
-file(                  GLOB_RECURSE source_files ${SOURCES_DIR}/*.c)
-file(                  GLOB_RECURSE header_files ${SOURCES_DIR}/*.h)
-include_directories(   ${SOURCES_DIR})
-add_library(           Commons SHARED ${source_files})
-TARGET_LINK_LIBRARIES( Commons ${LIBRARIES})
-INSTALL(               TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib")
-INSTALL(               FILES   ${header_files} DESTINATION "$ENV{HOME}/include")
+# Set all targets and properties of the Commons library
+target_include_directories(Commons
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources>)
+
+set_property(TARGET Commons PROPERTY C_STANDARD 99)
+if (OPENMP_FOUND)
+    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+    target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+endif ()
+target_link_libraries(Commons PUBLIC ${M_LIB}
+                                     Threads::Threads)
+
+# Set the installation properties of the Commons library
+install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")
+install(FILES sources/chrono.h
+              sources/eigen.h
+              sources/libmesh5.h
+              sources/lplib3.h
+              sources/sparse.h DESTINATION "$ENV{HOME}/include/iscd/Commons")
+
