@@ -3,6 +3,13 @@ cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(Commons LANGUAGES C)
 set(CMAKE_BUILD_TYPE "Release")
 
+# Find "exotic" compilers (clang or icc)
+if (${CMAKE_C_COMPILER} MATCHES Clang OR ${CMAKE_C_COMPILER} MATCHES clang)
+    set(CMAKE_COMPILER_IS_CLANG ON)
+elseif (${CMAKE_C_COMPILER} MATCHES Icc OR ${CMAKE_C_COMPILER} MATCHES icc)
+    set(CMAKE_COMPILER_IS_INTEL ON)
+endif ()
+
 # Add the source files to the Commons library
 add_library(Commons SHARED sources/chrono.c
                            sources/eigen.c
@@ -35,7 +42,9 @@ if (OPENMP)
 endif()
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package (Threads REQUIRED)
-find_library (M_LIB m)
+if (NOT WIN32 OR MINGW)
+    find_library (M_LIB m)
+endif ()
 
 # Set all targets and properties of the Commons library
 target_include_directories(Commons
