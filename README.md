@@ -1,4 +1,4 @@
-# Commons [![Build Status](https://travis-ci.org/ISCDtoolbox/Commons.svg?branch=master)](https://travis-ci.org/ISCDtoolbox/Commons)
+# Commons [![Build Status](https://travis-ci.org/ISCDtoolbox/Commons.svg?branch=test_future_update)](https://travis-ci.org/ISCDtoolbox/Commons)
 
 Contains common codes used for ISCD softwares (Linear algebra, Chrono, Input/Output mesh, ...)
 
