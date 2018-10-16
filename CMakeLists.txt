@@ -36,37 +36,31 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 if (OPENMP)
     find_package(OpenMP)
-    if (NOT TARGET OpenMP::OpenMP_C)
-        find_package(Threads REQUIRED)
-        add_library(OpenMP::OpenMP_C IMPORTED INTERFACE)
-        set_property(TARGET OpenMP::OpenMP_C
-                     PROPERTY INTERFACE_COMPILE_OPTIONS ${OpenMP_C_FLAGS})
-        set_property(TARGET OpenMP::OpenMP_C
-                     PROPERTY INTERFACE_LINK_LIBRARIES ${OpenMP_C_FLAGS}
-                                                       Threads::Threads)
-    endif()
 endif ()
 
 # Set all targets and properties of the Commons library
 target_include_directories(Commons
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources>)
-
 set_property(TARGET Commons PROPERTY C_STANDARD 99)
-if (OPENMP_FOUND)
-#    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
-    target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)#${OpenMP_C_FLAGS})
-endif ()
-
-if (CMAKE_COMPILER_IS_GNUCC)
-    target_compile_options(Commons PUBLIC -Wno-unused-result
-                                          -Wunknown-pragmas)
-elseif (${CMAKE_C_COMPILER} MATCHES Clang OR ${CMAKE_C_COMPILER} MATCHES clang)
-    message("hello")
-    target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
-endif ()
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
+if (OPENMP_FOUND)
+    if (CMAKE_VERSION VERSION_GREATER 3.9.6)
+        target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
+    else ()
+        target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+    endif ()
+    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+endif ()
+
+if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
+    target_compile_options(Commons PUBLIC -Wno-unused-result
+                                          -Wunknown-pragmas)
+elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang 
+                                      OR ${CMAKE_C_COMPILER} MATCHES AppleClang)
+    target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
+endif ()
 
 # Set the installation properties of the Commons library
 install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")

@@ -8,20 +8,6 @@ compiler:
   - gcc
   - clang
 
-#sudo: true
-#before_install:
-#  - if [ $TRAVIS_OS_NAME = linux ]; 
-#      then 
-#        sudo apt-get install --yes gcc 
-#                                   make
-#                                   cmake
-#                                   git
-#                                   libpthread-stubs0-dev
-#                                   libgomp1; fi
-#  - if [ $TRAVIS_OS_NAME = osx ];
-#      then
-#         brew install libomp; fi
-
 sudo: false
 
 script:
