@@ -48,11 +48,15 @@ if (OPENMP_FOUND)
     target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
     target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
 endif ()
-if (CMAKE_COMPILER_IS_GNUCC)
+if (APPLE)
+    target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
+else ()
+#if (CMAKE_COMPILER_IS_GNUCC)
+    message("hello")
     target_compile_options(Commons PUBLIC -Wno-unused-result
                                           -Wunknown-pragmas)
-elseif (${CMAKE_C_COMPILER} MATCHES Clang OR ${CMAKE_C_COMPILER} MATCHES clang)
-    target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
+#elseif (${CMAKE_C_COMPILER} MATCHES Clang OR ${CMAKE_C_COMPILER} MATCHES clang)
+
 endif ()
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
