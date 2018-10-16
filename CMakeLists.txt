@@ -48,8 +48,10 @@ if (OPENMP_FOUND)
     target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
     target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
 endif ()
-target_compile_options(Commons PUBLIC -Wunknown-pragmas 
-                                      -Wno-unused-result)
+if (CMAKE_COMPILER_IS_GNUCC)
+    target_compile_options(Commons PUBLIC -Wunknown-pragmas 
+                                          -Wno-unused-result)
+endif ()
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 
