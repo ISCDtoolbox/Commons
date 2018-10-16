@@ -51,6 +51,8 @@ endif ()
 if (CMAKE_COMPILER_IS_GNUCC)
     target_compile_options(Commons PUBLIC -Wunknown-pragmas 
                                           -Wno-unused-result)
+else ()
+    target_compile_options(Commons PUBLIC -Weverything)
 endif ()
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)

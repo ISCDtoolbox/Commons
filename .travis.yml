@@ -13,10 +13,7 @@ script:
   - cd build
   - cmake ..
   - make
-  - cd ..
-  - rm build -dr
-  - mkdir build
-  - cd build
+  - rm -r ./*
   - cmake .. -DOPENMP=1
   - make
 
