@@ -13,7 +13,8 @@ add_library(Commons SHARED sources/chrono.c
 
 # Find the OpenMp (libgomp1 on Ubuntu 16.04.4, add -fopenmp with gcc compiler),
 #                  which is optional here, -DOPENMP=1 must be added in the
-#                  "cmake .." command to take into account the paralelization 
+#                  "cmake .." command to take into account this parallelization
+#                  procedure, 
 #      the Threads (libpthread-stubs0-dev on Ubuntu 16.04.4, add -pthread with
 #                   gcc compiler), and
 #      the Math libraries (libm.a on Ubuntu 16.04.4, add -lm with gcc compiler).
@@ -32,7 +33,7 @@ add_library(Commons SHARED sources/chrono.c
 #               -pthread option instead of -lpthread
 if (OPENMP)
     find_package(OpenMP)
-endif()
+endif ()
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package (Threads REQUIRED)
 find_library (M_LIB m)
@@ -47,6 +48,8 @@ if (OPENMP_FOUND)
     target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
     target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
 endif ()
+target_compile_options(Commons PUBLIC -Wunknown-pragmas 
+                                      -Wno-unused-result)
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 
