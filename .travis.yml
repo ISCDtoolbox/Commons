@@ -10,6 +10,19 @@ compiler:
 
 sudo: disabled
 
+addons:
+  apt:
+    packages:
+      - gcc
+      - make
+      - cmake
+      - git
+      - libgomp1
+      - libpthread-stubs0-dev
+
+install:
+  - if [ $TRAVIS_OS_NAME = osx ]; then brew install clang-omp; fi
+
 script:
   - mkdir build
   - cd build
