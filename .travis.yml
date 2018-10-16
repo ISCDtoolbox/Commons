@@ -9,13 +9,6 @@ compiler:
   - clang
 
 script:
-  - lsb_release -a
-  - gcc --version
-  - make --version
-  - cmake --version
-  - git --version
-  - dpkg -l | grep libgomp1
-  - dpkg -l | grep libpthread-stubs0-dev
   - mkdir build
   - cd build
   - cmake ..
