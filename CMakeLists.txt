@@ -11,13 +11,13 @@ add_library(Commons SHARED sources/chrono.c
                            sources/solve.c
                            sources/sparse.c)
 
-# Find the OpenMp (libgomp1 on Ubuntu 16.04.4, add -fopenmp with gcc compiler),
-#                  which is optional here, -DOPENMP=1 must be added in the
-#                  "cmake .." command to take into account this parallelization
-#                  procedure, 
+# Find the Math libraries (libm.a on Ubuntu 16.04.4, add -lm with gcc compiler),
 #      the Threads (libpthread-stubs0-dev on Ubuntu 16.04.4, add -pthread with
 #                   gcc compiler), and
-#      the Math libraries (libm.a on Ubuntu 16.04.4, add -lm with gcc compiler).
+#      the OpenMp (libgomp1 on Ubuntu 16.04.4, add -fopenmp with gcc compiler),
+#                  which is optional here, -DOPENMP=1 must be added in the
+#                  "cmake .." command to take into account this parallelization
+#                  procedure.
 #
 # IMPORTANT REMARK: when -fopenmp option is set in gcc, the preprocessor
 #                   compiler creates a preprocessor constant _OPENMP yyyymmdd
@@ -31,12 +31,21 @@ add_library(Commons SHARED sources/chrono.c
 #               option tells the compiler to link in the pthread library as well
 #               as configure the compilation for threads. Tendancy is to add
 #               -pthread option instead of -lpthread
-if (OPENMP)
-    find_package(OpenMP)
-endif ()
+find_library(M_LIB m)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-find_library(M_LIB m)
+if (OPENMP)
+    find_package(OpenMP)
+    if (NOT TARGET OpenMP::OpenMP_C)
+        find_package(Threads REQUIRED)
+        add_library(OpenMP::OpenMP_C IMPORTED INTERFACE)
+        set_property(TARGET OpenMP::OpenMP_C
+                     PROPERTY INTERFACE_COMPILE_OPTIONS ${OpenMP_C_FLAGS})
+        set_property(TARGET OpenMP::OpenMP_C
+                     PROPERTY INTERFACE_LINK_LIBRARIES ${OpenMP_C_FLAGS}
+                                                       Threads::Threads)
+    endif()
+endif ()
 
 # Set all targets and properties of the Commons library
 target_include_directories(Commons
@@ -45,8 +54,8 @@ target_include_directories(Commons
 
 set_property(TARGET Commons PROPERTY C_STANDARD 99)
 if (OPENMP_FOUND)
-    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
-    target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+#    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+    target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)#${OpenMP_C_FLAGS})
 endif ()
 
 if (CMAKE_COMPILER_IS_GNUCC)
