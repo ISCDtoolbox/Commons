@@ -31,9 +31,9 @@ add_library(Commons SHARED sources/chrono.c
 #               option tells the compiler to link in the pthread library as well
 #               as configure the compilation for threads. Tendancy is to add
 #               -pthread option instead of -lpthread
-if(OPENMP)
+if (OPENMP)
     find_package(OpenMP)
-endif()
+endif ()
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 find_library(M_LIB m)
@@ -44,16 +44,16 @@ target_include_directories(Commons
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources>)
 
 set_property(TARGET Commons PROPERTY C_STANDARD 99)
-if(OPENMP_FOUND)
+if (OPENMP_FOUND)
     target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
     target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
-endif()
-if(CMAKE_COMPILER_IS_GNUCC)
+endif ()
+if (CMAKE_COMPILER_IS_GNUCC)
     target_compile_options(Commons PUBLIC -Wno-unused-result
                                           -Wunknown-pragmas)
-else if(${CMAKE_C_COMPILER} MATCHES Clang OR ${CMAKE_C_COMPILER} MATCHES clang))
+elseif (${CMAKE_C_COMPILER} MATCHES Clang OR ${CMAKE_C_COMPILER} MATCHES clang)
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
-endif()
+endif ()
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 
