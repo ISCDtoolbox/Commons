@@ -9,7 +9,7 @@ compiler:
   - clang
 
 script:
-  - lsb_realease -a
+  - lsb_release -a
   - gcc --version
   - make --version
   - cmake --version
