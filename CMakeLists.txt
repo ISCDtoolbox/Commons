@@ -102,6 +102,7 @@ if (OPENMP)
                 message("tested merely on these two compilers.")
             endif ()
         endif()
+    endif()
 endif ()
 
 # Set all targets and properties of the Commons library
