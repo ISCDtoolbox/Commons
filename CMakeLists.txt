@@ -48,6 +48,7 @@ target_link_libraries(Commons PUBLIC ${M_LIB}
 if (OPENMP_FOUND)
     if (CMAKE_VERSION VERSION_GREATER 3.9.6)
         target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
+        message("hello")
     else ()
         target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
     endif ()
@@ -58,7 +59,7 @@ if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
     target_compile_options(Commons PUBLIC -Wno-unused-result
                                           -Wunknown-pragmas)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang 
-                                      OR ${CMAKE_C_COMPILER} MATCHES AppleClang)
+                                   OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
 endif ()
 
