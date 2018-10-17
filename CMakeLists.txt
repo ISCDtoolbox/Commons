@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
-set(CMAKE_C_COMPILER "/usr/bin/clang")
-set(CMAKE_C_COMPILER_ID "Clang")
 
 project(Commons LANGUAGES C)
 set(CMAKE_BUILD_TYPE "Release")
