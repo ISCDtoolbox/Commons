@@ -10,7 +10,8 @@ compiler:
 
 sudo: false
 
-script:
+script: 
+  - cmake --version
   - mkdir build
   - cd build
   - cmake ..

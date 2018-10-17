@@ -50,13 +50,11 @@ if (OPENMP_FOUND)
         target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
         message("hello")
     else ()
-        message("helloBB")
         target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
     endif ()
     target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
 endif ()
 
-message("${CMAKE_C_COMPILER_ID}")
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
     target_compile_options(Commons PUBLIC -Wno-unused-result
                                           -Wunknown-pragmas)
