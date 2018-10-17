@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
+set(CMAKE_C_COMPILER "/usr/bin/clang")
+set(CMAKE_C_COMPILER_ID "Clang")
 
 project(Commons LANGUAGES C)
 set(CMAKE_BUILD_TYPE "Release")
@@ -11,6 +13,38 @@ add_library(Commons SHARED sources/chrono.c
                            sources/solve.c
                            sources/sparse.c)
 
+# The source files of the Commons library uses:
+#
+#    - Headers from the C standard library: assert.h
+#                                           ctypes.h
+#                                           errno.h
+#                                           float.h
+#                                           limits.h
+#                                           math.h (it needs to be statically
+#                                                                        linked)
+#                                           stdarg.h
+#                                           stdbool.h
+#                                           stdio.h
+#                                           stdlib.h
+#                                           string.h
+#                                           time.h
+#
+#    - Headers from the C POSIX library that are not already a
+#      part of the C standard library: sys/resource.h
+#                                      sys/time.h
+#                                      unistd.h
+#
+#    - Headers from external library: omp.h (optional, it needs to be
+#                                                  dynamically linked if active)
+#                                     pthread.h (it needs to be dynamically
+#                                                                        linked)
+#
+#    - Headers from the local sources directory: chrono.h
+#                                                eigen.h
+#                                                libmesh5.h
+#                                                lplib3.h
+#                                                sparse.h
+#
 # Find the Math libraries (libm.a on Ubuntu 16.04.4, add -lm with gcc compiler),
 #      the Threads (libpthread-stubs0-dev on Ubuntu 16.04.4, add -pthread with
 #                   gcc compiler), and
@@ -58,7 +92,7 @@ endif ()
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
     target_compile_options(Commons PUBLIC -Wno-unused-result
                                           -Wunknown-pragmas)
-elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang 
+elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
                                    OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
 endif ()
