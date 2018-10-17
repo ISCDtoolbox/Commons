@@ -1,8 +1,28 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 
+# Print a warning if the os is not unix
 if (NOT UNIX)
     message("WARNING: the Commons library is currently intended for Unix ")
-    message("systems since it has been tested merely on Linux and Mac OS.")
+    message("systems since it has been tested merely on Linux and Mac OS. ")
+    if (OPENMP)
+        message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
+    else ()
+        message("The commands 'cmake ..' and 'make' may not work.")
+    endif()
+endif ()
+
+# Print a warning if the compiler is not gcc or clang
+if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
+                AND NOT ${CMAKE_C_COMPILER_ID} MATCHES Clang 
+                              AND NOT ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
+    message("WARNING: the Commons library is currently intended to be ")
+    message("compiled by gcc or clang since it has been tested merely on ")
+    message("these two compilers.")
+    if (OPENMP)
+        message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
+    else ()
+        message("The commands 'cmake ..' and 'make' may not work.")
+    endif()
 endif ()
 
 project(Commons LANGUAGES C)
@@ -73,6 +93,8 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 if (OPENMP)
     find_package(OpenMP)
+
+    # Print a warning to suggest what to do if the OpenMp library is not found
     if (NOT OPENMP_FOUND)
         if (APPLE)
             message("WARNING: check that the libomp library has been properly ")

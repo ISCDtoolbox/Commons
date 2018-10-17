@@ -22,6 +22,8 @@ script:
 #  - make
 #  - rm -r ./*
   - cmake .. -DOPENMP=1
+  - head CMakeFiles/Commons.dir/link.txt
+  - head CMakeFiles/Commons.dir/flags.make
   - make
 
 notifications:
