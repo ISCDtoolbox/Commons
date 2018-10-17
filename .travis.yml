@@ -8,16 +8,13 @@ compiler:
   - gcc
   - clang
 
-sudo: true
-
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update       ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install llvm ; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update        ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
 
 sudo: false
 
 script: 
-  - cmake --version
   - mkdir build
   - cd build
   - cmake ..
