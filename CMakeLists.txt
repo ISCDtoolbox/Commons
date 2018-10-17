@@ -101,6 +101,7 @@ if (OPENMP)
                 message("to be compiled by gcc or clang since it has been ")
                 message("tested merely on these two compilers.")
             endif ()
+        endif()
 endif ()
 
 # Set all targets and properties of the Commons library
