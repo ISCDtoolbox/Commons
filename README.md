@@ -67,7 +67,7 @@ make install
 ```
 to install the Commons library on your computer.
 
-Important remark: by typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your Home directory).
+Important remark: by typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your home directory).
 
 Similarly, the public header files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your home directory.
 
