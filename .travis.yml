@@ -9,12 +9,12 @@ compiler:
   - clang
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake  ; fi
 
 sudo: false
 
-script: 
+script:
   - cmake --version
   - mkdir build
   - cd build

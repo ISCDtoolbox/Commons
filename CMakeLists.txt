@@ -8,12 +8,12 @@ if (NOT UNIX)
         message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
     else ()
         message("The commands 'cmake ..' and 'make' may not work.")
-    endif()
+    endif ()
 endif ()
 
 # Print a warning if the compiler is not gcc or clang (apple clang on mac)
 if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
-                 AND NOT ${CMAKE_C_COMPILER_ID} MATCHES Clang 
+                 AND NOT ${CMAKE_C_COMPILER_ID} MATCHES Clang
                               AND NOT ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     message("Warning: the Commons library is currently intended to be ")
     message("compiled by gcc or clang since it has been tested merely on ")
@@ -22,7 +22,7 @@ if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
         message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
     else ()
         message("The commands 'cmake ..' and 'make' may not work.")
-    endif()
+    endif ()
 endif ()
 
 project(Commons LANGUAGES C)
@@ -119,8 +119,8 @@ if (OPENMP)
                 message("'sudo apt-get install libomp-dev' in your terminal ")
                 message("window (you need administrator rights to do that).")
             endif ()
-        endif()
-    endif()
+        endif ()
+    endif ()
 endif ()
 
 # Set all the targets and properties of the Commons library
@@ -131,8 +131,7 @@ set_property(TARGET Commons PROPERTY C_STANDARD 99)
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 if (OPENMP_FOUND)
-    if (CMAKE_VERSION VERSION_GREATER 3.9.1)
-        message(hello)
+    if (CMAKE_VERSION VERSION_GREATER 3.9)
         target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
     else ()
         target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
