@@ -8,7 +8,7 @@ The Commons library contains some code written in C that is shared by many ISCD 
 
 The compilation of the Commons library has currently been tested on Linux and Mac OS systems for merely the gcc and clang compilers.
 
-On Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4), it is recommmanded to have previously installed the following packages:
+On Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4), it is recommanded to have previously installed the following packages:
 
 * gcc (version >= 4.8.4) or clang (version >= 3.8.0)
 * make (version >= 4.1)
@@ -17,6 +17,7 @@ On Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4), it is recommmand
  
 and optionally, if you want to use OpenMP and benefit from multithreading:
 
+* libpthread-stubs0-dev (version >= 0.3-4) which is an additional multithreading library that may be used by OpenMp
 * libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers
 
 On Mac OS systems (tested on Mac OS X 10.13.3), it is recommmanded to have previously installed the following packages:
