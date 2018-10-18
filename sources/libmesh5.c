@@ -176,6 +176,7 @@ static void ScaKwdHdr(GmfMshSct *, int);
 
 int GmfOpenMesh(char *FilNam, int mod, ...)
 {
+  size_t res2;
   int i, KwdCod, res, *PtrVer, *PtrDim, MshIdx=0;
   char str[ GmfStrSiz ];
   va_list VarArg;
@@ -248,7 +249,7 @@ int GmfOpenMesh(char *FilNam, int mod, ...)
 
       if(msh->typ & Bin)
         {
-          fread((unsigned char *)&msh->cod, WrdSiz, 1, msh->hdl);
+          res2=fread((unsigned char *)&msh->cod, WrdSiz, 1, msh->hdl);
 
           if( (msh->cod != 1) && (msh->cod != 16777216) )
             return(0);
@@ -279,7 +280,7 @@ int GmfOpenMesh(char *FilNam, int mod, ...)
           if(res == EOF)
             return(0);
 
-          fscanf(msh->hdl, "%d", &msh->ver);
+          res=fscanf(msh->hdl, "%d", &msh->ver);
 
           if( (msh->ver < 1) || (msh->ver > 3) )
             return(0);
@@ -292,7 +293,7 @@ int GmfOpenMesh(char *FilNam, int mod, ...)
           if(res == EOF)
             return(0);
 
-          fscanf(msh->hdl, "%d", &msh->dim);
+          res=fscanf(msh->hdl, "%d", &msh->dim);
         }
 
       if( (msh->dim != 2) && (msh->dim != 3) )
@@ -595,7 +596,7 @@ int GmfSetKwd(int MshIdx, int KwdCod, ...)
 void GmfGetLin(int MshIdx, int KwdCod, ...)
 {
   unsigned char buf[ GmfMaxTyp * WrdSiz ];
-  int i, j, *IntPtr, *IntBuf = (int *)buf;
+  int i, j, res, *IntPtr, *IntBuf = (int *)buf;
   float *FltPtr, *FltSolTab, *FltBuf = (float *)buf;
   double *DblPtr, *DblSolTab;
   va_list VarArg;
@@ -617,12 +618,12 @@ void GmfGetLin(int MshIdx, int KwdCod, ...)
                   if(kwd->fmt[i] == 'r')
                     {
                       FltPtr = va_arg(VarArg, float *);
-                      fscanf(msh->hdl, "%f", FltPtr);
+                      res=fscanf(msh->hdl, "%f", FltPtr);
                     }
                   else
                     {
                       IntPtr = va_arg(VarArg, int *);
-                      fscanf(msh->hdl, "%d", IntPtr);
+                      res=fscanf(msh->hdl, "%d", IntPtr);
                     }
                 }
             }
@@ -654,12 +655,12 @@ void GmfGetLin(int MshIdx, int KwdCod, ...)
                   if(kwd->fmt[i] == 'r')
                     {
                       DblPtr = va_arg(VarArg, double *);
-                      fscanf(msh->hdl, "%lf", DblPtr);
+                      res=fscanf(msh->hdl, "%lf", DblPtr);
                     }
                   else
                     {
                       IntPtr = va_arg(VarArg, int *);
-                      fscanf(msh->hdl, "%d", IntPtr);
+                      res=fscanf(msh->hdl, "%d", IntPtr);
                     }
                 }
             }
@@ -689,7 +690,7 @@ void GmfGetLin(int MshIdx, int KwdCod, ...)
 
           if(msh->typ & Asc)
             for(j=0;j<kwd->SolSiz;j++)
-              fscanf(msh->hdl, "%f", &FltSolTab[j]);
+              res=fscanf(msh->hdl, "%f", &FltSolTab[j]);
           else
             for(j=0;j<kwd->SolSiz;j++)
               ScaWrd(msh, (unsigned char *)&FltSolTab[j]);
@@ -700,7 +701,7 @@ void GmfGetLin(int MshIdx, int KwdCod, ...)
 
           if(msh->typ & Asc)
             for(j=0;j<kwd->SolSiz;j++)
-              fscanf(msh->hdl, "%lf", &DblSolTab[j]);
+              res=fscanf(msh->hdl, "%lf", &DblSolTab[j]);
           else
             for(j=0;j<kwd->SolSiz;j++)
               ScaDblWrd(msh, (unsigned char *)&DblSolTab[j]);
@@ -845,7 +846,7 @@ void GmfCpyLin(int InpIdx, int OutIdx, int KwdCod)
 {
   double d;
   float f;
-  int i, a;
+  int i, a, res;
   GmfMshSct *InpMsh = GmfMshTab[ InpIdx ], *OutMsh = GmfMshTab[ OutIdx ];
   KwdSct *kwd = &InpMsh->KwdTab[ KwdCod ];
 
@@ -856,7 +857,7 @@ void GmfCpyLin(int InpIdx, int OutIdx, int KwdCod)
           if(InpMsh->ver == 1)
             {
               if(InpMsh->typ & Asc)
-                fscanf(InpMsh->hdl, "%f", &f);
+                res=fscanf(InpMsh->hdl, "%f", &f);
               else
                 ScaWrd(InpMsh, (unsigned char *)&f);
 
@@ -865,7 +866,7 @@ void GmfCpyLin(int InpIdx, int OutIdx, int KwdCod)
           else
             {
               if(InpMsh->typ & Asc)
-                fscanf(InpMsh->hdl, "%lf", &d);
+                res=fscanf(InpMsh->hdl, "%lf", &d);
               else
                 ScaDblWrd(InpMsh, (unsigned char *)&d);
 
@@ -886,7 +887,7 @@ void GmfCpyLin(int InpIdx, int OutIdx, int KwdCod)
       else
         {
           if(InpMsh->typ & Asc)
-            fscanf(InpMsh->hdl, "%d", &a);
+            res=fscanf(InpMsh->hdl, "%d", &a);
           else
             ScaWrd(InpMsh, (unsigned char *)&a);
 
@@ -979,13 +980,13 @@ static int ScaKwdTab(GmfMshSct *msh)
 
 static void ScaKwdHdr(GmfMshSct *msh, int KwdCod)
 {
-  int i;
+  int i,res;
   KwdSct *kwd = &msh->KwdTab[ KwdCod ];
 
   if(!strcmp("i", GmfKwdFmt[ KwdCod ][2]))
     {
       if(msh->typ & Asc)
-        fscanf(msh->hdl, "%d", &kwd->NmbLin);
+        res=fscanf(msh->hdl, "%d", &kwd->NmbLin);
       else
         ScaWrd(msh, (unsigned char *)&kwd->NmbLin);
     }
@@ -996,10 +997,10 @@ static void ScaKwdHdr(GmfMshSct *msh, int KwdCod)
     {
       if(msh->typ & Asc)
         {
-          fscanf(msh->hdl, "%d", &kwd->NmbTyp);
+          res=fscanf(msh->hdl, "%d", &kwd->NmbTyp);
 
           for(i=0;i<kwd->NmbTyp;i++)
-            fscanf(msh->hdl, "%d", &kwd->TypTab[i]);
+            res=fscanf(msh->hdl, "%d", &kwd->TypTab[i]);
         }
       else
         {
@@ -1050,7 +1051,7 @@ static void ExpFmt(GmfMshSct *msh, int KwdCod)
 
   i = kwd->SolSiz = 0;
 
-  while(i < strlen(InpFmt))
+  while(i < (int)strlen(InpFmt))
     {
       chr = InpFmt[ i++ ];
 
@@ -1302,9 +1303,10 @@ int main()
 
 static void ScaWrd(GmfMshSct *msh, unsigned char *wrd)
 {
+  size_t res;
   unsigned char swp;
 
-  fread(wrd, WrdSiz, 1, msh->hdl);
+  res=fread(wrd, WrdSiz, 1, msh->hdl);
 
   if(msh->cod == 1)
     return;
@@ -1325,10 +1327,11 @@ static void ScaWrd(GmfMshSct *msh, unsigned char *wrd)
 
 static void ScaDblWrd(GmfMshSct *msh, unsigned char *wrd)
 {
+  size_t res;
   int i;
   unsigned char swp;
 
-  fread(wrd, WrdSiz, 2, msh->hdl);
+  res=fread(wrd, WrdSiz, 2, msh->hdl);
 
   if(msh->cod == 1)
     return;
@@ -1348,10 +1351,11 @@ static void ScaDblWrd(GmfMshSct *msh, unsigned char *wrd)
 
 static void ScaBlk(GmfMshSct *msh, unsigned char *blk, int siz)
 {
+  size_t res;
   int i, j;
   unsigned char swp, *wrd;
 
-  fread(blk, WrdSiz, siz, msh->hdl);
+  res=fread(blk, WrdSiz, siz, msh->hdl);
 
   if(msh->cod == 1)
     return;

@@ -1143,10 +1143,10 @@ void WaitPipeline(int ParIdx)
 
 #define verify(x) (x)
 #define DLOG(...)
-#define min(a, b)    (a) < (b) ? a : b
+#define min(a, b)    (((a) < (b)) ? (a) : (b))
 
 typedef int            cmp_t(const void *, const void *);
-static inline char    *med3(char *, char *, char *, cmp_t *, void *);
+static inline char    *med3(char *, char *, char *, cmp_t *);
 static inline void     swapfunc(char *, char *, int, int);
 
 /*
@@ -1182,13 +1182,13 @@ static inline void swapfunc(char *a, char *b, int n, int swaptype)
 
 #define vecswap(a, b, n)    if ((n) > 0) swapfunc(a, b, n, swaptype)
 
-#define    CMP(t, x, y) (cmp((x), (y)))
+#define    CMP(x, y) (cmp((x), (y)))
 
-static inline char *med3(char *a, char *b, char *c, cmp_t *cmp, void *thunk)
+static inline char *med3(char *a, char *b, char *c, cmp_t *cmp)
 {
-    return CMP(thunk, a, b) < 0 ?
-           (CMP(thunk, b, c) < 0 ? b : (CMP(thunk, a, c) < 0 ? c : a ))
-              :(CMP(thunk, b, c) > 0 ? b : (CMP(thunk, a, c) < 0 ? a : c ));
+    return CMP(a, b) < 0 ?
+           (CMP(b, c) < 0 ? b : (CMP(a, c) < 0 ? c : a ))
+              :(CMP(b, c) > 0 ? b : (CMP(a, c) < 0 ? a : c ));
 }
 
 /*
@@ -1220,7 +1220,7 @@ struct qsort {
 struct common {
     int swaptype;              /* Code to use for swapping */
     size_t es;                 /* Element size. */
-    void *thunk;               /* Thunk for qsort_r */
+//    void *thunk;               /* Thunk for qsort_r */
     cmp_t *cmp;                /* Comparison function */
     int nthreads;              /* Total number of pool threads. */
     int idlethreads;           /* Number of idle threads in pool. */
@@ -1232,7 +1232,7 @@ struct common {
 static void *qsort_thread(void *p);
 
 /* The multithreaded qsort public interface */
-void qsort_mt(void *a, size_t n, size_t es, cmp_t *cmp, int maxthreads, int forkelem)
+void qsort_mt(void *a, size_t n, size_t es, cmp_t *cmp, int maxthreads, size_t forkelem)
 {
     struct qsort *qs;
     struct common c;
@@ -1328,7 +1328,7 @@ f1:        qsort(a, n, es, cmp);
     }
 }
 
-#define thunk NULL
+// #define thunk NULL
 
 /*
  * Allocate an idle thread from the pool, lock its
@@ -1383,7 +1383,7 @@ top:
     if (n < 7) {
         for (pm = (char *)a + es; pm < (char *)a + n * es; pm += es)
             for (pl = pm;
-                 pl > (char *)a && CMP(thunk, pl - es, pl) > 0;
+                 pl > (char *)a && CMP(pl - es, pl) > 0;
                  pl -= es)
                 swap(pl, pl - es);
         return;
@@ -1394,18 +1394,18 @@ top:
         pn = (char *)a + (n - 1) * es;
         if (n > 40) {
             d = (n / 8) * es;
-            pl = med3(pl, pl + d, pl + 2 * d, cmp, thunk);
-            pm = med3(pm - d, pm, pm + d, cmp, thunk);
-            pn = med3(pn - 2 * d, pn - d, pn, cmp, thunk);
+            pl = med3(pl, pl + d, pl + 2 * d, cmp);
+            pm = med3(pm - d, pm, pm + d, cmp);
+            pn = med3(pn - 2 * d, pn - d, pn, cmp);
         }
-        pm = med3(pl, pm, pn, cmp, thunk);
+        pm = med3(pl, pm, pn, cmp);
     }
     swap(a, pm);
     pa = pb = (char *)a + es;
 
     pc = pd = (char *)a + (n - 1) * es;
     for (;;) {
-        while (pb <= pc && (r = CMP(thunk, pb, a)) <= 0) {
+        while (pb <= pc && (r = CMP(pb, a)) <= 0) {
             if (r == 0) {
                 swap_cnt = 1;
                 swap(pa, pb);
@@ -1413,7 +1413,7 @@ top:
             }
             pb += es;
         }
-        while (pb <= pc && (r = CMP(thunk, pc, a)) >= 0) {
+        while (pb <= pc && (r = CMP(pc, a)) >= 0) {
             if (r == 0) {
                 swap_cnt = 1;
                 swap(pc, pd);
@@ -1431,7 +1431,7 @@ top:
     if (swap_cnt == 0) {  /* Switch to insertion sort */
         for (pm = (char *)a + es; pm < (char *)a + n * es; pm += es)
             for (pl = pm;
-                 pl > (char *)a && CMP(thunk, pl - es, pl) > 0;
+                 pl > (char *)a && CMP(pl - es, pl) > 0;
                  pl -= es)
                 swap(pl, pl - es);
         return;
@@ -1440,7 +1440,7 @@ top:
     pn = (char *)a + n * es;
     r = min(pa - (char *)a, pb - pa);
     vecswap(a, pb - r, r);
-    r = min(pd - pc, pn - pd - es);
+    r = min(pd - pc, pn - pd - (int)es);
     vecswap(pb, pn - r, r);
 
     nl = (pb - pa) / es;
@@ -1540,7 +1540,7 @@ void ParallelQsort(int ParIdx, void *base, size_t nel, size_t width, int (*compa
 /* Compute the hilbert code from 3d coordinates             */
 /*----------------------------------------------------------*/
 
-static void RenPrc(int BegIdx, int EndIdx, int PthIdx, ArgSct *arg)
+static void RenPrc(int BegIdx, int EndIdx, ArgSct *arg)
 {
     unsigned long long IntCrd[3], m=1LL<<63, cod;
     int i, j, b, GeoWrd, NewWrd, BitTab[3] = {1,2,4};
@@ -1644,7 +1644,7 @@ void HilbertRenumbering(int ParIdx, int NmbLin, double box[6], double (*crd)[3],
 /* Compute the hilbert code from 2d coordinates             */
 /*----------------------------------------------------------*/
 
-static void RenPrc2D(int BegIdx, int EndIdx, int PthIdx, ArgSct *arg)
+static void RenPrc2D(int BegIdx, int EndIdx, ArgSct *arg)
 {
     unsigned long long IntCrd[2], m=1LL<<62, cod;
     int i, j, b, GeoWrd, NewWrd, BitTab[2] = {1,2};
@@ -1762,7 +1762,7 @@ int AllocHash(int ParIdx, int BasTyp, int DepTyp)
     hsh->buc = calloc(typ1->NmbLin, sizeof(BucSct));
 
     printf("hash mul = %d %d %d\n",hsh->mul[2],hsh->mul[1],hsh->mul[0]);
-    printf("hash size = %d, adr = %p\n",typ1->NmbLin,hsh->buc);
+    printf("hash size = %d, adr = %p\n",typ1->NmbLin,(void*)hsh->buc);
 
     for(i=0;i<par->NmbCpu;i++)
     {

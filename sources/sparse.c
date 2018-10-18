@@ -739,7 +739,7 @@ pCsr csrMul(pCsr A,pCsr B) {
 
 /*--------------- multithreaded part: local ---------------*/
 /* compute z = l.Ax + m.y */
-static void csr_axpy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
+static void csr_axpy(int startAdr,int stopAdr,CsrArg *arg) {
   pCsr    A;
   double *x,*y,*z,li;
   int     i,j,ic;
@@ -767,7 +767,7 @@ static void csr_axpy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
 }
 
 /* compute y = A.x */
-static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
+static void csr_ax(int startAdr,int stopAdr,CsrArg *arg) {
   pCsr    A;
   double *x,*y,dd;
   int     i,j,ic;
@@ -799,7 +799,7 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
 }
 
 /* compute y = A^t.x */
-static void csr_atx(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
+static void csr_atx(int startAdr,int stopAdr,CsrArg *arg) {
   pCsr    A;
   double *x,*y,dd;
   int     i,j,ic;
@@ -825,7 +825,7 @@ static void csr_atx(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
   }
 }
 
-static void csr_lxmy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
+static void csr_lxmy(int startAdr,int stopAdr,CsrArg *arg) {
   double  *x,*y,*z,l,m,dd;
   int     i;
 
@@ -840,7 +840,7 @@ static void csr_lxmy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
   }
 }
 
-static void csr_lxy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
+static void csr_lxy(int startAdr,int stopAdr,CsrArg *arg) {
   double  *x,*y,l;
   int     i;
 
@@ -851,7 +851,7 @@ static void csr_lxy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
     y[i] = l * x[i];
 }
 
-static void csr_xy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
+static void csr_xy(int startAdr,int stopAdr,CsrArg *arg,int PthIdx) {
   double  r,*x,*y;
   int     i;
 
@@ -882,7 +882,7 @@ int csrAx(pCsr A,double *x,double *y) {
     FreeType(CSR_libId,typid);
   }
   else
-    csr_ax(1,A->nr,0,&arg);
+    csr_ax(1,A->nr,&arg);
   return(1);
 }
 
@@ -905,7 +905,7 @@ int csrAtx(pCsr A,double *x,double *y) {
     FreeType(CSR_libId,typid);
   }
   else
-    csr_atx(1,A->nr,0,&arg);
+    csr_atx(1,A->nr,&arg);
   return(1);
 }
 
@@ -927,7 +927,7 @@ int csrAxpy(pCsr A,double *x,double *y,double *z,double l,double m) {
     FreeType(CSR_libId,typid);
   }
   else
-    csr_axpy(1,A->nr,0,&arg);
+    csr_axpy(1,A->nr,&arg);
   return(1);
 }
 
@@ -960,11 +960,11 @@ int csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m) {
   }
   else {
     /* z = arg.y = A^t*x */
-    csr_atx(1,A->nr,0,&arg);
+    csr_atx(1,A->nr,&arg);
     arg.x = z;  arg.y = y;  arg.z = z;
     arg.l = l;  arg.m = m;
     /* z = l.z + m.y */
-    csr_lxmy(1,A->nc,0,&arg);
+    csr_lxmy(1,A->nc,&arg);
   }
 
   //for (i=0; i<A->nc; i++)  z[i] = l*z[i] + m*y[i];
@@ -993,8 +993,8 @@ double csrAxdotx(pCsr A,double *x,double *y) {
     FreeType(CSR_libId,typid);
   }
   else {
-    csr_ax(1,A->nr,0,&arg);
-    csr_xy(1,A->nr,0,&arg);
+    csr_ax(1,A->nr,&arg);
+    csr_xy(1,A->nr,&arg,0);
   }
   axx = 0.0;
   for (i=0; i<CSR_libCpu; i++)  axx += arg.r[i];
@@ -1020,7 +1020,7 @@ void csrlXmY(double *x,double *y,double *z,double l,double m,int n) {
     FreeType(CSR_libId,typid);
   }
   else
-    csr_lxmy(1,n,0,&arg);
+    csr_lxmy(1,n,&arg);
 }
 
 /* y[i] = l*x[i] */
@@ -1040,7 +1040,7 @@ void csrlX(double *x,double *y,double l,int n) {
     FreeType(CSR_libId,typid);
   }
   else
-    csr_lxy(1,n,0,&arg);
+    csr_lxy(1,n,&arg);
 }
 
 /* r = <x,y> */
@@ -1060,7 +1060,7 @@ double csrXY(double *x,double *y,int n) {
     FreeType(CSR_libId,typid);
   }
   else
-    csr_xy(1,n,0,&arg);
+    csr_xy(1,n,&arg,0);
 
   xy = 0.0;
   for (i=0; i<CSR_libCpu; i++)  xy += arg.r[i];
@@ -1159,14 +1159,14 @@ void csrPrVal(pCsr A,int i,int j) {
 pCsr csrLoad(char *name) {
   FILE  *in;
   pCsr   A;
-  int    i;
+  int    i,res;
 
   in = fopen(name,"r");
   assert(in);
 
   A = (pCsr)calloc(1,sizeof(Csr));
-  fscanf(in,"%d %d %d",&A->nr,&A->nc,&A->nbe);
-  fscanf(in,"%c",&A->typ);
+  res=fscanf(in,"%d %d %d",&A->nr,&A->nc,&A->nbe);
+  res=fscanf(in,"%c",&A->typ);
 
   A->val = (double*)malloc(A->nbe*sizeof(double));
   A->col = (int*)malloc(A->nbe*sizeof(int));
@@ -1176,15 +1176,15 @@ pCsr csrLoad(char *name) {
   assert(A->row);
 
   for (i=0; i<=A->nr; i++) {
-    fscanf(in,"%d",&A->row[i]);
+    res=fscanf(in,"%d",&A->row[i]);
   }
 
   for (i=0; i<A->nbe; i++) {
-    fscanf(in,"%d",&A->col[i]);
+    res=fscanf(in,"%d",&A->col[i]);
   }
 
   for (i=0; i<A->nbe; i++) {
-    fscanf(in,"%lg",&A->val[i]);
+    res=fscanf(in,"%lg",&A->val[i]);
   }
 
   fclose(in);

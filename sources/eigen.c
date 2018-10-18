@@ -161,6 +161,8 @@ int eigen_3d(int type,double *m,double *l,double v[3][3]) {
       a23 = m[4] / maxm;
       a33 = m[5] / maxm;
     }
+    else { return(1); }
+
     /* diagonal matrix */
     maxd = fabs(a12);
     valm = fabs(a13);
@@ -206,6 +208,7 @@ int eigen_3d(int type,double *m,double *l,double v[3][3]) {
       a32 = m[7] / maxm;
       a33 = m[8] / maxm;
     }
+    else { return(1); }
 
     /* diagonal matrix */
     maxd = fabs(a12);
