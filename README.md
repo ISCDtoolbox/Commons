@@ -18,7 +18,7 @@ On Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4), it is recommande
 and optionally, if you want to use OpenMP and benefit from multithreading:
 
 * libpthread-stubs0-dev (version >= 0.3-4) which is an additional multithreading library that may be used by OpenMp
-* libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers
+* libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers.
 
 On Mac OS systems (tested on Mac OS X 10.13.3), it is recommmanded to have previously installed the following packages:
 
@@ -29,7 +29,7 @@ On Mac OS systems (tested on Mac OS X 10.13.3), it is recommmanded to have previ
 
 and optionally if you want to use OpenMP and benefit from multithreading:
 
-* libomp (version >= 6.0.1), which is the OpenMP library used by the apple clang compiler
+* libomp (version >= 6.0.1), which is the OpenMP library used by the apple clang compiler.
 
 ### Compilation
 
@@ -65,7 +65,7 @@ to compile the Commons library with make
 ```
 make install
 ```
-to install the Commons library on your computer
+to install the Commons library on your computer.
 
 Important remark: by typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your Home directory).
 
