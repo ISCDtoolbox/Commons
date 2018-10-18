@@ -19,13 +19,13 @@ script:
   - mkdir build
   - cd build
   - cmake ..
-  - head CMakeFiles/Commons.dir/link.txt
   - head CMakeFiles/Commons.dir/flags.make
+  - head CMakeFiles/Commons.dir/link.txt
   - make
   - rm -r ./*
   - cmake .. -DOPENMP=1
-  - head CMakeFiles/Commons.dir/link.txt
   - head CMakeFiles/Commons.dir/flags.make
+  - head CMakeFiles/Commons.dir/link.txt
   - make
 
 notifications:
