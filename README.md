@@ -29,7 +29,7 @@ On Mac OS systems (tested on Mac OS X 10.13.3), it is recommmanded to have previ
 
 and optionally if you want to use OpenMP and benefit from multithreading:
 
-* libomp (version >= 6.0.1), which is the OpenMP library used by the AppleClang compiler
+* libomp (version >= 6.0.1), which is the OpenMP library used by the apple clang compiler
 
 ### Compilation
 
@@ -67,12 +67,31 @@ make install
 ```
 to install the Commons library on your computer
 
+Important remark: by typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your Home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your Home directory).
 
+Similarly, the (public) headers files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your Home directory.
 
-
-Remark: In the case where the commands inside the install.sh file failed, we list precisely below the needed external libraries (and of course their dependencies, this is normally treated automatically with any package manager):
-
-
+If one wants to change the installation paths for the Commons library and associated (public) header files, one has to modify the CMakeLists.txt file and replace in the lines
+```
+# Set the installation properties of the Commons library
+install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")
+install(FILES sources/chrono.h
+              sources/eigen.h
+              sources/libmesh5.h
+              sources/lplib3.h
+              sources/sparse.h DESTINATION "$ENV{HOME}/include/iscd/Commons")
+```
+the correct destination paths. For example, if ones wants to install the library (respectively the associated public header files) in a lib (resp. include) subdirectory of the Commons directory, just replace the above lines by
+```
+# Set the installation properties of the Commons library
+install(TARGETS Commons LIBRARY DESTINATION "${PROJECT_SOURCE_DIR}/lib")
+install(FILES sources/chrono.h
+              sources/eigen.h
+              sources/libmesh5.h
+              sources/lplib3.h
+              sources/sparse.h DESTINATION "${PROJECT_SOURCE_DIR}/include")
+```
+the CMakeLists.txt file of the Commons directory.
 
 ## Full ISCDtoolbox install
 
