@@ -39,7 +39,7 @@ add_library(Commons SHARED sources/chrono.c
 # The source files of the Commons library uses:
 #
 #    - Headers from the C standard library: assert.h
-#                                           ctypes.h
+#                                           ctype.h
 #                                           errno.h
 #                                           float.h
 #                                           limits.h
