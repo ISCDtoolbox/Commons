@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 
-# Print a warning if the os is not unix
+# Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
-    message("WARNING: the Commons library is currently intended for Unix ")
+    message("Warning: the Commons library is currently intended for Unix ")
     message("systems since it has been tested merely on Linux and Mac OS. ")
     if (OPENMP)
         message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
@@ -11,11 +11,11 @@ if (NOT UNIX)
     endif()
 endif ()
 
-# Print a warning if the compiler is not gcc or clang
+# Print a warning if the compiler is not gcc or clang (apple clang on mac)
 if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
-                AND NOT ${CMAKE_C_COMPILER_ID} MATCHES Clang 
+                 AND NOT ${CMAKE_C_COMPILER_ID} MATCHES Clang 
                               AND NOT ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
-    message("WARNING: the Commons library is currently intended to be ")
+    message("Warning: the Commons library is currently intended to be ")
     message("compiled by gcc or clang since it has been tested merely on ")
     message("these two compilers.")
     if (OPENMP)
@@ -52,14 +52,14 @@ add_library(Commons SHARED sources/chrono.c
 #                                           string.h
 #                                           time.h
 #
-#    - Headers from the C POSIX library that are not already a
-#      part of the C standard library: sys/resource.h
-#                                      sys/time.h
-#                                      unistd.h
+#    - Headers from the C POSIX library that are not already a part of the
+#      C standard library: sys/resource.h
+#                          sys/time.h
+#                          unistd.h
 #
-#    - Headers from external library: omp.h (optional, it needs to be
+#    - Headers from external libraries: omp.h (optional, it needs to be
 #                                                  dynamically linked if active)
-#                                     pthread.h (it needs to be dynamically
+#                                       pthread.h (it needs to be dynamically
 #                                                                        linked)
 #
 #    - Headers from the local sources directory: chrono.h
@@ -97,11 +97,11 @@ if (OPENMP)
     # Print a warning to suggest what to do if the OpenMp library is not found
     if (NOT OPENMP_FOUND)
         if (APPLE)
-            message("WARNING: check that the libomp library has been properly ")
+            message("Warning: check that the libomp library has been properly ")
             message("installed by typing for example 'brew install libomp' ")
             message("in your terminal window.")
             if (CMAKE_VERSION VERSION_LESS 3.12)
-                message("WARNING: on mac os, your version of cmake ")
+                message("Warning: on mac os, your version of cmake ")
                 message("(=${CMAKE_VERSION}) cannot be currently less than ")
                 message("3.12 in order to target properly the OpenMp library.")
                 message("Please, update your version of cmake by typing for ")
@@ -109,25 +109,21 @@ if (OPENMP)
             endif ()
         else ()
             if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-                message("WARNING: check that the libgomp1 library has been ")
+                message("Warning: check that the libgomp1 library has been ")
                 message("properly installed by typing for example ")
                 message("'sudo apt-get install libgomp1' in your terminal ")
-                message("window.")
+                message("window (you need administrator rights to do that).")
             elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang)
-                message("WARNING: check that the libomp-dev library has been ")
+                message("Warning: check that the libomp-dev library has been ")
                 message("properly installed by typing for example ")
                 message("'sudo apt-get install libomp-dev' in your terminal ")
-                message("window.")
-            else ()
-                message("WARNING: the Commons library is currently intended ")
-                message("to be compiled by gcc or clang since it has been ")
-                message("tested merely on these two compilers.")
+                message("window (you need administrator rights to do that).")
             endif ()
         endif()
     endif()
 endif ()
 
-# Set all targets and properties of the Commons library
+# Set all the targets and properties of the Commons library
 target_include_directories(Commons
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources>)
@@ -135,12 +131,12 @@ set_property(TARGET Commons PROPERTY C_STANDARD 99)
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 if (OPENMP_FOUND)
-#    if (CMAKE_VERSION VERSION_GREATER 3.9.6)
-#        target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
-#    else ()
+    if (CMAKE_VERSION VERSION_GREATER 3.9.6)
+        target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
+    else ()
         target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
-#    endif ()
-    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+        target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+    endif ()
 endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
