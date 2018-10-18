@@ -10,34 +10,33 @@ The compilation of the Commons library has currently been tested on Linux and Ma
 
 On Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4), it is recommmanded to have previously installed the following packages:
 
-* gcc (version >= 4.8.4) or clang (version >= 3.8.0);
-* make (version >= 4.1);
-* cmake (version >= 3.5.1 is mandatory and version >= 3.9.1 is recommanded);
-* git (version >= 2.7.4);
+* gcc (version >= 4.8.4) or clang (version >= 3.8.0)
+* make (version >= 4.1)
+* cmake (version >= 3.5.1 is mandatory and version >= 3.9.1 is recommanded)
+* git (version >= 2.7.4)
  
 and optionally, if you want to use OpenMP and benefit from multithreading:
 
-* libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers.
+* libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers
 
 On Mac OS systems (tested on Mac OS X 10.13.3), it is recommmanded to have previously installed the following packages:
 
-* AppleClang (version >= 9.1.0);
-* make (version >= 4.1);
-* cmake (version >= 3.5.1 is mandatory and version >= 3.12.1 is recommanded);
-* git (version >= 2.7.4);
- 
+* apple clang (version >= 9.1.0)
+* make (version >= 4.1)
+* cmake (version >= 3.5.1 is mandatory and version >= 3.12.1 is strongly recommanded)
+* git (version >= 2.7.4)
+
 and optionally if you want to use OpenMP and benefit from multithreading:
 
-* libomp (version >= 6.0.1), which is the OpenMP library used by the AppleClang compiler.
+* libomp (version >= 6.0.1), which is the OpenMP library used by the AppleClang compiler
 
 ### Compilation
 
-To install the Commons library on your system, first navigate to the directory where you want to put the files. Then, download the files on your computer or simply clone the repository by typing in a command prompt:
+To install the Commons library on your system, first navigate to the directory where you want to save the files. Then, type successively in a command prompt:
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 ```
-
-Then, in a command prompt type successively:
+to clone the repository on your computer (it is also possible to download the files manually from github in a *.zip format)
 ```
 cd Commons
 ```
