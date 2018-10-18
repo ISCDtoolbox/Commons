@@ -13,10 +13,10 @@
 enum {None=0, SymMat=1};
 
 
-/* check if numbers are equal */ 
-#define egal(x,y)   ( \
-  ( ((x) == 0.0) ? (fabs(y) < EV_EPS) : \
-  ( ((y) == 0.0) ? (fabs(x) < EV_EPS) : \
+/* check if numbers are equal */
+#define egal(x,y)   (                                  \
+  ( ((x) == 0.0) ? (fabs(y) < EV_EPS) :                \
+  ( ((y) == 0.0) ? (fabs(x) < EV_EPS) :                \
   (fabs((x)-(y)) / (fabs(x) + fabs(y)) < EV_EPS) ) ) )
 
 
@@ -25,3 +25,4 @@ int eigen_3d(int symmat,double *mat,double lambda[3],double v[3][3]);
 int eigen_2d(double *m,double *l,double vp[2][2]);
 
 #endif
+

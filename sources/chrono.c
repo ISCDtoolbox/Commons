@@ -82,11 +82,12 @@ void printim(double elps,char *stim) {
   }
 }
 
+
 /* print and return real time */
 char *getim(double elps) {
   int    hh,mm,ss;
   char  *data;
-	
+
   data = malloc(32*sizeof(char));
   assert(data);
   if ( elps < 60.0 )
@@ -105,3 +106,4 @@ char *getim(double elps) {
 
   return(data);
 }
+

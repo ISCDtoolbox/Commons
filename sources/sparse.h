@@ -30,24 +30,24 @@
 typedef struct {
   double    *val;
   int       *col,*row,nr,nc,nbe,nmax;
-	char       typ;
-	void      *hm;
+  char       typ;
+  void      *hm;
 } Csr;
 typedef Csr * pCsr;
 
 /* compressed sparse vector (CSV) format */
 typedef struct {
-	double    *val;
-	int       *col,nr,nc,nbe;
-	void      *hm;
+  double    *val;
+  int       *col,nr,nc,nbe;
+  void      *hm;
 } Csv;
 typedef Csv * pCsv;
 
 
 /* for multithreading */
 typedef struct {
-	Csr    *A;
-	double *x,*y,*z,l,m,r[CS_MAXCPU];
+  Csr    *A;
+  double *x,*y,*z,l,m,r[CS_MAXCPU];
 } CsrArg;
 
 
@@ -76,8 +76,8 @@ pCsr csrMul(pCsr A,pCsr B);
 pCsr csrAdd(pCsr A,pCsr B,double l,double m);
 int  csrAx(pCsr A,double *x,double *y);
 int  csrAtx(pCsr A,double *x,double *y);
-int  csrAxpy(pCsr A,double *x,double *y,double *z,double l,double m); 
-int  csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m); 
+int  csrAxpy(pCsr A,double *x,double *y,double *z,double l,double m);
+int  csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m);
 void csrlX(double *x,double *y,double l,int n);
 void csrlXmY(double *x,double *y,double *z,double l,double m,int n);
 double csrAxdotx(pCsr A,double *x,double *y);
@@ -102,3 +102,4 @@ int  csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,cha
 
 
 #endif
+

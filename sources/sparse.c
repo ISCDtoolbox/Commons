@@ -393,41 +393,41 @@ static int compval(const void *a,const void *b) {
 static void csmSort(pCsr M){
   int    i,j,k,siz,nitm;
 
-	/* memory alloc for sorting */
-	siz = 64;
-	_per = (int*)malloc(siz*sizeof(int));
-	assert(_per);
-	_col = (int*)malloc(siz*sizeof(int));
-	assert(_col);
-	_val = (double*)malloc(siz*sizeof(double));
-	assert(_val);
+  /* memory alloc for sorting */
+  siz = 64;
+  _per = (int*)malloc(siz*sizeof(int));
+  assert(_per);
+  _col = (int*)malloc(siz*sizeof(int));
+  assert(_col);
+  _val = (double*)malloc(siz*sizeof(double));
+  assert(_val);
 
   for (i=0; i<M->nr; i++) {
     nitm = M->row[i+1] - M->row[i];
-		if ( nitm > siz ) {
-			siz  = 1.5*nitm;
-			_per = (int*)realloc(_per,siz*sizeof(int));
-			assert(_per);
-			_col = (int*)realloc(_col,siz*sizeof(int));
-			assert(_col);
-			_val = (double*)realloc(_val,siz*sizeof(double));
-			assert(_val);
-		}
-		for (j=0; j<nitm; j++)  _per[j] = j;
-		memcpy(_col,&M->col[M->row[i]],nitm*sizeof(int));
-		memcpy(_val,&M->val[M->row[i]],nitm*sizeof(double));
+    if ( nitm > siz ) {
+      siz  = 1.5*nitm;
+      _per = (int*)realloc(_per,siz*sizeof(int));
+      assert(_per);
+      _col = (int*)realloc(_col,siz*sizeof(int));
+      assert(_col);
+      _val = (double*)realloc(_val,siz*sizeof(double));
+      assert(_val);
+    }
+    for (j=0; j<nitm; j++)  _per[j] = j;
+    memcpy(_col,&M->col[M->row[i]],nitm*sizeof(int));
+    memcpy(_val,&M->val[M->row[i]],nitm*sizeof(double));
 
     qsort(_per,nitm,sizeof(int),compval);
 
-		for (j=M->row[i]; j<M->row[i+1]; j++) {
-			k = j - M->row[i];
+    for (j=M->row[i]; j<M->row[i+1]; j++) {
+      k = j - M->row[i];
       M->col[j] = _col[_per[k]];
-			M->val[j] = _val[_per[k]];
-		}
+      M->val[j] = _val[_per[k]];
+    }
   }
-	free(_per);
-	free(_col);
-	free(_val);
+  free(_per);
+  free(_col);
+  free(_val);
 }
 
 /* convert from hash table to CSR matrix */
@@ -759,7 +759,7 @@ static void csr_axpy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
     for (i=startAdr-1; i<stopAdr; i++) {
       for (j=A->row[i]+1; j<A->row[i+1]; j++) {
         ic = A->col[j];
-				li = arg->l*(A->val[j] * x[i]);
+        li = arg->l*(A->val[j] * x[i]);
         z[ic] += li;
       }
     }
@@ -791,7 +791,7 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
     for (i=startAdr-1; i<stopAdr; i++) {
       for (j=A->row[i]+1; j<A->row[i+1]; j++) {
         ic = A->col[j];
-	dd     = A->val[j] * x[i];
+        dd = A->val[j] * x[i];
         y[ic] += dd;
       }
     }
@@ -831,13 +831,13 @@ static void csr_lxmy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
 
   x = arg->x;
   y = arg->y;
-	z = arg->z;
+  z = arg->z;
   l = arg->l;
-	m = arg->m;
+  m = arg->m;
   for (i=startAdr-1; i<stopAdr; i++) {
     dd   = l*x[i] + m*y[i];
-		z[i] = dd;
-	}
+    z[i] = dd;
+  }
 }
 
 static void csr_lxy(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
@@ -942,7 +942,7 @@ int csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m) {
   arg.x = x;
   arg.y = z;
   if ( CSR_libId ) {
-		/* z = arg.y = A^t*x */
+    /* z = arg.y = A^t*x */
     typid = NewType(CSR_libId,A->nr);
     assert(typid);
     acc = LaunchParallel(CSR_libId,typid,0,(void *)csr_atx,(void *)&arg);
@@ -951,7 +951,7 @@ int csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m) {
 
     /* z = l.z + m.y = l.A^t*x + m.y */
     arg.x = z;  arg.y = y;  arg.z = z;
-		arg.l = l;	arg.m = m;
+    arg.l = l;  arg.m = m;
     typid = NewType(CSR_libId,A->nc);
     assert(typid);
     acc = LaunchParallel(CSR_libId,typid,0,(void *)csr_lxmy,(void *)&arg);
@@ -959,10 +959,10 @@ int csrAtxpy(pCsr A,double *x,double *y,double *z,double l,double m) {
     FreeType(CSR_libId,typid);
   }
   else {
-		/* z = arg.y = A^t*x */
+    /* z = arg.y = A^t*x */
     csr_atx(1,A->nr,0,&arg);
     arg.x = z;  arg.y = y;  arg.z = z;
-		arg.l = l;  arg.m = m;
+    arg.l = l;  arg.m = m;
     /* z = l.z + m.y */
     csr_lxmy(1,A->nc,0,&arg);
   }
@@ -1004,14 +1004,14 @@ double csrAxdotx(pCsr A,double *x,double *y) {
 /* z[i] = l*x[i] + m*y[i] */
 void csrlXmY(double *x,double *y,double *z,double l,double m,int n) {
   CsrArg   arg;
-	float    acc;
+  float    acc;
   int      typid;
 
   arg.x = x;
   arg.y = y;
-	arg.z = z;
-	arg.l = l;
-	arg.m = m;
+  arg.z = z;
+  arg.l = l;
+  arg.m = m;
   if ( CSR_libId ) {
     typid = NewType(CSR_libId,n);
     assert(typid);
@@ -1026,12 +1026,12 @@ void csrlXmY(double *x,double *y,double *z,double l,double m,int n) {
 /* y[i] = l*x[i] */
 void csrlX(double *x,double *y,double l,int n) {
   CsrArg   arg;
-	float    acc;
+  float    acc;
   int      typid;
 
   arg.x = x;
   arg.y = y;
-	arg.l = l;
+  arg.l = l;
   if ( CSR_libId ) {
     typid = NewType(CSR_libId,n);
     assert(typid);
@@ -1158,22 +1158,22 @@ void csrPrVal(pCsr A,int i,int j) {
 
 pCsr csrLoad(char *name) {
   FILE  *in;
-	pCsr   A;
+  pCsr   A;
   int    i;
 
   in = fopen(name,"r");
   assert(in);
 
-	A = (pCsr)calloc(1,sizeof(Csr));
-	fscanf(in,"%d %d %d",&A->nr,&A->nc,&A->nbe);
-	fscanf(in,"%c",&A->typ);
+  A = (pCsr)calloc(1,sizeof(Csr));
+  fscanf(in,"%d %d %d",&A->nr,&A->nc,&A->nbe);
+  fscanf(in,"%c",&A->typ);
 
-	A->val = (double*)malloc(A->nbe*sizeof(double));
-	A->col = (int*)malloc(A->nbe*sizeof(int));
-	A->row = (int*)malloc((A->nr+1)*sizeof(int));
-	assert(A->val);
-	assert(A->col);
-	assert(A->row);
+  A->val = (double*)malloc(A->nbe*sizeof(double));
+  A->col = (int*)malloc(A->nbe*sizeof(int));
+  A->row = (int*)malloc((A->nr+1)*sizeof(int));
+  assert(A->val);
+  assert(A->col);
+  assert(A->row);
 
   for (i=0; i<=A->nr; i++) {
     fscanf(in,"%d",&A->row[i]);
@@ -1181,14 +1181,14 @@ pCsr csrLoad(char *name) {
 
   for (i=0; i<A->nbe; i++) {
     fscanf(in,"%d",&A->col[i]);
-	}
+  }
 
   for (i=0; i<A->nbe; i++) {
     fscanf(in,"%lg",&A->val[i]);
   }
 
-	fclose(in);
-	return(A);
+  fclose(in);
+  return(A);
 }
 
 
@@ -1200,35 +1200,35 @@ void csrSave(pCsr A,char *name) {
   assert(out);
 
   fprintf(out,"%d %d %d\n",A->nr,A->nc,A->nbe);
-	fprintf(out,"%c\n",A->typ);
+  fprintf(out,"%c\n",A->typ);
   l = 0;
-	for (i=0; i<=A->nr; i++) {
-		fprintf(out,"%d ",A->row[i]);
-	  if ( ++l == NBL ) {
-	  	fprintf(out,"\n");
-			l = 0;
-	  }
+  for (i=0; i<=A->nr; i++) {
+    fprintf(out,"%d ",A->row[i]);
+    if ( ++l == NBL ) {
+      fprintf(out,"\n");
+      l = 0;
+    }
   }
   if ( l )  fprintf(out,"\n");
 
-	l = 0;
+  l = 0;
   for (i=0; i<A->nbe; i++) {
     fprintf(out,"%d ",A->col[i]);
-	  if ( ++l == NBL ) {
-	    fprintf(out,"\n");
-		  l = 0;
-	  }
+    if ( ++l == NBL ) {
+      fprintf(out,"\n");
+      l = 0;
+    }
   }
   if ( l )  fprintf(out,"\n");
 
   l = 0;
-	for (i=0; i<A->nbe; i++) {
+  for (i=0; i<A->nbe; i++) {
     fprintf(out,"%g ",A->val[i]);
-	  if ( ++l == NBL ) {
-		  fprintf(out,"\n");
-		  l = 0;
-	  }
-	}
+    if ( ++l == NBL ) {
+      fprintf(out,"\n");
+      l = 0;
+    }
+  }
   if ( l )  fprintf(out,"\n");
 
   fclose(out);

@@ -1,22 +1,20 @@
-
-
 /*----------------------------------------------------------*/
-/*															*/
-/*						LPLIB	V3.00						*/
-/*															*/
+/*                                                          */
+/*                        LPLIB    V3.00                    */
+/*                                                          */
 /*----------------------------------------------------------*/
-/*															*/
-/*	Description:		Handles threads, scheduling			*/
-/*						& dependencies						*/
-/*	Author:				Loic MARECHAL						*/
-/*	Creation date:		feb 25 2008							*/
-/*	Last modification:	jun 16 2010							*/
-/*															*/
+/*                                                          */
+/*    Description:          Handles threads, scheduling     */
+/*                          & dependencies                  */
+/*    Author:               Loic MARECHAL                   */
+/*    Creation date:        feb 25 2008                     */
+/*    Last modification:    jun 16 2010                     */
+/*                                                          */
 /*----------------------------------------------------------*/
 
 
 /*----------------------------------------------------------*/
-/* User available procedures' prototypes					*/
+/* User available procedures' prototypes                    */
 /*----------------------------------------------------------*/
 
 int InitParallel(int);
@@ -36,3 +34,4 @@ void HilbertRenumbering2D(int, int, double [4], double (*)[2], unsigned long lon
 int AllocHash(int, int, int);
 void FreeHash(int, int);
 long long int AddHash(int, int, int, int, int, int, long long int);
+

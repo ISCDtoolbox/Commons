@@ -24,7 +24,7 @@ int csrSSOR(pCsr A,pCsr L,double *x,double *b) {
     for (j=L->row[i]; j<L->row[i+1]-1; j++)
       sum += L->val[j] * x[L->col[j]];
     dia[i] = L->val[j];     /* optim: diag term is in last position */
-		if ( fabs(dia[i]) > CS_EPSD2 )
+    if ( fabs(dia[i]) > CS_EPSD2 )
       x[i] = (b[i] - sum) * omega / dia[i];
   }
 
@@ -38,15 +38,16 @@ int csrSSOR(pCsr A,pCsr L,double *x,double *b) {
     for (j=A->row[i]+1; j<A->row[i+1]; j++)
        sum += A->val[j] * x[A->col[j]];
     if ( fabs(dia[i]) > CS_EPSD2 )
-		  x[i] = (x[i] - sum) * omega / dia[i];
+      x[i] = (x[i] - sum) * omega / dia[i];
   }
   free(dia);
   return(1);
 }
 
+
 /* solve Ax=b, using gradient. Return code:
    >0 upon completion, <0 no convergence
-   0 memory problem 
+   0 memory problem
   -1 ill conditioned matrix
   -2 max it reached  */
 int csrGradient(pCsr A,double *x,double *b,double *er,int *ni) {
@@ -121,13 +122,13 @@ int csrGradient(pCsr A,double *x,double *b,double *er,int *ni) {
 
 /* solve Ax=b, using conjugate gradient. Return code:
    >0 upon completion, <0 no convergence
-   0 memory problem 
+   0 memory problem
   -1 ill conditioned matrix
   -2 max it reached  */
 int csrConjGrad(pCsr A,double *x,double *b,double *er,int *ni) {
   double   *y,*ap,*p,dp,nn,rm,rmp,rmn,alpha,beta,err;
   int       i,n,it,ier,nit;
-  
+
   if ( !x || !b )  return(0);
   n = A->nr;
   y = (double*)malloc(n*sizeof(double));
@@ -167,13 +168,13 @@ int csrConjGrad(pCsr A,double *x,double *b,double *er,int *ni) {
     dp = csrAxdotx(A,p,ap);
     if ( fabs(dp) <= CS_EPSD2 )  break;
 
-    /* X_m = X_m-1 + alpha_m.P_m; R_m = R_m-1 - alpha_m AP_m */ 
+    /* X_m = X_m-1 + alpha_m.P_m; R_m = R_m-1 - alpha_m AP_m */
     alpha = rm / dp;
     rmn   = 0.0;
-		csrlXmY(x,p,x,1.0,alpha,n);
-		csrlXmY(y,ap,y,1.0,-alpha,n);
-		rmn = csrXY(y,y,n);
-		/*
+    csrlXmY(x,p,x,1.0,alpha,n);
+    csrlXmY(y,ap,y,1.0,-alpha,n);
+    rmn = csrXY(y,y,n);
+    /*
     for (i=0; i<n; i++) {
       x[i] = x[i] + alpha * p[i];
       y[i] = y[i] - alpha * ap[i];
@@ -213,25 +214,25 @@ int csrConjGradGen(pCsr A,double *x,double *b,double *ud,char *udt,char nohom,do
 
   memcpy(y,b,n*sizeof(double));
   if ( nohom )  csrAxpy(A,ud,b,y,-1.0,1.0);
-  
+
   /* modify x0 */
   for (i=0; i<n; i++) {
-    if ( udt[i] )  x[i] = 0.0; 
+    if ( udt[i] )  x[i] = 0.0;
   }
 
   /* compute R0 = y - A.x0 */
   csrAxpy(A,x,y,y,-1.,1.);
-  /* modify y, compute R0*R0 */  
+  /* modify y, compute R0*R0 */
   rmp = 0.0;
   for (i=0; i<n; i++) {
-    if ( udt[i] )  
+    if ( udt[i] )
       y[i] = 0.0;
-    else 
+    else
       rmp += y[i] * y[i];
   }
 
   if ( rmp < CS_EPSD2 ) {
-    if ( nohom ) 
+    if ( nohom )
       for (i=0; i<n; i++)  if ( udt[i] ) x[i] = ud[i];
     *er = rmp;
     *ni = 0;
@@ -260,7 +261,7 @@ int csrConjGradGen(pCsr A,double *x,double *b,double *ud,char *udt,char nohom,do
     dp = csrAxdotx(A,p,ap);
     if ( fabs(dp) <= CS_EPSD2 )  break;
 
-    /* X_m = X_m-1 + alpha_m.P_m; R_m = R_m-1 - alpha_m AP_m */ 
+    /* X_m = X_m-1 + alpha_m.P_m; R_m = R_m-1 - alpha_m AP_m */
     alpha = rm / dp;
     rmn   = 0.0;
     for (i=0; i<n; i++) {
@@ -277,7 +278,7 @@ int csrConjGradGen(pCsr A,double *x,double *b,double *ud,char *udt,char nohom,do
       p[i] = y[i] + beta * p[i];
     rm = rmn;
   }
-  if ( nohom ) 
+  if ( nohom )
     for (i=0; i<n; i++)  if ( udt[i] )  x[i] = ud[i];
 
   if ( it > nit )  ier = -2;
@@ -293,7 +294,7 @@ int csrConjGradGen(pCsr A,double *x,double *b,double *ud,char *udt,char nohom,do
 
 /* solve Ax = b using preconditionned conjugate gradient method. Return code:
   >0 upon completion, <0 no convergence
-  0 memory problem 
+  0 memory problem
  -1 ill conditioned matrix
  -2 max it reached  */
 int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
@@ -313,12 +314,12 @@ int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
   nn = csrXY(x,x,A->nr);
   if ( nn < CS_EPSD2 ) {
     memcpy(y,b,A->nr*sizeof(double));
-	}
-	else {
+  }
+  else {
     csrAxpy(A,x,b,y,-1.,1.);
   }
   rmp = csrXY(y,y,A->nr);
-	if ( fabs(rmp) < CS_EPSD2 ) {
+  if ( fabs(rmp) < CS_EPSD2 ) {
     free(y);
     return(1);
   }
@@ -348,14 +349,14 @@ int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
     /* alpha_m = <P^-1.R_m-1,R_m-1> / <AP_m,P_m> */
     rm = csrXY(p,y,n);
 
-		if ( fabs(rm) <= CS_EPSD2 )  break;
+    if ( fabs(rm) <= CS_EPSD2 )  break;
     dp = csrAxdotx(A,p,ap);
     if ( fabs(dp) <= CS_EPSD2 )  break;
 
-    /* X_m = X_m-1 + alpha_m.P_m , R_m = R_m-1 - alpha_m AP_m */ 
+    /* X_m = X_m-1 + alpha_m.P_m , R_m = R_m-1 - alpha_m AP_m */
     alpha = (rm / dp);
-		csrlXmY(p,x,x,alpha,1.0,n);
-		csrlXmY(ap,y,y,-alpha,1.0,n);
+    csrlXmY(p,x,x,alpha,1.0,n);
+    csrlXmY(ap,y,y,-alpha,1.0,n);
 
     /* beta_m = <P^-1.R_m,R_m> / <P^-1.R_m-1,R_m-1> */
     csrSSOR(A,L,q,y);
@@ -365,7 +366,7 @@ int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
     /* P_m+1 = P^-1.R_m + beta_m P_m */
     beta = rm2 / rm;
     csrlXmY(p,q,p,beta,1.0,n);
-    //printf("  GC1: it  %d err %E   rm %E\n",it,err,rm2); 
+    //printf("  GC1: it  %d err %E   rm %E\n",it,err,rm2);
     rm = rm2;
   }
   if ( it > nit )   ier = -2;
@@ -379,9 +380,10 @@ int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
   return(ier);
 }
 
+
 /* Solve Ax=b using GMRES  Return code:
    >0 upon completion, <0 no convergence
-   0 memory problem 
+   0 memory problem
   -1 ill conditioned matrix
   -2 max it reached */
 int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) {
@@ -407,7 +409,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
         if ( i == A->col[j] ) {
           assert(A->val[j]);
           r[i] /= A->val[j];
-					break;
+          break;
         }
       }
     }
@@ -427,7 +429,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
 
   /* V1 = R0 / beta */
   V = (double *)malloc(A->nr*(restart+1)*sizeof(double));
-	assert(V);
+  assert(V);
   for (i=0; i<A->nr; i++)  V[i] = r[i] * dd;
 
   it  = 0;
@@ -462,7 +464,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
           h[iadr+i] += V[(m+1)*A->nr+j] * V[i*A->nr+j];
       }
 
-      /* Vm+1 = AVm - sum(0,m, hi,m.Vi)  */    
+      /* Vm+1 = AVm - sum(0,m, hi,m.Vi)  */
       for (j=0; j<=m; j++) {
         for (i=0; i<A->nr; i++)
           V[(m+1)*A->nr+i] -= h[iadr+j] * V[j*A->nr+i];
@@ -470,10 +472,10 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
 
       /* hm+1,m = || Vm+1 || */
       h[iadr+m+1] = 0.0;
-      for (i=0; i<A->nr; i++) 
-        h[iadr+m+1] += V[(m+1)*A->nr+i] * V[(m+1)*A->nr+i]; 
+      for (i=0; i<A->nr; i++)
+        h[iadr+m+1] += V[(m+1)*A->nr+i] * V[(m+1)*A->nr+i];
       h[iadr+m+1] = sqrt(h[iadr+m+1]);
-   
+
       if ( h[iadr+m+1] >  CS_EPSD2 ) {
         /* Vm+1 = Vm+1 / hm+1,m */
         dd = 1.0 / h[iadr+m+1];
@@ -509,9 +511,9 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
       it++;
       m++;
       iadr = iadr + m + 1;
-			if ( iadr > CS_KRY1 )  break;
+      if ( iadr > CS_KRY1 )  break;
     }
- 
+
     /* compute y */
     iadr = iadr - m - 1;
     m--;
@@ -522,18 +524,18 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
       iadr = iadr -j -1;
     }
 
-    /* Compute Un */  
+    /* Compute Un */
     for (j=0; j<=m; j++) {
       for (i=0; i<A->nr; i++)
         x[i] += y[j] * V[j*A->nr+i];
-    }    
+    }
 
     if ( it < nit && tol < fabs(g[m+1]) ) {
-      /* Compute Un */      
+      /* Compute Un */
       memcpy(r,b,A->nr*sizeof(double));
       csrAxpy(A,x,r,NULL,-1.,1.);
 
-			beta = 0.0;
+      beta = 0.0;
       for (i=0; i<A->nr; i++) {
         for (j=A->row[i]; j<A->row[i+1]; j++) {
           if ( prec && (i == A->col[j]) ) {
@@ -541,7 +543,7 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
             r[i] /= A->val[j];
           }
         }
-				beta += r[i] * r[i];
+        beta += r[i] * r[i];
       }
       if ( beta < CS_EPSD2 ) {
         fprintf(stdout,"  ## csrGMRES: Beta NULL\n");
@@ -598,7 +600,7 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   assert(r);
   csrAx(B,z,r);
   /* compute R0 = b - Ax0, rm = (R0,R0) */
-  rmp = csrXY(r,r,m);    
+  rmp = csrXY(r,r,m);
   if ( sqrt(fabs(rmp)) < 5.0*err ) {
     if ( verb != '0' )  fprintf(stdout," ## csrUzawa: null residual.\n");
     free(z);  free(r);  free(w);
@@ -627,21 +629,21 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
     /* compute w = A^-1.z = A^-1.Bt.d */
     ier = csrPrecondGrad(A,w,z,&lerr,&lnit,0);
     if ( ier < 1 || lnit == 1 )  break;
- 
+
     /* compute Ad = B.(A^-1.Bt.d) - S.d = B.w - S.d */
     csrAx(B,w,Ad);
     dp = csrXY(d,Ad,m);
     if ( fabs(dp) <= CS_NUL )  break;
     /* alpha_m = <R_m-1,R_m-1> / <AP_m,P_m> */
-    alpha = rm / dp;  
+    alpha = rm / dp;
     /*solution at the time t^(n+1)*/
-		csrlXmY(p,d,p,1.0,alpha,m);
-		/*new direction*/
-		csrlXmY(r,Ad,r,1.0,-alpha,m);
-		rmn = csrXY(r,r,m);
+    csrlXmY(p,d,p,1.0,alpha,m);
+    /*new direction*/
+    csrlXmY(r,Ad,r,1.0,-alpha,m);
+    rmn = csrXY(r,r,m);
     if ( rmn <= CS_NUL )  break;
     beta = rmn / rm;
-		csrlXmY(r,d,d,1.0,beta,m);
+    csrlXmY(r,d,d,1.0,beta,m);
     rm = rmn;
   }
   free(z);
@@ -668,17 +670,15 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   ier = csrPrecondGrad(A,u,w,&err,&nit,1);
   free(w);
   if ( ier < 1 ) {
-    if ( verb != '0' ) 
+    if ( verb != '0' )
       fprintf(stdout," ## csrUzawa: incomplete velocity: res=%e,  nit=%d\n",err,nit);
     return(0);
   }
-  else if ( verb != '0' )  
+  else if ( verb != '0' )
     fprintf(stdout,"     velocity: res=%e, nit=%d\n",err,nit);
   *er = err;
   *ni = nit;
 
   return(1);
 }
-
-
 

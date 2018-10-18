@@ -5,7 +5,7 @@ static double Id[3][3] = { {1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0} };
 #define EV_MAXIT    50
 
 
-/* find root(s) of polynomial:  P(x)= x^3+bx^2+cx+d 
+/* find root(s) of polynomial:  P(x)= x^3+bx^2+cx+d
    return 1: 3 roots,  2: 2 roots,  3: 1 root */
 static int newton3(double p[4],double x[3]) {
   double     b,c,d,da,db,dc,epsd;
@@ -121,7 +121,7 @@ static int newton3(double p[4],double x[3]) {
   db    = b + x[0];
   dc    = c + x[0]*db;
   delta = db*db - 4.0*dc;
-  
+
   if ( delta <= 0.0 )  return(0);
 
   delta = sqrt(delta);
@@ -228,7 +228,7 @@ int eigen_3d(int type,double *m,double *l,double v[3][3]) {
     cc = a21*a32 - a31*a22;
     ee = a11*a33 - a13*a31;
     ii = a11*a22 - a12*a21;
-    
+
     p[0] =  -a11*aa - a12*bb - a13*cc;
     p[1] =  aa + ee + ii;
     p[2] = -a11 - a22 - a33;
@@ -280,15 +280,15 @@ int eigen_3d(int type,double *m,double *l,double v[3][3]) {
           v[k][1] = vx1[1] * dd1;
           v[k][2] = vx1[2] * dd1;
         }
-	      else {
+        else {
           dd3 = 1.0 / sqrt(dd3);
           v[k][0] = vx3[0] * dd3;
           v[k][1] = vx3[1] * dd3;
           v[k][2] = vx3[2] * dd3;
-	      }
+        }
       }
       else {
-        if ( dd2 > dd3 ) { 
+        if ( dd2 > dd3 ) {
           dd2 = 1.0 / sqrt(dd2);
           v[k][0] = vx2[0] * dd2;
           v[k][1] = vx2[1] * dd2;
@@ -299,7 +299,7 @@ int eigen_3d(int type,double *m,double *l,double v[3][3]) {
           v[k][0] = vx3[0] * dd3;
           v[k][1] = vx3[1] * dd3;
           v[k][2] = vx3[2] * dd3;
-        }  
+        }
       }
     }
   }
@@ -315,7 +315,7 @@ int eigen_3d(int type,double *m,double *l,double v[3][3]) {
     vx1[1] = w1[2]*w3[0] - w1[0]*w3[2];
     vx1[2] = w1[0]*w3[1] - w1[1]*w3[0];
     dd1 = vx1[0]*vx1[0] + vx1[1]*vx1[1] + vx1[2]*vx1[2];
- 
+
     vx2[0] = w1[1]*w2[2] - w1[2]*w2[1];
     vx2[1] = w1[2]*w2[0] - w1[0]*w2[2];
     vx2[2] = w1[0]*w2[1] - w1[1]*w2[0];
@@ -410,9 +410,9 @@ int eigen_2d(double *m,double *l,double vp[2][2]) {
 
     vp[0][0] = m[1];  vp[0][1] = l[0]-m[0];
     vp[1][0] = m[1];  vp[1][1] = l[1]-m[0];
-  
+
     /* normalize */
-    d1 = sqrt(vp[0][0]*vp[0][0] + vp[0][1]*vp[0][1]);  
+    d1 = sqrt(vp[0][0]*vp[0][0] + vp[0][1]*vp[0][1]);
     d2 = sqrt(vp[1][0]*vp[1][0] + vp[1][1]*vp[1][1]);
     if ( d1 > EV_EPSD ) {
       vp[0][0] /= d1;
@@ -426,3 +426,4 @@ int eigen_2d(double *m,double *l,double vp[2][2]) {
 
   return(1);
 }
+

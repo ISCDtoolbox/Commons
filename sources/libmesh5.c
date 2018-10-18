@@ -1,19 +1,19 @@
 /*----------------------------------------------------------*/
-/*                                                                                                                      */
-/*                                              LIBMESH V 5.3                                           */
-/*                                                                                                                      */
+/*                                                          */
+/*                      LIBMESH V 5.3                       */
+/*                                                          */
 /*----------------------------------------------------------*/
-/*                                                                                                                      */
-/*      Description:            handle .meshb file format I/O           */
-/*      Author:                         Loic MARECHAL                                           */
-/*      Creation date:          feb 16 2007                                                     */
-/*      Last modification:      dec 12 2008                                                     */
-/*                                                                                                                      */
+/*                                                          */
+/*      Description:          handle .meshb file format I/O */
+/*      Author:               Loic MARECHAL                 */
+/*      Creation date:        feb 16 2007                   */
+/*      Last modification:    dec 12 2008                   */
+/*                                                          */
 /*----------------------------------------------------------*/
 
 
 /*----------------------------------------------------------*/
-/* Includes                                                                                                     */
+/* Includes                                                 */
 /*----------------------------------------------------------*/
 
 #include <stdio.h>
@@ -27,7 +27,7 @@
 
 
 /*----------------------------------------------------------*/
-/* Structures                                                                                           */
+/* Structures                                               */
 /*----------------------------------------------------------*/
 
 typedef struct
@@ -49,7 +49,7 @@ typedef struct
 
 
 /*----------------------------------------------------------*/
-/* Defines                                                                                                      */
+/* Defines                                                  */
 /*----------------------------------------------------------*/
 
 #define Asc 1
@@ -64,7 +64,7 @@ typedef struct
 
 
 /*----------------------------------------------------------*/
-/* Global variables                                                                                     */
+/* Global variables                                         */
 /*----------------------------------------------------------*/
 
 int GmfIniFlg=0;
@@ -154,7 +154,7 @@ char *GmfKwdFmt[ GmfMaxKwd + 1 ][4] =
 
 
 /*----------------------------------------------------------*/
-/* Prototypes of local procedures                                                       */
+/* Prototypes of local procedures                           */
 /*----------------------------------------------------------*/
 
 static void ScaWrd(GmfMshSct *, unsigned char *);
@@ -171,7 +171,7 @@ static void ScaKwdHdr(GmfMshSct *, int);
 
 
 /*----------------------------------------------------------*/
-/* Open a mesh file in read or write mod                                        */
+/* Open a mesh file in read or write mod                    */
 /*----------------------------------------------------------*/
 
 int GmfOpenMesh(char *FilNam, int mod, ...)
@@ -374,7 +374,7 @@ int GmfOpenMesh(char *FilNam, int mod, ...)
 
 
 /*----------------------------------------------------------*/
-/* Close a meshfile in the right way                                            */
+/* Close a meshfile in the right way                        */
 /*----------------------------------------------------------*/
 
 int GmfCloseMesh(int MshIdx)
@@ -456,7 +456,7 @@ int GmfStatKwd(int MshIdx, int KwdCod, ...)
 
 
 /*----------------------------------------------------------*/
-/* Set the current file position to a given kwd                         */
+/* Set the current file position to a given kwd             */
 /*----------------------------------------------------------*/
 
 int GmfGotoKwd(int MshIdx, int KwdCod)
@@ -482,7 +482,7 @@ int GmfGotoKwd(int MshIdx, int KwdCod)
 
 
 /*----------------------------------------------------------*/
-/* Write the kwd and set the number of lines                            */
+/* Write the kwd and set the number of lines                */
 /*----------------------------------------------------------*/
 
 int GmfSetKwd(int MshIdx, int KwdCod, ...)
@@ -589,7 +589,7 @@ int GmfSetKwd(int MshIdx, int KwdCod, ...)
 
 
 /*----------------------------------------------------------*/
-/* Read a full line from the current kwd                                        */
+/* Read a full line from the current kwd                    */
 /*----------------------------------------------------------*/
 
 void GmfGetLin(int MshIdx, int KwdCod, ...)
@@ -712,7 +712,7 @@ void GmfGetLin(int MshIdx, int KwdCod, ...)
 
 
 /*----------------------------------------------------------*/
-/* Write a full line from the current kwd                                       */
+/* Write a full line from the current kwd                   */
 /*----------------------------------------------------------*/
 
 void GmfSetLin(int MshIdx, int KwdCod, ...)
@@ -838,7 +838,7 @@ void GmfSetLin(int MshIdx, int KwdCod, ...)
 
 
 /*----------------------------------------------------------*/
-/* Private procedure for transmesh : copy a whole line          */
+/* Private procedure for transmesh : copy a whole line      */
 /*----------------------------------------------------------*/
 
 void GmfCpyLin(int InpIdx, int OutIdx, int KwdCod)
@@ -903,7 +903,7 @@ void GmfCpyLin(int InpIdx, int OutIdx, int KwdCod)
 
 
 /*----------------------------------------------------------*/
-/* Find every kw present in a meshfile                                          */
+/* Find every kw present in a meshfile                      */
 /*----------------------------------------------------------*/
 
 static int ScaKwdTab(GmfMshSct *msh)
@@ -974,7 +974,7 @@ static int ScaKwdTab(GmfMshSct *msh)
 
 
 /*----------------------------------------------------------*/
-/* Read and setup the keyword's header                                          */
+/* Read and setup the keyword's header                      */
 /*----------------------------------------------------------*/
 
 static void ScaKwdHdr(GmfMshSct *msh, int KwdCod)
@@ -1016,7 +1016,7 @@ static void ScaKwdHdr(GmfMshSct *msh, int KwdCod)
 
 
 /*----------------------------------------------------------*/
-/* Expand the compacted format and compute the line size        */
+/* Expand the compacted format and compute the line size    */
 /*----------------------------------------------------------*/
 
 static void ExpFmt(GmfMshSct *msh, int KwdCod)
@@ -1075,7 +1075,7 @@ static void ExpFmt(GmfMshSct *msh, int KwdCod)
 
 
 /*----------------------------------------------------------*/
-/* Generate fortran api automatically                                           */
+/* Generate fortran api automatically                       */
 /*----------------------------------------------------------*/
 
 #ifdef f77api
@@ -1297,7 +1297,7 @@ int main()
 
 
 /*----------------------------------------------------------*/
-/* Read a four bytes word from a mesh file                                      */
+/* Read a four bytes word from a mesh file                  */
 /*----------------------------------------------------------*/
 
 static void ScaWrd(GmfMshSct *msh, unsigned char *wrd)
@@ -1320,7 +1320,7 @@ static void ScaWrd(GmfMshSct *msh, unsigned char *wrd)
 
 
 /*----------------------------------------------------------*/
-/* Read an eight bytes word from a mesh file                            */
+/* Read an eight bytes word from a mesh file                */
 /*----------------------------------------------------------*/
 
 static void ScaDblWrd(GmfMshSct *msh, unsigned char *wrd)
@@ -1343,7 +1343,7 @@ static void ScaDblWrd(GmfMshSct *msh, unsigned char *wrd)
 
 
 /*----------------------------------------------------------*/
-/* Read ablock of four bytes word from a mesh file                      */
+/* Read ablock of four bytes word from a mesh file          */
 /*----------------------------------------------------------*/
 
 static void ScaBlk(GmfMshSct *msh, unsigned char *blk, int siz)
@@ -1371,7 +1371,7 @@ static void ScaBlk(GmfMshSct *msh, unsigned char *blk, int siz)
 
 
 /*----------------------------------------------------------*/
-/* Read a 4 or 8 bytes position in mesh file                            */
+/* Read a 4 or 8 bytes position in mesh file                */
 /*----------------------------------------------------------*/
 
 static long GetPos(GmfMshSct *msh)
@@ -1392,7 +1392,7 @@ static long GetPos(GmfMshSct *msh)
 
 
 /*----------------------------------------------------------*/
-/* Write a four bytes word to a mesh file                                       */
+/* Write a four bytes word to a mesh file                   */
 /*----------------------------------------------------------*/
 
 static void RecWrd(GmfMshSct *msh, unsigned char *wrd)
@@ -1402,7 +1402,7 @@ static void RecWrd(GmfMshSct *msh, unsigned char *wrd)
 
 
 /*----------------------------------------------------------*/
-/* Write an eight bytes word to a mesh file                                     */
+/* Write an eight bytes word to a mesh file                 */
 /*----------------------------------------------------------*/
 
 static void RecDblWrd(GmfMshSct *msh, unsigned char *wrd)
@@ -1412,7 +1412,7 @@ static void RecDblWrd(GmfMshSct *msh, unsigned char *wrd)
 
 
 /*----------------------------------------------------------*/
-/* Write a block of four bytes word to a mesh file                      */
+/* Write a block of four bytes word to a mesh file          */
 /*----------------------------------------------------------*/
 
 static void RecBlk(GmfMshSct *msh, unsigned char *blk, int siz)
@@ -1422,7 +1422,7 @@ static void RecBlk(GmfMshSct *msh, unsigned char *blk, int siz)
 
 
 /*----------------------------------------------------------*/
-/* Read a 4 or 8 bytes position in mesh file                            */
+/* Read a 4 or 8 bytes position in mesh file                */
 /*----------------------------------------------------------*/
 
 static void SetPos(GmfMshSct *msh, long pos)
@@ -1440,7 +1440,7 @@ static void SetPos(GmfMshSct *msh, long pos)
 
 
 /*----------------------------------------------------------*/
-/* Fortran 77 API                                                                                       */
+/* Fortran 77 API                                           */
 /*----------------------------------------------------------*/
 
 int call(gmfopenmeshf77)(char *FilNam, int *mod, int *ver, int *dim, int StrSiz)
@@ -1486,3 +1486,4 @@ int call(gmfsetkwdf77)(int *MshIdx, int *KwdIdx, int *NmbLin, int *NmbTyp, int *
   else
     return(GmfSetKwd(*MshIdx, *KwdIdx));
 }
+
