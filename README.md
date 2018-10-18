@@ -41,7 +41,7 @@ to clone the repository on your computer (it is also possible to download the fi
 ```
 cd Commons
 ```
-to enter the Commons directory you have just downloaded
+to enter the Commons/ directory you have just downloaded
 ```
 mkdir build
 ```
@@ -49,7 +49,7 @@ to create the directory where we are going to build the Commons library
 ```
 cd build
 ```
-to enter the build directory you have just created
+to enter the build/ directory you have just created
 ```
 cmake ..
 ```
@@ -67,11 +67,11 @@ make install
 ```
 to install the Commons library on your computer
 
-Important remark: by typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your Home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your Home directory).
+Important remark: by typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your Home directory).
 
-Similarly, the (public) headers files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your Home directory.
+Similarly, the public header files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your home directory.
 
-If one wants to change the installation paths for the Commons library and associated (public) header files, one has to modify the CMakeLists.txt file and replace in the lines
+If one wants to change the installation paths for the Commons library and associated public header files, one has to modify the CMakeLists.txt file located in the Commons/ directory, and correct the lines
 ```
 # Set the installation properties of the Commons library
 install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")
@@ -81,7 +81,7 @@ install(FILES sources/chrono.h
               sources/lplib3.h
               sources/sparse.h DESTINATION "$ENV{HOME}/include/iscd/Commons")
 ```
-the correct destination paths. For example, if ones wants to install the library (respectively the associated public header files) in a lib (resp. include) subdirectory of the Commons directory, just replace the above lines by
+with the destination paths the user wants to set. For example, if ones wants to install the library (respectively the associated public header files) in a lib/ (resp. include/) subdirectory of the Commons/ directory, just replace the above lines by
 ```
 # Set the installation properties of the Commons library
 install(TARGETS Commons LIBRARY DESTINATION "${PROJECT_SOURCE_DIR}/lib")
@@ -91,7 +91,7 @@ install(FILES sources/chrono.h
               sources/lplib3.h
               sources/sparse.h DESTINATION "${PROJECT_SOURCE_DIR}/include")
 ```
-the CMakeLists.txt file of the Commons directory.
+in the CMakeLists.txt file located in the Commons/ directory.
 
 ## Full ISCDtoolbox install
 
