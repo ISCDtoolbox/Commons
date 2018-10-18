@@ -27,6 +27,7 @@ script:
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
   - make
+  - make install
 
 notifications:
   email: false
