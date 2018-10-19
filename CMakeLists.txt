@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
-set(CMAKE_C_COMPILER "/usr/bin/clang")
-set(CMAKE_C_COMPILER_ID Clang)
+#set(CMAKE_C_COMPILER "/usr/bin/clang")
+#set(CMAKE_C_COMPILER_ID Clang)
 
 # Define a macro to test if the OpenMP library is libomp or libiomp5 for clang
 # (useful for older version of Ubuntu for example 14.04)
