@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
-#set(CMAKE_C_COMPILER "/usr/bin/clang")
-#set(CMAKE_C_COMPILER_ID Clang)
+set(CMAKE_C_COMPILER "/usr/bin/clang")
+set(CMAKE_C_COMPILER_ID Clang)
 
 # Define a macro to test if the OpenMP library is libomp or libiomp5 for clang
 # (useful for older version of Ubuntu for example 14.04)
-macro (IS_REALLY_OMP RESULT)
-    execute_process(COMMAND "apt-cache search" "libomp >libomp.txt"
-                    COMMAND "grep -c" "libomp libomp.txt" 
-                                               OUTPUT_VARIABLE ${RESULT}
-                                               OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process(COMMAND "rm" "libomp.txt")
-endmacro ()
+#macro (IS_REALLY_OMP RESULT)
+#    execute_process(COMMAND "ls" 
+#                              "/usr/local/clang-${CMAKE_C_COMPILER_VERSION}/lib"
+#                              OUTPUT_VARIABLE returnValueOfLs)
+#    execute_process(COMMAND "grep -c" "libomp" OUTPUT_VARIABLE ${RESULT}
+#                                               OUTPUT_STRIP_TRAILING_WHITESPACE)
+#    message(COMMAND "${returnValueOfLs}")
+#endmacro ()
 
 # Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
@@ -145,23 +146,23 @@ set_property(TARGET Commons PROPERTY C_STANDARD 99)
 target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 if (OPENMP_FOUND)
-    if (CMAKE_VERSION VERSION_GREATER 3.9)
-            IS_REALLY_OMP(isReallyOmp)
-            message("${isReallyOmp}")
 
+         #   IS_REALLY_OMP(isReallyOmp)
+         #   message("${isReallyOmp}")
+    if (CMAKE_VERSION VERSION_GREATER 3.9)
         # Try to test if the OpenMP library is libomp or libiomp5 for clang
         # (useful for older version of Ubuntu for example 14.04)
         if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-            if ("${isReallyOmp}" MATCHES "0")
+            #if ("${isReallyOmp}" MATCHES "0")
                 message("Warning: libomp does not exist. Try libiomp5 library.")
-                set(OpenMP_C_LIB_NAMES "iomp5")
+               # set(OpenMP_C_LIB_NAMES "iomp5")
                 set(OpenMP_C_LIBRARIES "/usr/local/clang-${
                                      CMAKE_C_COMPILER_VERSION}/lib/libiomp5.so")
                 set(OpenMP_C_FLAGS "-fopenmp=libiomp5")
-                #target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
-                #target_compile_options(Commons PUBLIC ${OpenMP_C_LIBRARIES})
+                target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+                target_compile_options(Commons PUBLIC ${OpenMP_C_LIBRARIES})
             endif ()
-        #else ()
+        else ()
             target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
         endif ()
     else ()
