@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 macro (IS_REALLY_OMP RESULT)
     execute_process(COMMAND "apt-cache search" "libomp" "|" "grep -c" "libomp" 
                                                OUTPUT_VARIABLE ${RESULT}
+                                               message("${RESULT}")
                                                OUTPUT_STRIP_TRAILING_WHITESPACE)
 endmacro ()
 
