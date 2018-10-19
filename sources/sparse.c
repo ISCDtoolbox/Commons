@@ -1159,14 +1159,14 @@ void csrPrVal(pCsr A,int i,int j) {
 pCsr csrLoad(char *name) {
   FILE  *in;
   pCsr   A;
-  int    i,res;
+  int    i;
 
   in = fopen(name,"r");
   assert(in);
 
   A = (pCsr)calloc(1,sizeof(Csr));
-  res=fscanf(in,"%d %d %d",&A->nr,&A->nc,&A->nbe);
-  res=fscanf(in,"%c",&A->typ);
+  fscanf(in,"%d %d %d",&A->nr,&A->nc,&A->nbe);
+  fscanf(in,"%c",&A->typ);
 
   A->val = (double*)malloc(A->nbe*sizeof(double));
   A->col = (int*)malloc(A->nbe*sizeof(int));
@@ -1176,15 +1176,15 @@ pCsr csrLoad(char *name) {
   assert(A->row);
 
   for (i=0; i<=A->nr; i++) {
-    res=fscanf(in,"%d",&A->row[i]);
+    fscanf(in,"%d",&A->row[i]);
   }
 
   for (i=0; i<A->nbe; i++) {
-    res=fscanf(in,"%d",&A->col[i]);
+    fscanf(in,"%d",&A->col[i]);
   }
 
   for (i=0; i<A->nbe; i++) {
-    res=fscanf(in,"%lg",&A->val[i]);
+    fscanf(in,"%lg",&A->val[i]);
   }
 
   fclose(in);

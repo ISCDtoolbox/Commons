@@ -142,9 +142,10 @@ if (OPENMP_FOUND)
 endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
- #   target_compile_options(Commons PUBLIC -Wno-unused-but-set-variable
- #                                         -Wunknown-pragmas)
- #  target_compile_options(Commons PUBLIC -Wall -Wextra)
+    target_compile_options(Commons PUBLIC -Wunknown-pragmas
+                                          -Wno-unused-result)
+#                                         -Wno-unused-but-set-variable)
+#   target_compile_options(Commons PUBLIC -Wall -Wextra -Wpedantic)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
                                    OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
