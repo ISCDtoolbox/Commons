@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
+#set(CMAKE_C_COMPILER "/usr/bin/clang")
+#set(CMAKE_C_COMPILER_ID Clang)
 
 # Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
@@ -140,11 +142,13 @@ if (OPENMP_FOUND)
 endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-    target_compile_options(Commons PUBLIC -Wno-unused-but-set-variable
-                                          -Wunknown-pragmas)
+ #   target_compile_options(Commons PUBLIC -Wno-unused-but-set-variable
+ #                                         -Wunknown-pragmas)
+ #  target_compile_options(Commons PUBLIC -Wall -Wextra)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
                                    OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
+#    target_compile_options(Commons PUBLIC -Weverything)
 endif ()
 
 # Set the installation properties of the Commons library
