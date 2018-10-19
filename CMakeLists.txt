@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
-set(CMAKE_C_COMPILER "/usr/bin/clang")
-set(CMAKE_C_COMPILER_ID Clang)
+#set(CMAKE_C_COMPILER "/usr/bin/clang")
+#set(CMAKE_C_COMPILER_ID Clang)
 
 # Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
