@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
-#set(CMAKE_C_COMPILER "/usr/bin/clang")
-#set(CMAKE_C_COMPILER_ID Clang)
+set(CMAKE_C_COMPILER "/usr/bin/clang")
+set(CMAKE_C_COMPILER_ID Clang)
 
 # Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
@@ -95,7 +95,10 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 if (OPENMP)
     find_package(OpenMP)
-
+message("${OpenMP_C_LIB_NAMES}")
+message("${OpenMP_C_LIBRARY}")
+message("${OpenMP_C_LIBRARIES}")
+message("${OpenMP_C_FLAGS}")
     # Print a warning to suggest what to do if the OpenMp library is not found
     if (NOT OPENMP_FOUND)
         if (APPLE)
