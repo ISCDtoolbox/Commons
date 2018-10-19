@@ -9,14 +9,6 @@ macro (IS_REALLY_OMP RESULT)
                                                  "-c" OUTPUT_VARIABLE ${RESULT})
 endmacro ()
 
-        # Try to test if the OpenMP library is libomp or libiomp5 for clang
-        # (useful for older version of Ubuntu for example 14.04)
-        if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-            execute_process(COMMAND "apt-cache" "search" "libomp" 
-                                            "|" "grep" "libomp" "-c"
-                            OUTPUT_VARIABLE ${isReallyOmp})
-
-
 # Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
     message("Warning: the Commons library is currently intended for Unix ")
