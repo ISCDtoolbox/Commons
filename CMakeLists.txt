@@ -140,8 +140,9 @@ if (OPENMP_FOUND)
         # Try to test if the OpenMP library is libomp or libiomp5 for clang
         # (useful for older version of Ubuntu for example 14.04)
         if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-            execute_process(COMMAND "apt-cache search libomp | grep libomp -c"
-                            OUTPUT_VARIABLE isReallyOmp)
+            execute_process(COMMAND "apt-cache" "search" "libomp" 
+                                            "|" "grep" "libomp" "-c"
+                            OUTPUT_VARIABLE ${isReallyOmp})
             message("${isReallyOmp}")
             if ("${isReallyOmp}" MATCHES "0")
                 message("Warning: libomp does not exist. Try libiomp5 library.")
