@@ -142,6 +142,7 @@ if (OPENMP_FOUND)
         if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
             execute_process(COMMAND "apt-cache search libomp | grep libomp -c"
                             OUTPUT_VARIABLE isReallyOmp)
+            message("${isReallyOmp}")
             if ("${isReallyOmp}" MATCHES "0")
                 message("Warning: libomp does not exist. Try libiomp5 library.")
                 set(OpenMP_C_LIB_NAMES "iomp5")
