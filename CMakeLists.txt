@@ -3,10 +3,11 @@ cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 #set(CMAKE_C_COMPILER_ID Clang)
 
 # Define a macro to test if the OpenMP library is libomp or libiomp5 for clang
-        # (useful for older version of Ubuntu for example 14.04)
+# (useful for older version of Ubuntu for example 14.04)
 macro (IS_REALLY_OMP RESULT)
-    execute_process(COMMAND "apt-cache" "search" "libomp" "|" "grep" "libomp" 
-                                                 "-c" OUTPUT_VARIABLE ${RESULT})
+    execute_process(COMMAND "apt-cache search" "libomp" "|" "grep -c" "libomp" 
+                                               OUTPUT_VARIABLE ${RESULT}
+                                               OUTPUT_STRIP_TRAILING_WHITESPACE)
 endmacro ()
 
 # Print a warning if the os is not unix (linux and mac to be more precise)
@@ -143,12 +144,12 @@ target_link_libraries(Commons PUBLIC ${M_LIB}
                                      Threads::Threads)
 if (OPENMP_FOUND)
     if (CMAKE_VERSION VERSION_GREATER 3.9)
+            IS_REALLY_OMP(isReallyOmp)
+            message("${isReallyOmp}")
 
         # Try to test if the OpenMP library is libomp or libiomp5 for clang
         # (useful for older version of Ubuntu for example 14.04)
         if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-            IS_REALLY_OMP(isReallyOmp)
-            message("${isReallyOmp}")
             if ("${isReallyOmp}" MATCHES "0")
                 message("Warning: libomp does not exist. Try libiomp5 library.")
                 set(OpenMP_C_LIB_NAMES "iomp5")
