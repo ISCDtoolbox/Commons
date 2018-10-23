@@ -1,5 +1,9 @@
-# Set the minimum version of cmake
+# Set the minimum version of cmake (and default installation rpath if needed)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+if (APPLE)
+    set(CMAKE_MACOSX_RPATH TRUE)
+endif ()
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # One may want to impose the C-compiler (for example with a specific version)
 #set(CMAKE_C_COMPILER "/usr/bin/clang-3.8")
@@ -50,8 +54,8 @@ if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
     endif ()
 endif ()
 
-# Print a warning if the user tries to compile the Commons library with OPENMP=1
-# on an old version of Clang or Apple Clang that does not support OpenMP
+# Print a warning if a user tries to compile the Commons library with -DOPENMP=1
+# cmake flag on an old version of (Apple) Clang that does not support OpenMP
 if (OPENMP)
     if ( (${CMAKE_C_COMPILER_ID} MATCHES Clang OR
                     ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
@@ -125,7 +129,6 @@ endif ()
 #        - libmesh5.h
 #        - lplib3.h
 #        - sparse.h
-#
 add_library(Commons SHARED sources/chrono.c
                            sources/eigen.c
                            sources/libmesh5.c
@@ -143,7 +146,6 @@ find_library(MATH_LIBRARY m)
 #         the compiler to link in the pthread library as well as configure the
 #         compilation for threads. Tendancy is to add -pthread option instead
 #         of -lpthread
-#
 #set(CMAKE_THREAD_PREFER_PTHREAD ON)       # To be set only for systems with
                                            # multiple thread libraries
 if (CMAKE_VERSION VERSION_GREATER 3.1)
@@ -160,7 +162,6 @@ find_package(Threads REQUIRED)
 #         mm the month and dd the day of the preprocessor compilation. This
 #         preprocessor constant is used in sparse.c to include (or not) the
 #         omp.h file and thus considering or not the parallelization.
-#
 if (OPENMP)
     find_package(OpenMP)
 
@@ -243,51 +244,58 @@ else ()
 endif ()
 
 if (OPENMP)
-    # Remark: if the flag -DFORCEIOMP=1 is added to the cmake command
-    #         it will try to link the old name of the OpenMP library (libiomp)
-    #         instead of libomp for apple clang or clang (can be useful for
-    #         older versions of Ubuntu for example 14.04 where the version of
-    #         OpenMP is libiomp5 by default). Note that the user can also use
-    #         this flag to add directly the correct path for linking the OpenMP
-    #         library by modifying below the target_compile_options and
-    #         target_link_libraries commands at the place corresponding to
-    #         its OS, C-compiler and cmake version
-    if (OPENMP_FOUND OR FORCEIOMP)
-        if (CMAKE_VERSION VERSION_GREATER 3.9)
-            if (FORCEIOMP AND NOT APPLE
-                                       AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-                message("-- We try to set the iomp5 library instead of omp")
-                target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
-                target_link_libraries(Commons PUBLIC "-liomp5")
-            elseif (FORCEIOMP AND APPLE AND
-                                      ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
-                message("-- We try to set the iomp library instead of omp")
-                target_compile_options(Commons PUBLIC -Xclang -fopenmp)
-                target_link_libraries(Commons PUBLIC "-liomp")
-            else ()
+    # Remark 1: if the flag -DFORCEIOMP=1 is added to the cmake command
+    #           it will try to link the old name of the OpenMP library (libiomp)
+    #           instead of libomp for apple clang or clang (can be useful for
+    #           older versions of Ubuntu for example 14.04 where the version of
+    #           OpenMP is libiomp5 by default).
+    #
+    # Remark 2: The user can also use add directly the correct path for linking
+    #           the OpenMP library by modifying below the target_compile_options
+    #           and target_link_libraries commands at the place corresponding to
+    #           its OS, C-compiler and cmake version
+    if (FORCEIOMP)
+        if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
+            message("-- We try to link the iomp5 library instead of omp.")
+            target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
+            target_link_libraries(Commons PUBLIC "-liomp5")
+        elseif (APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
+            message("-- We try to set the iomp library instead of omp.")
+            target_compile_options(Commons PUBLIC -Xclang -fopenmp)
+            target_link_libraries(Commons PUBLIC "-liomp")
+        else ()
+            message("Warning: you should not be using the -DFORCEIOMP=1 cmake ")
+            message("flags on other compilers than Clang or Apple Clang.")
+        endif ()
+    else ()
+        if (OPENMP_FOUND)
+            if (CMAKE_VERSION VERSION_GREATER 3.9)
                 target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
+            else ()
+                if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
+                    target_compile_options(Commons PUBLIC -fopenmp=libomp)
+                    target_link_libraries(Commons PUBLIC "-lomp")
+                elseif (APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
+                    target_compile_options(Commons PUBLIC -Xclang -fopenmp)
+                    target_link_libraries(Commons PUBLIC "-lomp")
+                else ()
+                    target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+                    target_link_libraries(Commons PUBLIC "${OpenMP_C_FLAGS}")
+                endif ()
             endif ()
         else ()
             if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-                if (FORCEIOMP)
-                    message("-- We try to set the iomp5 library instead of omp")
-                    target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
-                    target_link_libraries(Commons PUBLIC "-liomp5")
-                else ()
-                    target_compile_options(Commons PUBLIC -fopenmp=libomp)
-                    target_link_libraries(Commons PUBLIC "-lomp")
-                endif ()
+                message("-- We try to link the omp library even if not found.")
+                target_compile_options(Commons PUBLIC -fopenmp=libomp)
+                target_link_libraries(Commons PUBLIC "-lomp")
             elseif (APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
+                message("-- We try to link the omp library even if not found.")
                 target_compile_options(Commons PUBLIC -Xclang -fopenmp)
-                if (FORCEIOMP)
-                    message("-- We try to set the iomp library instead of omp")
-                    target_link_libraries(Commons PUBLIC "-liomp")
-                else ()
-                    target_link_libraries(Commons PUBLIC "-lomp")
-                endif ()
+                target_link_libraries(Commons PUBLIC "-lomp")
             else ()
-                target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
-                target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+                message("-- We try to link the gomp library even if not found.")
+                target_compile_options(Commons PUBLIC -fopenmp)
+                target_link_libraries(Commons PUBLIC "-lgomp")
             endif ()
         endif ()
     endif ()
