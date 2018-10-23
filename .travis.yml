@@ -1,18 +1,26 @@
-language: c
+matrix:
+    include:
+        - os: linux
+          language: c
+          compiler: gcc
+          env:
+              - MATRIX_EVAL="echo ok"
 
-os:
-  - linux
-  - osx
+        - os: linux
+          language: c
+          compiler: clang
+          env:
+              - MATRIX_EVAL="sudo apt-get install libiomp-dev"
 
-compiler:
-  - gcc
-  - clang
+        - os: osx
+          language: c
+          compiler: clang
+          env:
+              - MATRIX_EVAL="brew install libomp"
 
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-                                      sudo apt-get install libiomp-dev --yes; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake  ; fi
+before install:
+    - eval "${MATRIX_EVAL}"
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
 
 sudo: false
 
@@ -25,10 +33,8 @@ script:
   - head CMakeFiles/Commons.dir/link.txt
   - make
   - rm -r ./*
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-                 if [[ "$CC" == "gcc" ]]; then cmake .. -DOPENMP=1;
-                                     else cmake .. -DOPENMP=1 -DFORCEIOMP=1; fi;
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake .. -DOPENMP=1; fi
+  - if [[ "$MATRIX_EVAL" == "echo ok" ]];
+    then cmake .. -DOPENMP=1 -DFORCEIOMP=1; else cmake .. -DOPENMP=1; fi
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
   - make
@@ -36,4 +42,23 @@ script:
 
 notifications:
   email: false
+
+
+#language: c
+
+#os:
+#  - linux
+#  - osx
+
+#compiler:
+#  - gcc
+#  - clang
+
+#before_install:
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+#                                      sudo apt-get install libiomp-dev #--yes; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake  ; fi
+
+
 
