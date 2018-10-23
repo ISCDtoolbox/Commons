@@ -26,7 +26,7 @@ script:
   - make
   - rm -r ./*
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-                 if [[ "$TRAVIS_COMPILER" == "gcc" ]]; then cmake .. -DOPENMP=1;
+                 if [[ "$CC" == "gcc" ]]; then cmake .. -DOPENMP=1;
                                      else cmake .. -DOPENMP=1 -DFORCEIOMP=1; fi;
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake .. -DOPENMP=1; fi
   - head CMakeFiles/Commons.dir/flags.make
