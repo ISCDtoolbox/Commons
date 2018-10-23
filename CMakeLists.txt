@@ -260,7 +260,7 @@ if (OPENMP)
                 target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
                 target_link_libraries(Commons PUBLIC "-liomp5")
             elseif (FORCEIOMP AND APPLE AND
-                                     ${CMAKE_C_COMPILER_ID} MATCHES Apple Clang)
+                                      ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
                 message("-- We try to set the iomp library instead of omp")
                 target_compile_options(Commons PUBLIC -Xclang -fopenmp)
                 target_link_libraries(Commons PUBLIC "-liomp")
