@@ -21,7 +21,7 @@ matrix:
               - INSTALL_COMMAND="brew install libomp"
               - FORCEIOMP_FLAG="echo omp"
 
-before install:
+before script:
     - eval "${MATRIX_EVAL}"
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
 
