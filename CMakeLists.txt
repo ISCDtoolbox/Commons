@@ -1,30 +1,36 @@
 # Set the minimum version of cmake
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-# Define the project of the Commons library depending of the version of cmake
-if (CMAKE_VERSION VERSION_GREATER 3.0)
-    project(Commons LANGUAGES C)
-else ()
-    project(Commons)
-endif ()
-set(CMAKE_BUILD_TYPE "Release")
-
-# One may want to force the c-compiler (for example with a specific version)
-#include (CMakeForceCompiler)
-#CMAKE_FORCE_C_COMPILER("/usr/bin/clang-3.8" Clang)
+# One may want to impose the C-compiler (for example with a specific version)
+#set(CMAKE_C_COMPILER "/usr/bin/clang-3.8")
+#set(CMAKE_C_COMPILER_ID Clang)
 
 # Print a warning if the os is not unix (linux and mac to be more precise)
 if (NOT UNIX)
     message("Warning: the Commons library is currently intended for Unix ")
     message("systems since it has been tested merely on Linux and Mac OS. ")
     if (OPENMP)
-        message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
+        if (FORCEIOMP)
+            message("The commands 'cmake .. -DOPENMP=1 -DFORCEIOMP=1' and ")
+            message("'make' may not work.")
+        else ()
+            message("The commands 'cmake .. -DOPENMP=1' and 'make' may not ")
+            message("work.")
+        endif ()
     else ()
         message("The commands 'cmake ..' and 'make' may not work.")
     endif ()
 endif ()
 
-# Print a warning if the compiler is not gcc or clang (apple clang on mac)
+# Define the project of the Commons library depending of the version of cmake
+if (CMAKE_VERSION VERSION_GREATER 3.0)
+    project(Commons LANGUAGES C)
+else ()
+    project(Commons C)
+endif ()
+set(CMAKE_BUILD_TYPE "Release")
+
+# Print a warning if the compiler is not gcc or clang (apple clang on mac os)
 if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
                  AND NOT ${CMAKE_C_COMPILER_ID} MATCHES Clang
                               AND NOT ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
@@ -32,7 +38,13 @@ if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
     message("compiled by gcc or clang since it has been tested merely on ")
     message("these two compilers.")
     if (OPENMP)
-        message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
+        if (FORCEIOMP)
+            message("The commands 'cmake .. -DOPENMP=1 -DFORCEIOMP=1' and ")
+            message("'make' may not work.")
+        else ()
+            message("The commands 'cmake .. -DOPENMP=1' and 'make' may not ")
+            message("work.")
+        endif ()
     else ()
         message("The commands 'cmake ..' and 'make' may not work.")
     endif ()
@@ -70,8 +82,14 @@ if (OPENMP)
             message("'sudo apt-get install clang-3.8' in your prompt window ")
             message("(you need administrator rights to do that).")
         endif ()
-        message("The commands 'cmake .. -DOPENMP=1' and 'make' may not work.")
-    endif()
+        if (FORCEIOMP)
+            message("The commands 'cmake .. -DOPENMP=1 -DFORCEIOMP=1' and ")
+            message("'make' may not work.")
+        else ()
+            message("The commands 'cmake .. -DOPENMP=1' and 'make' may not ")
+            message("work.")
+        endif ()
+    endif ()
 endif ()
 
 # Add the source files to the Commons library which also uses:
@@ -82,7 +100,7 @@ endif ()
 #        - errno.h
 #        - float.h
 #        - limits.h
-#        - math.h (the associated library needs to be statically linked)
+#        - math.h (the associated static library needs to be linked)
 #        - stdarg.h
 #        - stdbool.h
 #        - stdio.h
@@ -92,14 +110,14 @@ endif ()
 #
 #    * headers from the C POSIX library that are not already a part of the
 #      C standard library:
-#        - pthread.h (the associated library needs to be dynamically linked)
+#        - pthread.h (the associated dynamic library needs to be linked)
 #        - sys/resource.h
 #        - sys/time.h
 #        - unistd.h
 #
 #    * headers from external libraries:
-#        - omp.h (optional, the associated library needs to be dynamically
-#                 linked if the OPENMP cmake variable has been properly defined)
+#        - omp.h (optional, the associated dynamic library needs to be linked
+#                 if the -DOPENMP=1 flag is added to the "cmake .." command)
 #
 #    * headers from the local source directory:
 #        - chrono.h
@@ -126,16 +144,16 @@ find_library(MATH_LIBRARY m)
 #         compilation for threads. Tendancy is to add -pthread option instead
 #         of -lpthread
 #
-#set(CMAKE_THREAD_PREFER_PTHREAD ON) # To be set only for systems with
-                                     # multiple thread libraries
+#set(CMAKE_THREAD_PREFER_PTHREAD ON)       # To be set only for systems with
+                                           # multiple thread libraries
 if (CMAKE_VERSION VERSION_GREATER 3.1)
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)    # Replace -lpthread flag by -pthread
 endif ()
 find_package(Threads REQUIRED)
 
 # Find the OpenMP library (libgomp1 on Ubuntu 16.04.4, add -fopenmp with gcc
-#                          compiler), which is optional here, -DOPENMP=1 must
-#                          be added in the "cmake .." command to take into
+#                          compiler), which is optional here, -DOPENMP=1 flag
+#                          must be added to the "cmake .." command to take into
 #                          account this parallelization procedure.
 # Remark: when -fopenmp option is set in gcc, the preprocessor compiler creates
 #         a preprocessor constant _OPENMP yyyymmdd where yyyy is the year
@@ -147,11 +165,16 @@ if (OPENMP)
     find_package(OpenMP)
 
     # Print a warning to suggest what to do if the OpenMP library is not found
-    if (NOT OPENMP_FOUND)
+    # (and if the flag DFORCEIOMP=1 has not been set)
+    if (NOT FORCEIOMP AND NOT OPENMP_FOUND)
         if (APPLE)
             message("Warning: check that the libomp library has been properly ")
             message("installed by typing for example 'brew install libomp' ")
-            message("in your terminal window. ")
+            message("in your prompt window. Note that the older name of ")
+            message("this library is libiomp5 so you may have to replace ")
+            message("libomp by libiomp in the brew install command line ")
+            message("(and then add the -DFORCEIOMP=1 flag in the cmake ")
+            message("command line if it is the case).")
             if (CMAKE_VERSION VERSION_LESS 3.12)
                 message("Warning: on mac os, your version of cmake ")
                 message("(=${CMAKE_VERSION}) should not be currently less ")
@@ -163,16 +186,18 @@ if (OPENMP)
             if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
                 message("Warning: check that the libgomp1 library has been ")
                 message("properly installed by typing for example ")
-                message("'sudo apt-get install libgomp1' in your terminal ")
+                message("'sudo apt-get install libgomp1' in your prompt ")
                 message("window (you need administrator rights to do that).")
             elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang)
                 message("Warning: check that the libomp-dev library has been ")
                 message("properly installed by typing for example ")
-                message("'sudo apt-get install libomp-dev' in your terminal ")
+                message("'sudo apt-get install libomp-dev' in your prompt ")
                 message("window (you need administrator rights to do that).")
                 message("Note that the older name of this library is ")
                 message("libiomp5 so you may have to replace libomp-dev by ")
-                message("libiomp-dev in the sudo apt-get install command line.")
+                message("libiomp-dev in the sudo apt-get install command line ")
+                message("(and then add the -DFORCEIOMP=1 flag in the cmake ")
+                message("command line if it is the case).")
             endif ()
         endif ()
     endif ()
@@ -182,6 +207,9 @@ endif ()
 target_include_directories(Commons
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources>)
+        # Remark: the user can add directly the path(s) for header file(s) in
+        #         the above target_include_directories command (like omp.h
+        #         if it has not been not found)
 
 if (CMAKE_VERSION VERSION_GREATER 3.8)
     target_compile_features(Commons PUBLIC c_std_99)
@@ -194,55 +222,80 @@ endif ()
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
     target_compile_options(Commons PUBLIC -Wunknown-pragmas
                                           -Wno-unused-result)
-#    target_compile_options(Commons PUBLIC -Wall -Wextra -Wpedantic)
+    #target_compile_options(Commons PUBLIC -Wall -Wextra -Wpedantic)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
                                    OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
     #target_compile_options(Commons PUBLIC -Weverything)
 endif ()
 
+# Remark: the user can add directly here the path for linking the math library
+#         (if it has not been not found with the above find_library command)
 target_link_libraries(Commons PUBLIC ${MATH_LIBRARY})
 
+# Remark: the user can add directly here the path for linking the Thread library
+#         (if it has not been not found with the above find_package command, and
+#          do not forget to remove it if you specify directly here the path)
 if (CMAKE_VERSION VERSION_GREATER 3.1)
     target_link_libraries(Commons PUBLIC Threads::Threads)
 else ()
     target_link_libraries(Commons PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 endif ()
 
-if (OPENMP_FOUND)
-    if (CMAKE_VERSION VERSION_GREATER 3.9)
-        # Try to link if the OpenMP library is libiomp5 instead of libomp for
-        # clang (useful for older version of Ubuntu for example 14.04)
-        # The flag -DIOMP must be set to one
-        if (FORCEIOMP AND NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-            message("Warning: we try to set the iomp5 library instead of iomp.")
-            target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
-            target_link_libraries(Commons PUBLIC "-liomp5")
-        else ()
-            target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
-        endif ()
-    else ()
-        if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
-            if (FORCEIOMP)
-                message("Warning: we try to set the iomp5 library instead of ")
-                message("the iomp one.")
+if (OPENMP)
+    # Remark: if the flag -DFORCEIOMP=1 is added to the cmake command
+    #         it will try to link the old name of the OpenMP library (libiomp)
+    #         instead of libomp for apple clang or clang (can be useful for
+    #         older versions of Ubuntu for example 14.04 where the version of
+    #         OpenMP is libiomp5 by default). Note that the user can also use
+    #         this flag to add directly the correct path for linking the OpenMP
+    #         library by modifying below the target_compile_options and
+    #         target_link_libraries commands at the place corresponding to
+    #         its OS, C-compiler and cmake version
+    if (OPENMP_FOUND OR FORCEIOMP)
+        if (CMAKE_VERSION VERSION_GREATER 3.9)
+            if (FORCEIOMP AND NOT APPLE
+                                       AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
+                message("-- We try to set the iomp5 library instead of omp")
                 target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
                 target_link_libraries(Commons PUBLIC "-liomp5")
+            elseif (FORCEIOMP AND APPLE AND
+                                     ${CMAKE_C_COMPILER_ID} MATCHES Apple Clang)
+                message("-- We try to set the iomp library instead of omp")
+                target_compile_options(Commons PUBLIC -Xclang -fopenmp)
+                target_link_libraries(Commons PUBLIC "-liomp")
             else ()
-                target_compile_options(Commons PUBLIC -fopenmp=libomp)
-                target_link_libraries(Commons PUBLIC "-lomp")
+                target_link_libraries(Commons PUBLIC OpenMP::OpenMP_C)
             endif ()
-        elseif (APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
-            target_compile_options(Commons PUBLIC -Xclang -fopenmp)
-            target_link_libraries(Commons PUBLIC "-lomp")
         else ()
-            target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
-            target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+            if (NOT APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES Clang)
+                if (FORCEIOMP)
+                    message("-- We try to set the iomp5 library instead of omp")
+                    target_compile_options(Commons PUBLIC -fopenmp=libiomp5)
+                    target_link_libraries(Commons PUBLIC "-liomp5")
+                else ()
+                    target_compile_options(Commons PUBLIC -fopenmp=libomp)
+                    target_link_libraries(Commons PUBLIC "-lomp")
+                endif ()
+            elseif (APPLE AND ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
+                target_compile_options(Commons PUBLIC -Xclang -fopenmp)
+                if (FORCEIOMP)
+                    message("-- We try to set the iomp library instead of omp")
+                    target_link_libraries(Commons PUBLIC "-liomp")
+                else ()
+                    target_link_libraries(Commons PUBLIC "-lomp")
+                endif ()
+            else ()
+                target_compile_options(Commons PUBLIC ${OpenMP_C_FLAGS})
+                target_link_libraries(Commons PUBLIC ${OpenMP_C_FLAGS})
+            endif ()
         endif ()
     endif ()
 endif ()
 
 # Set the installation properties of the Commons library
+# Remark: the user can change here the paths where the Commons library and
+#         the associated header files will be installed
 install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")
 install(FILES sources/chrono.h
               sources/eigen.h
