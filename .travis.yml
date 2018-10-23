@@ -4,30 +4,27 @@ matrix:
           language: c
           compiler: gcc
           env:
-              - INSTALL_COMMAND="sudo ok"
-              - FORCEIOMP_FLAG="echo gomp"
+              - FORCEIOMP_FLAG="gomp"
 
         - os: linux
           language: c
           compiler: clang
           env:
-              - INSTALL_COMMAND="sudo apt-get install libiomp-dev --yes"
-              - FORCEIOMP_FLAG="echo iomp"
+              - FORCEIOMP_FLAG="iomp"
 
         - os: osx
           language: c
           compiler: clang
           env:
-              - INSTALL_COMMAND="brew install libomp"
-              - FORCEIOMP_FLAG="echo omp"
-
-before script:
-    - eval "${MATRIX_EVAL}"
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
+              - FORCEIOMP_FLAG="omp"
 
 sudo: false
 
 script:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]];
+                                 then sudo apt-get install libiomp-dev --yes; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
   - cmake --version
   - mkdir build
   - cd build
@@ -36,7 +33,7 @@ script:
   - head CMakeFiles/Commons.dir/link.txt
   - make
   - rm -r ./*
-  - if [[ "$FORCEIOMP_FLAG" == "echo iomp" ]];
+  - if [[ "$FORCEIOMP_FLAG" == "iomp" ]];
     then cmake .. -DOPENMP=1 -DFORCEIOMP=1; else cmake .. -DOPENMP=1; fi
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
