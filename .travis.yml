@@ -39,6 +39,8 @@ script:
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
   - make
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+                         ldd libCommons.so ; else otool -L libCommons.dylib ; fi
   - rm -r ./*
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                     then  cmake .. -DOPENMP=1 -DFORCEIOMP=1 ; fi
@@ -54,6 +56,8 @@ script:
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
   - make
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+                         ldd libCommons.so ; else otool -L libCommons.dylib ; fi
   - make install
 
 notifications:
