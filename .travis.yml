@@ -16,7 +16,7 @@ before_install:
             else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
                                                 libiomp5.dylib libomp.dylib ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-     sudo apt-get install libiomp-dev libomp-dev ; else brew install libomp ; fi
+          sudo apt-get install libiomp-dev --yes ; else brew install libomp ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew upgrade cmake ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
                 sudo updatedb ; else then sudo /usr/libexec/locate.updatedb ; fi
