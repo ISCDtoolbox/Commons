@@ -15,8 +15,9 @@ before_install:
         locate libc.so libm.so libpthread.so libgomp.so libomp.so libiomp5.so ;
             else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
                                                 libiomp5.dylib libomp.dylib ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew install libomp ; fi
-  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew upgrade cmake ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+     sudo apt-get install libiomp-dev libomp-dev ; else brew install libomp ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew upgrade cmake ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ;
                                      then sudo /usr/libexec/locate.updatedb ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
@@ -50,6 +51,8 @@ script:
                                   then head CMakeFiles/Commons.dir/link.txt ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                                                   then make ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
+                                                     then ldd libCommons.so ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                                              then rm -r ./* ; fi
   - cmake .. -DOPENMP=1
