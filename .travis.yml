@@ -17,6 +17,17 @@ before_install:
 sudo: false
 
 script:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then lsb_release -a; else sw_vers; fi
+  - if [[ "$TRAVIS_COMPILER" == "gcc" ]]; then
+                                         gcc --version; else clang --version; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "gcc" ]]; then
+                                     locate libm.so libpthread.so libgomp.so; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]]; then
+               locate libm.so libpthread.so libiomp.so libiomp5.so libomp.so; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" && "$TRAVIS_COMPILER" == "gcc" ]]; then
+              locate libm.dylib libpthread.dylib libiomp5.dylib libomp.dylib; fi
+  - git --version
+  - make --version
   - cmake --version
   - mkdir build
   - cd build
