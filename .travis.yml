@@ -21,7 +21,7 @@ before_install:
 sudo: false
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
                                               lsb_release -a ; else sw_vers ; fi
   - if [[ "$TRAVIS_COMPILER" == "gcc" ]] ; then
                                        gcc --version ; else clang --version ; fi
@@ -48,7 +48,7 @@ script:
                                                                   then make ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                                              then rm -r ./* ; fi
-  - cmake .. -DOPENMP=1; fi
+  - cmake .. -DOPENMP=1
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
   - make
