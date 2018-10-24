@@ -17,6 +17,11 @@ before_install:
                                                 libiomp5.dylib libomp.dylib ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew install libomp ; fi
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew upgrade cmake ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ;
+                                     then sudo /usr/libexec/locate.updatedb ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
+                locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
+                                                libiomp5.dylib libomp.dylib ; fi
 
 sudo: false
 
@@ -25,9 +30,6 @@ script:
                                               lsb_release -a ; else sw_vers ; fi
   - if [[ "$TRAVIS_COMPILER" == "gcc" ]] ; then
                                        gcc --version ; else clang --version ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then
-                locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
-                                                libiomp5.dylib libomp.dylib ; fi
   - git --version
   - make --version
   - cmake --version
