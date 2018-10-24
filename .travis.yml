@@ -9,9 +9,9 @@ compiler:
   - clang
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" AND "$CC" == "clang" ]];
+  - if [[ "$TRAVIS_OS_NAME" == "linux" AND "$TRAVIS_COMPILER" == "clang" ]];
                                  then sudo apt-get install libiomp-dev --yes; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" AND "$CC" == "gcc" ]];
+  - if [[ "$TRAVIS_OS_NAME" == "osx" AND "$TRAVIS_COMPILER" == "gcc" ]];
                                                       then export CC=gcc-4.8; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
