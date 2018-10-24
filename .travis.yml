@@ -19,7 +19,7 @@ before_install:
           sudo apt-get install libiomp-dev --yes ; else brew install libomp ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew upgrade cmake ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-                sudo updatedb ; else then sudo /usr/libexec/locate.updatedb ; fi
+                     sudo updatedb ; else sudo /usr/libexec/locate.updatedb ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
         locate libc.so libm.so libpthread.so libgomp.so libomp.so libiomp5.so ;
             else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
