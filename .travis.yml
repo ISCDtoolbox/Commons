@@ -1,30 +1,43 @@
-matrix:
-    include:
-        - os: linux
-          language: c
-          compiler: gcc
-          env:
-              - FORCEIOMP_FLAG="gomp"
+language: c
 
-        - os: linux
-          language: c
-          compiler: clang
-          env:
-              - FORCEIOMP_FLAG="iomp"
+os:
+  - linux
+  - osx
 
-        - os: osx
-          language: c
-          compiler: clang
-          env:
-              - FORCEIOMP_FLAG="omp"
+compiler:
+  - gcc
+  - clang
+
+before install: 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]];
+                                 then sudo apt-get install libiomp-dev --yes; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "$CC"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
+
+#matrix:
+#    include:
+#        - os: linux
+#         language: c
+#          compiler: gcc
+#          env:
+#              - FORCEIOMP_FLAG="gomp"
+#
+#        - os: linux
+#          language: c
+#          compiler: clang
+#          env:
+#              - FORCEIOMP_FLAG="iomp"
+#
+#        - os: osx
+#          language: c
+#          compiler: clang
+#          env:
+#              - FORCEIOMP_FLAG="omp"
 
 sudo: false
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]];
-                                 then sudo apt-get install libiomp-dev --yes; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libomp; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade cmake; fi
   - cmake --version
   - mkdir build
   - cd build
@@ -33,7 +46,7 @@ script:
   - head CMakeFiles/Commons.dir/link.txt
   - make
   - rm -r ./*
-  - if [[ "$FORCEIOMP_FLAG" == "iomp" ]];
+  - if [[ "$CC" == "clang" ]];
     then cmake .. -DOPENMP=1 -DFORCEIOMP=1; else cmake .. -DOPENMP=1; fi
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt
