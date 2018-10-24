@@ -9,13 +9,10 @@ compiler:
   - clang
 
 before_install:
-  - echo "$TRAVIS_COMPILER"
-  - if [[ "$TRAVIS_OS_NAME" == "linux"]]; then 
-      if [[ "$TRAVIS_COMPILER" == "clang" ]]; then
-        sudo apt-get install libiomp-dev --yes;
-      fi;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]]; then
+      sudo apt-get install libiomp-dev --yes;
     fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx"]]; then 
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
       if [[ "$TRAVIS_COMPILER" == "gcc" ]]; then
         export CC=gcc-4.8;
       fi;
