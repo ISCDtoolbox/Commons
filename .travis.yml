@@ -40,14 +40,16 @@ script:
   - head CMakeFiles/Commons.dir/link.txt
   - make
   - rm -r ./*
-  - if [[ "$TRAVIS_COMPILER" == "clang" ]] ;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                     then  cmake .. -DOPENMP=1 -DFORCEIOMP=1 ; fi
-  - if [[ "$TRAVIS_COMPILER" == "clang" ]] ;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                 then head CMakeFiles/Commons.dir/flags.make ; fi
-  - if [[ "$TRAVIS_COMPILER" == "clang" ]] ;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
                                   then head CMakeFiles/Commons.dir/link.txt ; fi
-  - if [[ "$TRAVIS_COMPILER" == "clang" ]] ; then make ; fi
-  - if [[ "$TRAVIS_COMPILER" == "clang" ]] ; then rm -r ./* ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
+                                                                  then make ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$TRAVIS_COMPILER" == "clang" ]] ;
+                                                             then rm -r ./* ; fi
   - cmake .. -DOPENMP=1
   - head CMakeFiles/Commons.dir/flags.make
   - head CMakeFiles/Commons.dir/link.txt

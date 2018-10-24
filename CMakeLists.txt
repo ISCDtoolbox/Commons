@@ -88,7 +88,6 @@ if (OPENMP)
 endif ()
 
 # Add the source files to the Commons library which also uses:
-#
 #    * headers from the C standard library:
 #        - assert.h
 #        - ctype.h
