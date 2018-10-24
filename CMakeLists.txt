@@ -52,8 +52,6 @@ if (NOT ${CMAKE_C_COMPILER_ID} MATCHES GNU
     else ()
         message("The commands 'cmake ..' and 'make' may not work.")
     endif ()
-else ()
-    message("The C-compiler ID is ${CMAKE_C_COMPILER_ID}")
 endif ()
 
 # Print a warning if a user tries to compile the Commons library with -DOPENMP=1
