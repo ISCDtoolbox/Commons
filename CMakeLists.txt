@@ -1,9 +1,9 @@
 # Set the minimum version of cmake (and default installation rpath if needed)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-if (APPLE)
-    set(CMAKE_MACOSX_RPATH TRUE)
-endif ()
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+#if (APPLE)
+#    set(CMAKE_MACOSX_RPATH TRUE)
+#endif ()
+#set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # One may want to impose the C-compiler (for example with a specific version)
 #set(CMAKE_C_COMPILER "/usr/bin/clang-3.8")
@@ -219,7 +219,6 @@ elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
     target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
     #target_compile_options(Commons PUBLIC -Weverything)
 endif ()
-target_compile_options(Commons PUBLIC -Wl,--verbose)
 
 # Remark: the user can add directly here the path for linking the math library
 #         (if it has not been not found with the above find_library command)
