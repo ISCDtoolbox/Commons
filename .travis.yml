@@ -30,6 +30,7 @@ sudo: false
 script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
                                               lsb_release -a ; else sw_vers ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then lscpu ; else sysctl hw ; fi
   - if [[ "$TRAVIS_COMPILER" == "gcc" ]] ; then
                                        gcc --version ; else clang --version ; fi
   - git --version
