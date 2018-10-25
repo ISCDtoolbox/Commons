@@ -53,6 +53,8 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
                          ldd libCommons.so ; else otool -L libCommons.dylib ; fi
   - make install
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then ldd ~/lib/iscd/libCommons.so ;
+                                  else otool -L ~/lib/iscd/libCommons.dylib ; fi
 
 notifications:
   email: false

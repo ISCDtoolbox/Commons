@@ -1,9 +1,9 @@
 # Set the minimum version of cmake (and default installation rpath if needed)
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-if (APPLE)
-    set(CMAKE_MACOSX_RPATH TRUE)
-endif ()
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+#if (APPLE)
+#    set(CMAKE_MACOSX_RPATH TRUE)
+#endif ()
+#set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # One may want to impose the C-compiler (for example with a specific version)
 #set(CMAKE_C_COMPILER "/usr/bin/clang-3.8")
