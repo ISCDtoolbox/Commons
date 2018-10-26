@@ -196,28 +196,28 @@ endif ()
 
 # Set all the targets of the Commons library
 target_include_directories(Commons
-    PUBLIC
+    PRIVATE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources>)
         # Remark: the user can add directly the path(s) for header file(s) in
         #         the above target_include_directories command (like omp.h
         #         if it has not been not found)
 
 if (CMAKE_VERSION VERSION_GREATER 3.8)
-    target_compile_features(Commons PUBLIC c_std_99)
+    target_compile_features(Commons PRIVATE c_std_99)
 elseif (CMAKE_VERSION VERSION_GREATER 3.1)
     set_property(TARGET Commons PROPERTY C_STANDARD 99)
 else ()
-    target_compile_options(Commons PUBLIC -std=gnu99)
+    target_compile_options(Commons PRIVATE -std=gnu99)
 endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-    target_compile_options(Commons PUBLIC -Wunknown-pragmas
-                                          -Wno-unused-result)
-    #target_compile_options(Commons PUBLIC -Wall -Wextra -Wpedantic)
+    target_compile_options(Commons PRIVATE -Wunknown-pragmas
+                                           -Wno-unused-result)
+    #target_compile_options(Commons PRIVATE -Wall -Wextra -Wpedantic)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
                                    OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
-    target_compile_options(Commons PUBLIC -Wsource-uses-openmp)
-    #target_compile_options(Commons PUBLIC -Weverything)
+    target_compile_options(Commons PRIVATE -Wsource-uses-openmp)
+    #target_compile_options(Commons PRIVATE -Weverything)
 endif ()
 
 # Remark: the user can add directly here the path for linking the math library
