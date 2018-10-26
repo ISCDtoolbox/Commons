@@ -156,7 +156,7 @@ if (OPENMP)
     find_package(OpenMP)
 
     # Print a warning to suggest what to do if the OpenMP library is not found
-    # (and if the flag DFORCEIOMP=1 has not been set)
+    # (and if the flag -DFORCEIOMP=1 has not been set)
     if (NOT FORCEIOMP AND NOT OPENMP_FOUND)
         if (APPLE)
             message("Warning: check that the libomp library has been properly ")
@@ -202,13 +202,13 @@ target_include_directories(Commons
         #         the above target_include_directories command (like omp.h
         #         if it has not been not found)
 
-if (CMAKE_VERSION VERSION_GREATER 3.8)
-    target_compile_features(Commons PRIVATE c_std_99)
-elseif (CMAKE_VERSION VERSION_GREATER 3.1)
-    set_property(TARGET Commons PROPERTY C_STANDARD 99)
-else ()
-    target_compile_options(Commons PRIVATE -std=gnu99)
-endif ()
+#if (CMAKE_VERSION VERSION_GREATER 3.8)
+#    target_compile_features(Commons PRIVATE c_std_99)
+#elseif (CMAKE_VERSION VERSION_GREATER 3.1)
+#    set_property(TARGET Commons PROPERTY C_STANDARD 99)
+#else ()
+#    target_compile_options(Commons PRIVATE -std=gnu99)
+#endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
     target_compile_options(Commons PRIVATE -Wunknown-pragmas
