@@ -9,21 +9,21 @@ compiler:
   - clang
 
 before_install:
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-#                    sudo updatedb ; else sudo /usr/libexec/locate.updatedb ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-#        locate libc.so libm.so libpthread.so libgomp.so libomp.so libiomp5.so ;
-#            else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
-#                                               libiomp5.dylib libomp.dylib ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+                    sudo updatedb ; else sudo /usr/libexec/locate.updatedb ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+        locate libc.so libm.so libpthread.so libgomp.so libomp.so libiomp5.so ;
+            else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
+                                               libiomp5.dylib libomp.dylib ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
          sudo apt-get install libiomp-dev --yes ; else brew install libomp ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]] ; then brew upgrade cmake ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-#                    sudo updatedb ; else sudo /usr/libexec/locate.updatedb ; fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
-#        locate libc.so libm.so libpthread.so libgomp.so libomp.so libiomp5.so ;
-#            else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
-#                                               libiomp5.dylib libomp.dylib ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+                    sudo updatedb ; else sudo /usr/libexec/locate.updatedb ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
+        locate libc.so libm.so libpthread.so libgomp.so libomp.so libiomp5.so ;
+            else locate libc.dylib libm.dylib libpthread.dylib libgomp.dylib
+                                               libiomp5.dylib libomp.dylib ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then
                                              lsb_release -a ; else sw_vers ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] ; then lscpu ; else sysctl hw ; fi
