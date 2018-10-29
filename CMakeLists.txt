@@ -126,7 +126,7 @@ endif ()
 #        - sparse.h
 add_library(Commons SHARED sources/chrono.c
                            sources/eigen.c
-                           sources/libmesh7.c
+                           sources/libmeshb7.c
                            sources/lplib3.c
                            sources/solve.c
                            sources/sparse.c)
@@ -308,7 +308,7 @@ endif ()
 install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")
 install(FILES sources/chrono.h
               sources/eigen.h
-              sources/libmesh7.h
+              sources/libmeshb7.h
               sources/lplib3.h
               sources/sparse.h DESTINATION "$ENV{HOME}/include/iscd/Commons")
 
