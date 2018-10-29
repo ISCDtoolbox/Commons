@@ -87,11 +87,6 @@ if (OPENMP)
     endif ()
 endif ()
 
-#setjmp.h
-#fcttl.h
-#inttypes.h
-#stdint.h
-
 # Add the source files to the Commons library which also uses:
 #    * headers from the C standard library:
 #        - assert.h
@@ -126,7 +121,7 @@ endif ()
 #        - sparse.h
 add_library(Commons SHARED sources/chrono.c
                            sources/eigen.c
-                           sources/libmeshb7.c
+                           sources/libmesh5.c
                            sources/lplib3.c
                            sources/solve.c
                            sources/sparse.c)
@@ -216,7 +211,7 @@ else ()
 endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-    target_compile_options(Commons PRIVATE -Wunknown-pragmas)
+    #target_compile_options(Commons PRIVATE -Wunknown-pragmas)
     #                                       -Wno-unused-result)
     target_compile_options(Commons PRIVATE -Wall -Wextra -Wpedantic)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
@@ -308,7 +303,7 @@ endif ()
 install(TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib/iscd")
 install(FILES sources/chrono.h
               sources/eigen.h
-              sources/libmeshb7.h
+              sources/libmesh5.h
               sources/lplib3.h
               sources/sparse.h DESTINATION "$ENV{HOME}/include/iscd/Commons")
 
