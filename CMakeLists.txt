@@ -211,9 +211,9 @@ else ()
 endif ()
 
 if (${CMAKE_C_COMPILER_ID} MATCHES GNU)
-    #target_compile_options(Commons PRIVATE -Wunknown-pragmas)
-    #                                       -Wno-unused-result)
-    target_compile_options(Commons PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(Commons PRIVATE -Wunknown-pragmas)
+                                           -Wno-unused-result)
+    #target_compile_options(Commons PRIVATE -Wall -Wextra -Wpedantic)
 elseif (${CMAKE_C_COMPILER_ID} MATCHES Clang
                                    OR ${CMAKE_C_COMPILER_ID} MATCHES AppleClang)
     target_compile_options(Commons PRIVATE -Wsource-uses-openmp)
