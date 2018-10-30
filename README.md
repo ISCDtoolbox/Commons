@@ -4,14 +4,14 @@ The Commons library contains some code written in C that is shared by many ISCD 
 
 ## Quick install (Linux & Mac OS)
 
-To install the Commons library on your system, basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. First, in a command prompt, navigate to the directory where you want to save the files and type successively:
+To install the Commons library on your system, some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. First, in a command prompt, navigate to the directory where you want to save the files and next type successively:
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 cd Commons
 mkdir build
 cd build
 ```
-Then, depending on whether or not you want to benefit from the multi-threading of OpenMP, you can type in the commmand prompt: 
+Then, depending on whether or not you want to benefit from OpenMP parallel features, you can type in the commmand prompt: 
 ```
 cmake ..
 ```
