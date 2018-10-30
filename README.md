@@ -48,6 +48,8 @@ We now list the different packages that are recommended to be installed before c
 * cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
 * git (version >= 1.9.1)
 
+We mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer.
+
 In order to get the current version of a specific software installed on your computer (or simply to know if such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
@@ -123,6 +125,8 @@ We now list the different packages that are recommended to be installed before c
 
 Important remark: if one uses the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested). We refer to the previous similar linux section to get details about the associated libraries that need to be linked.
 
+We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer.
+
 In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
@@ -173,7 +177,7 @@ To install the Commons library on your system, first navigate in a command promp
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 ```
-to clone the repository on your computer (it is also possible to download the files manually from github in a *.zip format in the git software is not installed on your computer)
+to clone the repository on your computer (it is also possible to download the files manually from github in a *.zip format if the git software is not installed on your computer)
 ```
 cd Commons
 ```
@@ -230,15 +234,27 @@ install(FILES sources/chrono.h
               sources/lplib3.h
               sources/sparse.h DESTINATION "${PROJECT_SOURCE_DIR}/include")
 ```
-in the CMakeLists.txt file located in the Commons/ directory. Then, you need to re-install the Commons library. First, locate yourself in the build directory in a command prompt thanks to the 'cd' and 'ls' commands. You can also check in which directory you are by typing
+in the CMakeLists.txt file located in the Commons/ directory. Then, you may need to re-install the Commons library. First, locate yourself in the build directory in a command prompt thanks to the 'cd' and 'ls' commands. You can also check in which directory you are by typing
 ```
 pwd
+```
+You can go in a specific directory by typing
+```
+cd subdirectoryWhereYouWantToGo
+```
+and 
+```
+ls
+```
+to see the content of the current directory. Similarly, you can move to the upper directory by typing
+```
+cd ..
 ```
 Once you are in the correct build directory, you then have to remove all the previous files by typing
 ```
 rm -r ./*
 ```
-Finally, type again the commands descrubed in the compilation part above.
+Finally, type again the commands described in the compilation part above.
 
 ### Linking paths
 You can also check that the needed libraries were correctly linked to the Commons one by typing in a prompt command
