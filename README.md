@@ -2,13 +2,37 @@
 
 The Commons library contains some code written in C that is shared by many ISCD softwares (Linear algebra, basic chronograph, input/output mesh, multi-threading).
 
-## Install (Linux & Mac OS)
+## Quick install (Linux & Mac OS)
 
-We describe here how to properly install the Commons library. Some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from multi-threading) must have been previously intalled. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
+To install the Commons library on your system, basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. First, in a command prompt, navigate to the directory where you want to save the files and type successively:
+```
+git clone https://github.com/ISCDtoolbox/Commons.git
+cd Commons
+mkdir build
+cd build
+```
+Then, depending on whether or not you want to benefit from the multi-threading of OpenMP, you can type in the commmand prompt: 
+```
+cmake ..
+```
+or
+```
+cmake .. -DOPENMP=1
+```
+Finally, compile and install the Commons library on your computer by typing successively in the command prompt
+```
+make
+make install
+```
+
+## Detailed installation guide (Linux & Mac OS)
+
+
+We describe here how to properly install the Commons library. Some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
 
 ### Prerequisites
 
-The compilation of the Commons library has currently been tested on Linux and Mac OS systems for merely the gcc and clang compilers.
+The compilation of the Commons library has been tested on Linux and Mac OS systems for merely the gcc and clang compilers.
 
 #### Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4)
 
@@ -209,7 +233,7 @@ install(FILES sources/chrono.h
 ```
 in the CMakeLists.txt file located in the Commons/ directory.
 
-## Full ISCDtoolbox install (section under constrcution)
+## Full ISCDtoolbox install (section under construction)
 
 In order to install the full ISCDtoolbox suite on your system, download the [install.sh](https://raw.githubusercontent.com/ISCDtoolbox/Commons/master/install.sh) shell script on your computer (right click, save as...), then type in a command prompt:
 ```
