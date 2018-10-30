@@ -4,14 +4,14 @@ The Commons library contains some code written in C that is shared by many ISCD 
 
 ## Quick install (Linux & Mac OS)
 
-To install the Commons library on your system, some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. First, in a command prompt, navigate to the directory where you want to save the files and next type successively:
+To install the Commons library on your system, some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. In a command prompt, first navigate to the directory where you want to save the files and type successively:
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 cd Commons
 mkdir build
 cd build
 ```
-Then, depending on whether or not you want to benefit from OpenMP parallel features, you can type in the commmand prompt: 
+Then, depending on whether or not you want to benefit from OpenMP parallel features, type in the command prompt 
 ```
 cmake ..
 ```
@@ -233,7 +233,7 @@ install(FILES sources/chrono.h
 ```
 in the CMakeLists.txt file located in the Commons/ directory.
 
-## Full ISCDtoolbox install (section under construction)
+## Full ISCDtoolbox install (section under construction, needs to be updated)
 
 In order to install the full ISCDtoolbox suite on your system, download the [install.sh](https://raw.githubusercontent.com/ISCDtoolbox/Commons/master/install.sh) shell script on your computer (right click, save as...), then type in a command prompt:
 ```
