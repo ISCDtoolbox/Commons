@@ -22,10 +22,10 @@ We now list the different packages that are recommended to have been previously 
 
 * gcc (version >= 4.8.4) or clang (version >= 3.8.0 is strongly recommanded)
 * make (version >= 3.81)
-* cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9.1 is recommanded)
+* cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
 * git (version >= 1.9.1)
 
-In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
+In order to get the current version of a specific software installed on your computer (or simply to know if such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
 ```
@@ -37,11 +37,11 @@ in order to let your system access the main repository that contain the canonica
 ```
 sudo apt-add-repository universe
 ```
-which is the repository that constains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator. Then, you may also have to update the repositories which can be done by typing in a prompt command
+which is the repository that contains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator in order to install it properly. Then, you may also have to update the repositories which can be done by typing in a prompt command
 ```
 sudo apt-get update
 ```
-For example, we had to do it for finding git software in the main repository of one of our system (Ubuntu 14.04.5). You can search for a specific package name by typing in a command prompt
+For example, we had to do it for finding the git software in the main repository of one of our system (Ubuntu 14.04.5). You can search for a specific package name by typing in a command prompt
 ```
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
@@ -78,7 +78,7 @@ You can also use the 'locate' command to quickly search for a library but you ma
 ```
 sudo updatedb
 ```
-Then, you can search for a library (such as the previous required ones libc.so, libm.so, libpthread.so, and the optional ones libgomp.so, libomp.so/libiomp5.so) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
+Then, you can search for a library (such as the previous required ones libc.so, libm.so, libpthread.so, and the optional ones libgomp.so/libomp.so or libiomp5.so) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
 ```
 locate NameOfTheLibraryOrTheFileYouWantToSearch
 ```
@@ -95,16 +95,16 @@ We now list the different packages that are recommended to have been previously 
 
 * apple clang (version >= 9.1.0)
 * make (version >= 3.81)
-* cmake (version >= 3.11.4 (>= 2.8 is mandatory) and version >= 3.12.1 is strongly recommanded)
+* cmake (version >= 3.11.4 (>= 2.8 is mandatory) and version >= 3.12 is strongly recommanded)
 * git (version >= 2.17.1)
 
-Important remark: on the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compiler are not the real one. In fact, they are only symbolic link to apple clang. For user who are really using clang or gcc, the installation of the Commons library should also work (although not currently tested).
+Important remark: on the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested).
 
 In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
 ```
-If one of the above software is not installed, you can use your favorite package manager in order to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with mac os). For example, you can use the Homebrew software as follows. First, you may have to update the local repository containing the lists of available packages. This can be done by typing in a prompt command
+If one of the above software is not installed, you can use your favorite package manager in order to install it. We describe now how to do that (if you are not familiar with mac os). For example, you can use the homebrew software as follows. First, you may have to update the local repository containing the list of available packages. This can be done by typing in a prompt command
 ```
 brew update
 ```
@@ -139,18 +139,18 @@ You can also use the 'locate' command to quickly search for a library but you ma
 ```
 sudo /usr/libexec/locate.updatedb
 ```
-Then, you can search for a library (such as the previous required ones libc.dylib, libm.dylib, libpthread.dylib, and the optional ones libgomp.dylib, libomp.dylib/libiomp5.dylib) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
+Then, you can search for a library (such as the previous required ones libc.dylib, libm.dylib, libpthread.dylib, and the optional ones libgomp.dylib/libomp.dylib or libiomp5.dylib) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
 ```
 locate NameOfTheLibraryOrTheFileYouWantToSearch
 ```
 
 ### Compilation
 
-To install the Commons library on your system, first navigate to the directory where you want to save the files. Then, type successively in a command prompt:
+To install the Commons library on your system, first navigate in a command prompt to the directory where you want to save the files (thanks to the 'cd' and 'ls' commands). Then, type successively in a command prompt:
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 ```
-to clone the repository on your computer (it is also possible to download the files manually from github in a *.zip format)
+to clone the repository on your computer (it is also possible to download the files manually from github in a *.zip format in the git software is not installed on your computer)
 ```
 cd Commons
 ```
@@ -170,7 +170,7 @@ or
 ```
 cmake .. -DOPENMP=1
 ```
-to generate the Makefile with cmake (in order to use OpenMP and benefit from multithreading, you need to add -DOPENMP=1 in the cmake command)
+to generate the Makefile with cmake (in order to use OpenMP and benefit from multithreading, you need to add -DOPENMP=1 in the cmake command; note that if you use the older name of the OpenMP library i.e. libiomp, you also have to add a second -DFORCEIOMP=1 flag in the cmake command)
 ```
 make
 ```
@@ -181,9 +181,11 @@ make install
 to install the Commons library on your computer.
 
 ### Installation paths
-By typing "make install" in a prompt command, the Commons library will be installed by default in a lib/iscd/ subdirectory of your home directory (type "echo ${HOME}" in a prompt command to get the full absolute path of your home directory).
-
-Similarly, the public header files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your home directory.
+By typing "make install" in a prompt command, the Commons library will be installed by default  in a lib/iscd/ subdirectory of your home directory. You can type 
+```
+echo ${HOME}
+```
+in a prompt command to get the full absolute path of your home directory. Similarly, the public header files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your home directory.
 
 If one wants to change the installation paths for the Commons library and associated public header files, one has to modify the CMakeLists.txt file located in the Commons/ directory, and correct the lines
 ```
