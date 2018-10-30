@@ -25,10 +25,9 @@ make
 make install
 ```
 
-## Detailed installation guide (Linux & Mac OS)
+## Detailed installation guide
 
-
-We describe here how to properly install the Commons library. Some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
+We try to provide here some details about how you can properly install the Commons library if the above procedure did not work. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
 
 ### Prerequisites
 
@@ -40,7 +39,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 lsb_release -a
 ```
-We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to be installed before installing the Commons library on linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -53,7 +52,7 @@ In order to get the current version of a specific software installed on your com
 ```
 nameOfTheSoftware --version
 ```
-If one of the above software is not installed, you can use your favorite package manager in order to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with linux). For example, on Debian systems such as Ubuntu, you can use the apt software as follows. First type in a command prompt
+If one of the above software is not installed, you can use your favorite package manager to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with linux). For example, on Debian systems such as Ubuntu, you can use the apt software as follows. First type in a command prompt
 ```
 sudo apt-add-repository main
 ```
