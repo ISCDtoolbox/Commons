@@ -1,35 +1,158 @@
 # Commons [![Build Status](https://travis-ci.org/ISCDtoolbox/Commons.svg?branch=test_future_update)](https://travis-ci.org/ISCDtoolbox/Commons)
 
-The Commons library contains some code written in C that is shared by many ISCD softwares (Linear algebra, Chrono, Input/Output mesh, ...).
+The Commons library contains some code written in C that is shared by many ISCD softwares (Linear algebra, basic chronograph, input/output mesh, multi-threading).
 
 ## Install (Linux & Mac OS)
+
+We describe here how to properly install the Commons library. Some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp1/libomp-dev to benefit from multi-threading) must have been previously intalled. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
 
 ### Prerequisites
 
 The compilation of the Commons library has currently been tested on Linux and Mac OS systems for merely the gcc and clang compilers.
 
-On Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4), it is recommanded to have previously installed the following packages:
+#### Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4)
 
-* gcc (version >= 4.8.4) or clang (version >= 3.8.0)
-* make (version >= 4.1)
-* cmake (version >= 3.5.1 is mandatory and version >= 3.9.1 is recommanded)
-* git (version >= 2.7.4)
- 
-and optionally, if you want to use OpenMP and benefit from multithreading:
+In order to know precisely the version of your operating system, you can type in a command prompt
+```
+lsb_release -a
+```
+We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on linux systems.
 
-* libpthread-stubs0-dev (version >= 0.3-4) which is an additional multithreading library that may be used by OpenMp
+We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+
+##### Required softwares
+
+* gcc (version >= 4.8.4) or clang (version >= 3.8.0 is strongly recommanded)
+* make (version >= 3.81)
+* cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9.1 is recommanded)
+* git (version >= 1.9.1)
+
+In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
+```
+nameOfTheSoftware --version
+```
+If one of the above software is not installed, you can use your favorite package manager in order to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with linux). For example, on Debian systems such as Ubuntu, you can use the apt software as follows. First type in a command prompt
+```
+sudo apt-add-repository main
+```
+in order to let your system access the main repository that contain the canonical-supported free and open-source softwares such as gcc, make, or cmake (normally this should be already active by default). Similarly, type in a command prompt
+```
+sudo apt-add-repository universe
+```
+which is the repository that constains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator.
+
+Then, you may also have to update the repositories which can be done by typing in a prompt command
+```
+sudo apt-get update
+```
+For example, we had to do it for finding git software in the main repository of one of our system (Ubuntu 14.04.5). You can search for a specific package name by typing in a command prompt
+```
+apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
+```
+We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search.
+
+Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
+```
+sudo apt-get install softwareOrPackageYouWantToInstall
+```
+If the software/package is already installed, you may want to upgrade the version by typing in a command prompt
+```
+sudo apt-get upgrade softwareOrPackageYouWantToUpgrade
+```
+
+##### Additional packages (optional)
+
+The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.so, the Math library libm.so, and the Thread library libpthread.so should already be installed by default on your linux system as well as their associated header files.
+
+Optionally, you may want to benefit from multi-threading by using the OpenMP library, whose name depends on the compiler you are using (libgomp.so with gcc and libomp.so with clang). This library as well as its associated header files should also be already installed on your computer but contrarily to the previous libraries, this one is only optional.  
+
+Hence, you should not have to install any further packages but we give here some hints on how to do it if such libraries are not found on your system during the installation procedure of the Commons library.
+
+* libc6-dev (version 2.23) package which contains the GNU C Library (development libraries and header files) and in particular the Math library (and normally also the Thread library)
+
+* libpthread-stubs0-dev (version >= 0.3-4) package which contains pthread stubs not provided by native libc, development files (you can install it if the Thread library is not found at installation)
+
 * libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers.
 
-On Mac OS systems (tested on Mac OS X 10.13.3), it is recommmanded to have previously installed the following packages:
+Important remark: the previous name of the libiomp.so library was the libiomp5.so one. Hence, on old version of Ubuntu, you way have to search for the libiomp-dev package instead of the libomp-dev one. Moreover, your version of clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. That is why we recommand to compile the Commons library with gcc compiler on linux systems.
+
+If you are not familiar with linux, we refer to the previous section for hints about how to search, install or upgrade a package. We now detail how to search for libraries in a linux system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt 
+```
+lscpu
+```
+You can also use the 'locate' command to quickly search for a library but you may first have to update the cache file by typing in a command prompt (you need administrator rights to do that)
+```
+sudo updatedb
+```
+Then, you can search for a library (such as the previous required ones libc.so, libm.so, libpthread.so, and the optional ones libgomp.so, libomp.so/libiomp5.so) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
+```
+locate NameOfTheLibraryOrTheFileYouWantToSearch
+```
+
+#### Mac OS systems (tested on Mac OS X 10.13.3 and Mac OS X 10.13.6)
+
+In order to know precisely the version of your operating system, you can type in a command prompt
+```
+sw_vers
+```
+We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on mac os systems.
+
+We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+
+##### Required softwares
 
 * apple clang (version >= 9.1.0)
-* make (version >= 4.1)
-* cmake (version >= 3.5.1 is mandatory and version >= 3.12.1 is strongly recommanded)
-* git (version >= 2.7.4)
+* make (version >= 3.81)
+* cmake (version >= 3.11.4 (>= 2.8 is mandatory) and version >= 3.12.1 is strongly recommanded)
+* git (version >= 2.17.1)
 
-and optionally if you want to use OpenMP and benefit from multithreading:
+Important remark: on the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compiler are not the real one. In fact, they are only symbolic link to apple clang. For user who are really using clang or gcc, the installation of the Commons library should also work (although not currently tested).
 
-* libomp (version >= 6.0.1), which is the OpenMP library used by the apple clang compiler.
+In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
+```
+nameOfTheSoftware --version
+```
+If one of the above software is not installed, you can use your favorite package manager in order to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with mac os). For example, you can use the Homebrew software as follows. First, you may have to update the local repository containing the lists of available packages. This can be done by typing in a prompt command
+```
+brew update
+```
+Then, you can search for a specific package name by typing in a command prompt
+```
+brew search approximateNameOfYourPackageOrNameOfYourSearch
+```
+We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search.
+
+Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
+```
+brew install softwareOrPackageYouWantToInstall
+```
+If the software/package is already installed, you may want to upgrade the version by typing in a command prompt
+```
+brew upgrade softwareOrPackageYouWantToUpgrade
+```
+
+##### Additional packages (optional)
+
+The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.dylib, the Math library libm.dylib, and the Thread library libpthread.dylib should already be installed by default on your mac os system (and pointing to the libSystem.B.dylib library) as well as their associated header files.
+
+Optionally, you may want to benefit from multi-threading by using the OpenMP library (libomp.dylib with apple clang). This library as well as its associated header files should not be installed on your computer by default, contrarily to the previous libraries. It is only optional and for installing it, just type in a command prompt
+```
+brew install libomp
+```
+Important remark: the previous name of the libiomp.dylib library was the libiomp5.dylib one. Hence, on old version of mac os, you way have to search for the libiomp package instead of the libomp one. Moreover, your version of apple clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. Similarly, we recommand to use the most recent available version of cmake (>=3.12) if one wants the OpenMP library to be properly targetted at the compilation of the Commons library.
+
+If you are not familiar with mac os, we refer to the previous section for hints about how to search, install or upgrade a package. We now detail how to search for libraries in a mac os system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt 
+```
+sysctl hw
+```
+You can also use the 'locate' command to quickly search for a library but you may first have to update the cache file by typing in a command prompt (you need administrator rights to do that)
+```
+sudo /usr/libexec/locate.updatedb
+```
+Then, you can search for a library (such as the previous required ones libc.dylib, libm.dylib, libpthread.dylib, and the optional ones libgomp.dylib, libomp.dylib/libiomp5.dylib) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
+```
+locate NameOfTheLibraryOrTheFileYouWantToSearch
+```
 
 ### Compilation
 
