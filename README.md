@@ -4,7 +4,7 @@ The Commons library contains some code written in C that is shared by many ISCD 
 
 ## Install (Linux & Mac OS)
 
-We describe here how to properly install the Commons library. Some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp1/libomp-dev to benefit from multi-threading) must have been previously intalled. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
+We describe here how to properly install the Commons library. Some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from multi-threading) must have been previously intalled. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
 
 ### Prerequisites
 
@@ -16,9 +16,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 lsb_release -a
 ```
-We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on linux systems.
-
-We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -39,9 +37,7 @@ in order to let your system access the main repository that contain the canonica
 ```
 sudo apt-add-repository universe
 ```
-which is the repository that constains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator.
-
-Then, you may also have to update the repositories which can be done by typing in a prompt command
+which is the repository that constains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator. Then, you may also have to update the repositories which can be done by typing in a prompt command
 ```
 sudo apt-get update
 ```
@@ -49,9 +45,7 @@ For example, we had to do it for finding git software in the main repository of 
 ```
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
-We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search.
-
-Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
+We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
 ```
 sudo apt-get install softwareOrPackageYouWantToInstall
 ```
@@ -95,9 +89,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 sw_vers
 ```
-We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on mac os systems.
-
-We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on mac os systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -120,9 +112,7 @@ Then, you can search for a specific package name by typing in a command prompt
 ```
 brew search approximateNameOfYourPackageOrNameOfYourSearch
 ```
-We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search.
-
-Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
+We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
 ```
 brew install softwareOrPackageYouWantToInstall
 ```
