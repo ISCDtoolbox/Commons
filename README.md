@@ -11,7 +11,7 @@ cd Commons
 mkdir build
 cd build
 ```
-Then, depending on whether or not you want to benefit from OpenMP parallel features, type in the command prompt 
+Then, depending on whether or not you want to benefit from OpenMP parallel features, type in the command prompt
 ```
 cmake ..
 ```
@@ -39,7 +39,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 lsb_release -a
 ```
-We now list the different packages that are recommended to be installed before installing the Commons library on linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to be installed before compiling the Commons library on linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -60,7 +60,7 @@ in order to let your system access the main repository that contain the canonica
 ```
 sudo apt-add-repository universe
 ```
-which is the repository that contains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator in order to install it properly. Then, you may also have to update the repositories which can be done by typing in a prompt command
+which is the repository that contains community-maintained free and open-source softwares such as clang-3.8. We recall that the sudo word implies that you will run a command using the administrator rights. If you do not have the password for this, you may have to contact your system administrator in order to install it properly. Then, you may also have to update the repositories which can be done by typing in a command prompt
 ```
 sudo apt-get update
 ```
@@ -68,7 +68,7 @@ For example, we had to do it for finding the git software in the main repository
 ```
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
-We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
+We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a command prompt
 ```
 sudo apt-get install softwareOrPackageYouWantToInstall
 ```
@@ -81,7 +81,7 @@ sudo apt-get upgrade softwareOrPackageYouWantToUpgrade
 
 The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.so, the Math library libm.so, and the Thread library libpthread.so should already be installed by default on your linux system as well as their associated header files.
 
-Optionally, you may want to benefit from multi-threading by using the OpenMP library, whose name depends on the compiler you are using (libgomp.so with gcc and libomp.so with clang). This library as well as its associated header files should also be already installed on your computer but contrarily to the previous libraries, this one is only optional.  
+Optionally, you may want to benefit from multi-threading by using the OpenMP library, whose name depends on the compiler you are using (libgomp.so with gcc and libomp.so with clang). This library as well as its associated header files should also be already installed on your computer but contrarily to the previous libraries, this one is only optional.
 
 Hence, you should not have to install any further packages but we give here some hints on how to do it if such libraries are not found on your system during the installation procedure of the Commons library.
 
@@ -91,9 +91,9 @@ Hence, you should not have to install any further packages but we give here some
 
 * libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers.
 
-Important remark: the previous name of the libiomp.so library was the libiomp5.so one. Hence, on old version of Ubuntu, you way have to search for the libiomp-dev package instead of the libomp-dev one. Moreover, your version of clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. That is why we recommand to compile the Commons library with gcc compiler on linux systems.
+Important remark: the previous name of the libiomp.so library was the libiomp5.so one. Hence, on old version of linux, you may have to search for the libiomp-dev package instead of the libomp-dev one. Moreover, your version of clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. That is why we recommand to compile the Commons library with gcc compiler on linux systems.
 
-If you are not familiar with linux, we refer to the previous section for hints about how to search, install or upgrade a package. We now detail how to search for libraries in a linux system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt 
+If you are not familiar with linux, we refer to the previous section for hints about how to search, install or upgrade a package with apt. We now detail how to search for libraries in a linux system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt
 ```
 lscpu
 ```
@@ -101,7 +101,7 @@ You can also use the 'locate' command to quickly search for a library but you ma
 ```
 sudo updatedb
 ```
-Then, you can search for a library (such as the previous required ones libc.so, libm.so, libpthread.so, and the optional ones libgomp.so/libomp.so or libiomp5.so) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
+Then, you can search for a library (such as the previous required ones libc.so, libm.so, libpthread.so, and the optional ones libgomp.so/libomp.so or libiomp5.so) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a command prompt
 ```
 locate NameOfTheLibraryOrTheFileYouWantToSearch
 ```
@@ -112,7 +112,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 sw_vers
 ```
-We now list the different packages that are recommended to have been previously installed in order to properly compile the Commons library on mac os systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to be installed before compiling the Commons library on mac os systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -121,13 +121,13 @@ We now list the different packages that are recommended to have been previously 
 * cmake (version >= 3.11.4 (>= 2.8 is mandatory) and version >= 3.12 is strongly recommanded)
 * git (version >= 2.17.1)
 
-Important remark: on the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested).
+Important remark: if one uses the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested). We refer to the previous similar linux section to get details about the associated libraries that need to be linked.
 
 In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
 ```
-If one of the above software is not installed, you can use your favorite package manager in order to install it. We describe now how to do that (if you are not familiar with mac os). For example, you can use the homebrew software as follows. First, you may have to update the local repository containing the list of available packages. This can be done by typing in a prompt command
+If one of the above software is not installed, you can use your favorite package manager in order to install it. We describe now how to do that (if you are not familiar with mac os). For example, you can use the homebrew software as follows. First, you may have to update the local repository containing the list of available packages. This can be done by typing in a command prompt
 ```
 brew update
 ```
@@ -135,7 +135,7 @@ Then, you can search for a specific package name by typing in a command prompt
 ```
 brew search approximateNameOfYourPackageOrNameOfYourSearch
 ```
-We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a prompt command
+We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a command prompt
 ```
 brew install softwareOrPackageYouWantToInstall
 ```
@@ -154,7 +154,7 @@ brew install libomp
 ```
 Important remark: the previous name of the libiomp.dylib library was the libiomp5.dylib one. Hence, on old version of mac os, you way have to search for the libiomp package instead of the libomp one. Moreover, your version of apple clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. Similarly, we recommand to use the most recent available version of cmake (>=3.12) if one wants the OpenMP library to be properly targetted at the compilation of the Commons library.
 
-If you are not familiar with mac os, we refer to the previous section for hints about how to search, install or upgrade a package. We now detail how to search for libraries in a mac os system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt 
+If you are not familiar with mac os, we refer to the previous section for hints about how to search, install or upgrade a package with homebrew. We now detail how to search for libraries in a mac os system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt
 ```
 sysctl hw
 ```
@@ -162,7 +162,7 @@ You can also use the 'locate' command to quickly search for a library but you ma
 ```
 sudo /usr/libexec/locate.updatedb
 ```
-Then, you can search for a library (such as the previous required ones libc.dylib, libm.dylib, libpthread.dylib, and the optional ones libgomp.dylib/libomp.dylib or libiomp5.dylib) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a prompt command
+Then, you can search for a library (such as the previous required ones libc.dylib, libm.dylib, libpthread.dylib, and the optional ones libgomp.dylib/libomp.dylib or libiomp5.dylib) or simply a file (such as their associated headers like stdlib.h, math.h, pthread.h, omp.h) by typing in a command prompt
 ```
 locate NameOfTheLibraryOrTheFileYouWantToSearch
 ```
@@ -204,11 +204,11 @@ make install
 to install the Commons library on your computer.
 
 ### Installation paths
-By typing "make install" in a prompt command, the Commons library will be installed by default  in a lib/iscd/ subdirectory of your home directory. You can type 
+By typing "make install" in a command prompt, the Commons library will be installed by default  in a lib/iscd/ subdirectory of your home directory. You can type
 ```
 echo ${HOME}
 ```
-in a prompt command to get the full absolute path of your home directory. Similarly, the public header files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your home directory.
+in a command prompt to get the full absolute path of your home directory. Similarly, the public header files related to the Commons library will be installed by default in a include/iscd/Commons/ subdirectory of your home directory.
 
 If one wants to change the installation paths for the Commons library and associated public header files, one has to modify the CMakeLists.txt file located in the Commons/ directory, and correct the lines
 ```
@@ -230,7 +230,26 @@ install(FILES sources/chrono.h
               sources/lplib3.h
               sources/sparse.h DESTINATION "${PROJECT_SOURCE_DIR}/include")
 ```
-in the CMakeLists.txt file located in the Commons/ directory.
+in the CMakeLists.txt file located in the Commons/ directory. Then, you need to re-install the Commons library. First, locate yourself in the build directory in a command prompt thanks to the 'cd' and 'ls' commands. You can also check in which directory you are by typing
+```
+pwd
+```
+Once you are in the correct build directory, you then have to remove all the previous files by typing
+```
+rm -r ./*
+```
+Finally, type again the commands descrubed in the compilation part above.
+
+### Linking paths
+You can also check that the needed libraries were correctly linked to the Commons one by typing in a prompt command
+```
+ldd pathWhereYourCommonsLibraryHasBeenInstalled/libCommons.so
+```
+if you are on linux or 
+```
+otool -L pathWhereYourCommonsLibraryHasBeenInstalled/libCommons.dylib
+```
+if you are on mac os.
 
 ## Full ISCDtoolbox install (section under construction, needs to be updated)
 
