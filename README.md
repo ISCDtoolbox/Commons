@@ -2,7 +2,7 @@
 
 The Commons library contains some code written in C that is shared by many ISCD softwares (Linear algebra, basic chronograph, input/output mesh, multi-threading).
 
-In the first two sections, we provide informations about how to install the Commons library, while in a third part, we explain how to install the full ISCDtoolbox suite. Licence, credits and authors are detailed at the end of this file.
+In the first two sections, we provide informations about how to install the Commons library, while in a third part, we explain how to install the full ISCDtoolbox suite. Authors, contributors, credits, and licenses are detailed at the end of this file.
 
 ## Quick install (Linux & Mac OS)
 
