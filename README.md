@@ -293,7 +293,7 @@ Contributors to any ISCD project are warmly welcomed.
 The github pages of the libmesh and lplib libraries
 
 *<a href="https://github.com/LoicMarechal/libMeshb" target="_blank">libmesh</a>
-* [libmesh](https://github.com/LoicMarechal/libMeshb){:target="_blank"}
+* [libmesh{:target="_blank"}](https://github.com/LoicMarechal/libMeshb)
 * [lplib](https://github.com/LoicMarechal/LPlib)
 
 ## License
