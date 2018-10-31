@@ -50,7 +50,7 @@ We now list the different packages that are recommended to be installed before c
 * cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
 * git (version >= 1.9.1)
 
-We mention that git is only used here to clone the Commons repository on your computer but it is also possible to download the files manually from github in a *.zip archive format if git is not installed on your computer (just go to the upper right part of the curretn [project page](https://github.com/ISCDtoolbox/Commons/tree/test_future_update), click on the button Clone or download, and then Download ZIP).
+We mention that git is only used here to clone the Commons repository on your computer but it is also possible to download the files manually from github in a *.zip archive format if git is not installed on your computer (just go to the upper right part of the current [project page](https://github.com/ISCDtoolbox/Commons), click on the button Clone or download, and then Download ZIP).
 
 In order to get the current version of a specific software installed on your computer (or simply to know if such a software is installed), you can type in a command prompt
 ```
@@ -127,7 +127,7 @@ We now list the different packages that are recommended to be installed before c
 
 Important remark: if one uses the basic installation of Xcode (version >= 9.4.1), which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested). We refer to the previous similar Linux section to get details about the associated libraries that need to be linked.
 
-We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip archive format if git is not installed on your computer (just go to the upper right part of the current [project page](https://github.com/ISCDtoolbox/Commons/tree/test_future_update), click on the button Clone or download, and then Download ZIP).
+We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip archive format if git is not installed on your computer (just go to the upper right part of the current [project page](https://github.com/ISCDtoolbox/Commons), click on the button Clone or download, and then Download ZIP).
 
 In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
 ```
@@ -179,7 +179,7 @@ To install the Commons library on your system, first navigate in a command promp
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 ```
-to clone the repository on your computer (we recall that it is also possible to download the files manually from github in a *.zip archive format if the git software is not installed on your computer, just go to the upper right part of the current [project page](https://github.com/ISCDtoolbox/Commons/tree/test_future_update), click on the button Clone or download, and then Download ZIP)
+to clone the repository on your computer (we recall that it is also possible to download the files manually from github in a *.zip archive format if the git software is not installed on your computer, just go to the upper right part of the current [project page](https://github.com/ISCDtoolbox/Commons), click on the button Clone or download, and then Download ZIP)
 ```
 cd Commons
 ```
@@ -292,9 +292,20 @@ Contributors to any ISCD project are warmly welcomed.
 
 The github pages of the libmesh and lplib libraries
 
-*<a href="https://github.com/LoicMarechal/libMeshb" target="_blank">libmesh</a>
-* [libmesh{:target="_blank"}](https://github.com/LoicMarechal/libMeshb)
+* [libmesh](https://github.com/LoicMarechal/libMeshb)
 * [lplib](https://github.com/LoicMarechal/LPlib)
+
+and the github pages of the ISCD projects that use the Commons library
+
+* [Mshdist](https://github.com/ISCDtoolbox/Mshdist)
+* [MPD](https://github.com/ISCDtoolbox/MPD)
+* [NavierStokes](https://github.com/ISCDtoolbox/NavierStokes)
+* [VelocityExtension](https://github.com/ISCDtoolbox/VelocityExtension)
+* [Advection](https://github.com/ISCDtoolbox/Advection)
+* [LinearElasticity](https://github.com/ISCDtoolbox/LinearElasticity)
+* [Morphing](https://github.com/ISCDtoolbox/Morphing)
+* [Warping](https://github.com/ISCDtoolbox/Warping)
+* [AdaptTools](https://github.com/ISCDtoolbox/AdaptTools)
 
 ## License
 
