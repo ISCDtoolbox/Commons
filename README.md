@@ -29,7 +29,7 @@ make install
 
 ## Detailed installation guide
 
-We try to provide here some details about how you can properly install the Commons library if the above procedure did not work. First, we describe what is needed before, distinguishing linux from mac os systems. Then, we detail the compilation part and we finally focus on the installation and linking paths.
+We try to provide here some details about how you can properly install the Commons library if the above procedure did not work. First, we describe what is needed before, distinguishing Linux from Mac OS systems. Then, we detail the compilation part and we finally focus on the installation and linking paths.
 
 ### Prerequisites
 
@@ -41,7 +41,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 lsb_release -a
 ```
-We now list the different packages that are recommended to be installed before compiling the Commons library on linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to be installed before compiling the Commons library on Linux systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -50,13 +50,13 @@ We now list the different packages that are recommended to be installed before c
 * cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
 * git (version >= 1.9.1)
 
-We mention that git is only used here to clone the Commons repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer (just go to the upper right part of the current page, click on the button Clone or dowload, and then download ZIP).
+We mention that git is only used here to clone the Commons repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer (just go to the upper right part of the current page, click on the button Clone or dowload, and then Download ZIP).
 
 In order to get the current version of a specific software installed on your computer (or simply to know if such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
 ```
-If one of the above software is not installed, you can use your favorite package manager to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with linux). For example, on Debian systems such as Ubuntu, you can use the apt software as follows. First type in a command prompt
+If one of the above software is not installed, you can use your favorite package manager to install it (you will need administrator rights to do that). We describe now how to do that (if you are not familiar with Linux). For example, on Debian systems such as Ubuntu, you can use the apt software as follows. First type in a command prompt
 ```
 sudo apt-add-repository main
 ```
@@ -72,6 +72,10 @@ For example, we had to do it for finding the git software in the main repository
 ```
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
+You can also list its different dependencies by typing in a commande prompt
+```
+apt-cache depends nameOfYourPackageYouWantToSeeTheDependencies
+```
 We recall that you cannot use blank spaces in your search or if you want to do so, simply put some " " to begin and end your search. Finally, when you have found the precise name of the software/package you want to install, you can type in a command prompt
 ```
 sudo apt-get install softwareOrPackageYouWantToInstall
@@ -83,7 +87,7 @@ sudo apt-get upgrade softwareOrPackageYouWantToUpgrade
 
 ##### Additional packages (optional)
 
-The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.so, the Math library libm.so, and the Thread library libpthread.so should already be installed by default on your linux system as well as their associated header files.
+The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.so, the Math library libm.so, and the Thread library libpthread.so should already be installed by default on your Linux system as well as their associated header files.
 
 Optionally, you may want to benefit from multi-threading by using the OpenMP library, whose name depends on the compiler you are using (libgomp.so with gcc and libomp.so with clang). This library as well as its associated header files should also be already installed on your computer but contrarily to the previous libraries, this one is only optional.
 
@@ -95,9 +99,9 @@ Hence, you should not have to install any further packages but we give here some
 
 * libgomp1 (version >= 5.4.0) if you use gcc or libomp-dev (version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by the respective compilers.
 
-Important remark: the previous name of the libiomp.so library was the libiomp5.so one. Hence, on old version of linux, you may have to search for the libiomp-dev package instead of the libomp-dev one. Moreover, your version of clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. That is why we recommand to compile the Commons library with gcc compiler on linux systems.
+Important remark: the previous name of the libomp.so library was the libiomp5.so one. Hence, on old version of Linux, you may have to search for the libiomp-dev package instead of the libomp-dev one. Moreover, your version of clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. That is why we recommand to compile the Commons library with gcc compiler on Linux systems.
 
-If you are not familiar with linux, we refer to the previous section for hints about how to search, install or upgrade a package with apt. We now detail how to search for libraries in a linux system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt
+If you are not familiar with Linux, we refer to the previous section for hints about how to search, install or upgrade a package with apt. We now detail how to search for libraries in a Linux system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt
 ```
 lscpu
 ```
@@ -116,7 +120,7 @@ In order to know precisely the version of your operating system, you can type in
 ```
 sw_vers
 ```
-We now list the different packages that are recommended to be installed before compiling the Commons library on mac os systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
+We now list the different packages that are recommended to be installed before compiling the Commons library on Mac OS systems. We also specify between parenthesis the versions of the packages we have used to perform successful compilation tests. Hence, it is recommmanded to have versions that are greater or equal than the ones given below.
 
 ##### Required softwares
 
@@ -125,15 +129,15 @@ We now list the different packages that are recommended to be installed before c
 * cmake (version >= 3.11.4 (>= 2.8 is mandatory) and version >= 3.12 is strongly recommanded)
 * git (version >= 2.17.1)
 
-Important remark: if one uses the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested). We refer to the previous similar linux section to get details about the associated libraries that need to be linked.
+Important remark: if one uses the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested). We refer to the previous similar Linux section to get details about the associated libraries that need to be linked.
 
-We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer (just go to the upper right part of the current page, click on the button Clone or dowload, and then download ZIP).
+We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer (just go to the upper right part of the current page, click on the button Clone or dowload, and then Download ZIP).
 
 In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
 ```
 nameOfTheSoftware --version
 ```
-If one of the above software is not installed, you can use your favorite package manager in order to install it. We describe now how to do that (if you are not familiar with mac os). For example, you can use the homebrew software as follows. First, you may have to update the local repository containing the list of available packages. This can be done by typing in a command prompt
+If one of the above software is not installed, you can use your favorite package manager in order to install it. We describe now how to do that (if you are not familiar with Mac OS). For example, you can use the homebrew software as follows. First, you may have to update the local repository containing the list of available packages. This can be done by typing in a command prompt
 ```
 brew update
 ```
@@ -152,15 +156,15 @@ brew upgrade softwareOrPackageYouWantToUpgrade
 
 ##### Additional packages (optional)
 
-The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.dylib, the Math library libm.dylib, and the Thread library libpthread.dylib should already be installed by default on your mac os system (and pointing to the libSystem.B.dylib library) as well as their associated header files.
+The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.dylib, the Math library libm.dylib, and the Thread library libpthread.dylib should already be installed by default on your Mac OS system (and pointing to the libSystem.B.dylib library) as well as their associated header files.
 
 Optionally, you may want to benefit from multi-threading by using the OpenMP library (libomp.dylib with apple clang). This library as well as its associated header files should not be installed on your computer by default, contrarily to the previous libraries. It is only optional and for installing it, just type in a command prompt
 ```
 brew install libomp
 ```
-Important remark: the previous name of the libiomp.dylib library was the libiomp5.dylib one. Hence, on old version of mac os, you way have to search for the libiomp package instead of the libomp one. Moreover, your version of apple clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. Similarly, we recommand to use the most recent available version of cmake (>=3.12) if one wants the OpenMP library to be properly targetted at the compilation of the Commons library.
+Important remark: the previous name of the libomp.dylib library was the libiomp5.dylib one. Hence, on old version of Mac OS, you way have to search for the libiomp package instead of the libomp one. Moreover, your version of apple clang should not be currently less than 3.8 in order to properly support the OpenMP library (if you want to do so, we recall this is only optional here). We recall that contrarily to the gcc compiler, clang was not originally supporting OpenMP but has been integrated to the llvm project for sufficiently recent version of their c-compiler (i.e. clang). If you really want to use OpenMP with the Commons library compiled with an old version of clang, you may have to do it manually (using omp-clang for example) but for really old versions of clang, it will simply not be possible. Similarly, we recommand to use the most recent available version of cmake (>=3.12) if one wants the OpenMP library to be properly targetted at the compilation of the Commons library.
 
-If you are not familiar with mac os, we refer to the previous section for hints about how to search, install or upgrade a package with homebrew. We now detail how to search for libraries in a mac os system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt
+If you are not familiar with Mac OS, we refer to the previous section for hints about how to search, install or upgrade a package with homebrew. We now detail how to search for libraries in a Mac OS system. First of all, in the case you want to use multi-threading, you can obtain the total number of cpu of your system by typing in a command prompt
 ```
 sysctl hw
 ```
@@ -179,7 +183,7 @@ To install the Commons library on your system, first navigate in a command promp
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 ```
-to clone the repository on your computer (it is also possible to download the files manually from github in a *.zip format if the git software is not installed on your computer)
+to clone the repository on your computer (we recall that it is also possible to download the files manually from github in a *.zip format if the git software is not installed on your computer, just go to the upper right part of the current page, click on the button Clone or dowload, and then Download ZIP)
 ```
 cd Commons
 ```
@@ -207,7 +211,10 @@ to compile the Commons library with make
 ```
 make install
 ```
-to install the Commons library on your computer.
+to install the Commons library on your computer. Depending on where is located your installation paths, you may also need the administrator rights in order to do that. In this case, you need to type in the command prompt
+```
+sudo make install
+```
 
 ### Installation paths
 By typing "make install" in a command prompt, the Commons library will be installed by default  in a lib/iscd/ subdirectory of your home directory. You can type
@@ -244,7 +251,7 @@ You can go in a specific directory by typing
 ```
 cd subdirectoryWhereYouWantToGo
 ```
-and 
+and
 ```
 ls
 ```
@@ -259,15 +266,15 @@ rm -r ./*
 Finally, type again the commands described in the compilation part above.
 
 ### Linking paths
-You can also check that the needed libraries were correctly linked to the Commons one by typing in a prompt command
+You can also check that the needed libraries were correctly linked to the Commons one by typing in a command prompt
 ```
 ldd pathWhereYourCommonsLibraryHasBeenInstalled/libCommons.so
 ```
-if you are on linux or 
+if you are on Linux or
 ```
 otool -L pathWhereYourCommonsLibraryHasBeenInstalled/libCommons.dylib
 ```
-if you are on mac os.
+if you are on Mac OS.
 
 ## Full ISCDtoolbox install (section under construction, needs to be updated)
 
@@ -276,3 +283,23 @@ In order to install the full ISCDtoolbox suite on your system, download the [ins
 sh install.sh
 ```
 If no error occured, the ISCDtoolbox suite should be properly installed on your system, with sources present in ~/dev/ISCDtoolbox/ directory.
+
+## Authors & contributors
+
+The Commons library contains a set of tools developped and maintained by [Pascal Frey](https://www.ljll.math.upmc.fr/frey/) (Sorbonne Université) and [Loïc Maréchal](http://pages.saclay.inria.fr/loic.marechal/About_Me.html) (INRIA Saclay).
+
+The github page has been created by [Loïc Norgeot](https://fr.linkedin.com/in/lnorgeot) and is currently updated by [Jérémy Dalphin](http://pelikano.free.fr/JeremyDalphin.html).
+
+Contributors to any ISCD project are warmly welcomed.
+
+## Credits
+
+The github pages of the libmesh and lplib libraries
+
+* [libmesh](https://github.com/LoicMarechal/libMeshb)
+* [lplib](https://github.com/LoicMarechal/LPlib)
+
+## License
+
+The Commons library is given under the [terms of the GNU Lesser General Public License] (LICENSE.md).
+
