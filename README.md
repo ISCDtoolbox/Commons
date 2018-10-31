@@ -297,5 +297,5 @@ The github pages of the libmesh and lplib libraries
 
 ## License
 
-The Commons library is given under the [terms of the GNU Lesser General Public License] (LICENSE).
+The Commons library is given under the [terms of the GNU Lesser General Public License] (https://github.com/ISCDtoolbox/Commons/blob/test_future_update/LICENSE).
 
