@@ -29,7 +29,7 @@ make install
 
 ## Detailed installation guide
 
-We try to provide here some details about how you can properly install the Commons library if the above procedure did not work. We refer to the next section if one wants to install the full ISCDtoolbox suite on his system.
+We try to provide here some details about how you can properly install the Commons library if the above procedure did not work. First, we describe what is needed before, distinguishing linux from mac os systems. Then, we detail the compilation part and we finally focus on the installation and linking paths.
 
 ### Prerequisites
 
