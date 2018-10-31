@@ -152,7 +152,7 @@ brew upgrade softwareOrPackageYouWantToUpgrade
 
 ##### Additional packages (optional)
 
-The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.dylib, the Math library libm.dylib, and the Thread library libpthread.dylib should already be installed by default on your Mac OS system (and pointing to the libSystem.B.dylib library) as well as their associated header files.
+The previous softwares were needed to load and compile properly the Commons library but we also need to link some additional libraries. Normally, by default, the C-standard library libc.dylib, the Math library libm.dylib, and the Thread library libpthread.dylib should already be installed by default on your Mac OS system (and both be symbolic links pointing in fact to the libSystem.B.dylib library) as well as their associated header files.
 
 Optionally, you may want to benefit from multi-threading by using the OpenMP library (libomp.dylib with apple clang). This library as well as its associated header files should not be installed on your computer by default, contrarily to the previous libraries. It is only optional and for installing it, just type in a command prompt
 ```
