@@ -2,6 +2,8 @@
 
 The Commons library contains some code written in C that is shared by many ISCD softwares (Linear algebra, basic chronograph, input/output mesh, multi-threading).
 
+In the first two sections, we provide informations about how to install the Commons library, while in a third part, we explain how to install the full ISCDtoolbox suite.
+
 ## Quick install (Linux & Mac OS)
 
 To install the Commons library on your system, some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. In a command prompt, first navigate to the directory where you want to save the files and type successively:
@@ -48,7 +50,7 @@ We now list the different packages that are recommended to be installed before c
 * cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
 * git (version >= 1.9.1)
 
-We mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer.
+We mention that git is only used here to clone the Commons repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer (just go to the upper right part of the current page, click on the button Clone or dowload, and then download ZIP).
 
 In order to get the current version of a specific software installed on your computer (or simply to know if such a software is installed), you can type in a command prompt
 ```
@@ -125,7 +127,7 @@ We now list the different packages that are recommended to be installed before c
 
 Important remark: if one uses the basic installation of Xcode, which is the software Apple imposes you to install from the Apple Store in order to deal with any development tools, the gcc and clang compilers are not the real ones. In fact, they are only symbolic links to the apple clang compiler. For user who are really using clang or gcc, the installation of the Commons library should also work in this case (although not currently tested). We refer to the previous similar linux section to get details about the associated libraries that need to be linked.
 
-We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer.
+We also mention that git is only used here to clone the repository on your computer but it is also possible to download the files manually from github in a *.zip format if git is not installed on your computer (just go to the upper right part of the current page, click on the button Clone or dowload, and then download ZIP).
 
 In order to get the current version of a specific software installed on your computer (or simply to know is such a software is installed), you can type in a command prompt
 ```
