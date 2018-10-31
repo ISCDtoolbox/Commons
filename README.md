@@ -280,11 +280,11 @@ sh install.sh
 ```
 If no error occured, the ISCDtoolbox suite should be properly installed on your system, with sources present in ~/dev/ISCDtoolbox/ directory.
 
-## Authors
+## Authors & contributors
 
-The Commons library contains a set of tools developped and maintained by [Pascal Frey](https://www.ljll.math.upmc.fr/frey/) (Sorbonne Université) and [Loïc Maréchal](http://pages.saclay.inria.fr/loic.marechal/About_Me.html) (INRIA Saclay). The github page has been created and maintained by [Loïc Norgeot](https://fr.linkedin.com/in/lnorgeot) and is currently updated by [Jérémy Dalphin](http://pelikano.free.fr/JeremyDalphin.html).
+The Commons library contains a set of tools developped and maintained by [Pascal Frey](https://www.ljll.math.upmc.fr/frey/) (Sorbonne Université) and [Loïc Maréchal](http://pages.saclay.inria.fr/loic.marechal/About_Me.html) (INRIA Saclay).
 
-## Contribute 
+The github page has been created and maintained by [Loïc Norgeot](https://fr.linkedin.com/in/lnorgeot) and is currently updated by [Jérémy Dalphin](http://pelikano.free.fr/JeremyDalphin.html).
 
 Contributors to any ISCD project are warmly welcomed.
 
