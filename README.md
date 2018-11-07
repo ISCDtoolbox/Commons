@@ -163,7 +163,7 @@ version of `clang` should not be currently less than 3.8 in order to properly
 support [OpenMP](https://www.openmp.org/) (if you want to do so, this is only
 optional here). We recall that contrarily to the `gcc` compiler, `clang` was
 not originally supporting OpenMP but has been integrated to the
-[llvm](https://llvm.org/) project for sufficiently recent version of their
+[LLVM](https://llvm.org/) project for sufficiently recent version of their
 c-compiler (a.k.a. `clang`). If you really want to use OpenMP with the Commons
 library compiled with an old version of `clang`, you may have to do it manually
 (using `omp-clang` for example) but for really old versions of `clang`, it will
@@ -286,14 +286,14 @@ for the `libiomp` package instead of the `libomp` one. Moreover, your version of
 apple clang should not be currently less than 3.8 in order to properly support
 [OpenMP](https://www.openmp.org/) (if you want to do so, this is only optional
 here). We recall that contrarily to the `gcc` compiler, `clang` was not
-originally supporting OpenMP but has been integrated to the llvm project for
-sufficiently recent version of their c-compiler (a.k.a. clang). If you really
-want to use OpenMP with the Commons library compiled with an old version of
-`clang`, you may have to do it manually (using `omp-clang` for example) but for
-really old versions of `clang`, it will simply not be possible. Similarly, we
-recommand to use the most recent available version of `cmake` (>=3.12) if one
-wants the OpenMP library to be properly targetted at the compilation of the
-Commons library on Mac OS systems.
+originally supporting OpenMP but has been integrated to the
+[LLVM](https://llvm.org/) project for sufficiently recent version of their
+c-compiler (a.k.a. clang). If you really want to use OpenMP with the Commons
+library compiled with an old version of `clang`, you may have to do it manually
+(using `omp-clang` for example) but for really old versions of `clang`, it will
+simply not be possible. Similarly, we recommand to use the most recent
+available version of `cmake` (>=3.12) if one wants the OpenMP library to be
+properly targetted at the compilation of the Commons library on Mac OS systems.
 
 If you are not familiar with Mac OS, we refer to the previous section for hints
 about how to search, install or upgrade a package with
@@ -353,8 +353,8 @@ cmake .. -DOPENMP=1
 ```
 to generate the Makefile with cmake (in order to use
 [OpenMP](https://www.openmp.org/) and benefit from multithreading, you need to
-add -DOPENMP=1 in the cmake command; note that if you use the older name of the
-OpenMP library i.e. `libiomp`, you also have to add a second `-DFORCEIOMP=1`
+add `-DOPENMP=1` in the cmake command; note that if you use the older name of
+the OpenMP library i.e. `libiomp`, you also have to add a second `-DFORCEIOMP=1`
 flag in the cmake command)
 ```
 make
@@ -371,15 +371,20 @@ sudo make install
 ```
 If an error occurs during the installation process, it is recommended to delete
 the content of the *build/* directory (follow the end of the next section
-description if you are not familiar with Linux) and start again the `cmake ..`
-and `make` commands, which only generated files in this local directory.
+description if you are not familiar with Linux or Mac OS) and start again the
+`cmake ..` and `make` commands, which only generated files in this local
+*build/* directory.
 
 ### Installation paths
 By typing `make install` in a command prompt, the Commons library will be
-installed by default in a *lib/iscd/* subdirectory of your *HOME* directory.
-You can type in a command prompt
+installed by default in a *lib/iscd/* subdirectory of your *HOME* directory
+(often rezpresentedd by the `~` symbol). You can type in a command prompt
 ```
 echo ${HOME}
+```
+or
+```
+echo ~
 ```
 to get the full absolute path of your *HOME* directory. Similarly, the public
 header files related to the Commons library will be installed by default in a
