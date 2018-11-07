@@ -22,8 +22,8 @@ cd Commons
 mkdir build
 cd build
 ```
-Then, depending on whether or not you want to benefit from
-[OpenMP](https://www.openmp.org/) parallel features, type in the command prompt
+Then, depending on whether or not you want to benefit from OpenMP parallel
+features, type in the command prompt
 ```
 cmake ..
 ```
@@ -112,7 +112,7 @@ typing in a command prompt
 ```
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
-We recall that you cannot use blank spaces in your search or if you want to do
+We recall that you cannot use blank spaces in your request or if you want to do
 so, simply put some `"` to begin and end your search. Finally, when you have
 found the precise name of the software/package you want to install, you can type
 in a command prompt
@@ -133,12 +133,12 @@ standard library *libc.so*, the Math library *libm.so*, and the Thread library
 *libpthread.so* should already be installed by default on your Linux system as
 well as their associated header files.
 
-Optionally, you may want to benefit from multi-threading by using the
-[OpenMP](https://www.openmp.org/) library, whose name depends on the compiler
-you are using (*libgomp.so* with `gcc` and *libomp.so* with `clang`). This
-library as well as its associated header files should also be already installed
-on your computer but contrarily to the previous libraries, this one is only
-optional.
+Optionally, you may want to benefit from multi-threading by using
+[OpenMP](https://www.openmp.org/), whose associated library name depends on the
+compiler you are using (*libgomp.so* with `gcc` and *libomp.so* with `clang`).
+This library as well as its associated header files should also be already
+installed on your computer but contrarily to the previous libraries, this one
+is only optional.
 
 Hence, you should not have to install any further packages but we give here some
 hints on how to do it if such libraries are not found on your system during the
@@ -148,28 +148,27 @@ installation procedure of the Commons library.
 (development libraries and header files) and in particular the Math library (and
 normally also the Thread library)
 
-* `libpthread-stubs0-dev` (version >= 0.3-4) package which contains pthread stubs
-not provided by native libc, development files (you can install it if the Thread
-library is not found at installation)
+* `libpthread-stubs0-dev` (version >= 0.3-4) package which contains pthread
+stubs not provided by native libc, development files (you can install it if the
+Thread library is not found at installation)
 
 * `libgomp1` (version >= 5.4.0) if you use gcc or `libomp-dev`
-(version >= 3.7.0-3) if you use clang, which are the
-[OpenMP](https://www.openmp.org/) libraries used by the respective compilers.
+(version >= 3.7.0-3) if you use clang, which are the OpenMP libraries used by
+the respective compilers.
 
 **Important remark:** the previous name of the *libomp.so* library was the
 *libiomp5.so* one. Hence, on old versions of Linux, you may have to search for
 the `libiomp-dev` package instead of the `libomp-dev` one. Moreover, your
 version of `clang` should not be currently less than 3.8 in order to properly
-support the [OpenMP](https://www.openmp.org/) library (if you want to do so,
-this is only optional here). We recall that contrarily to the `gcc` compiler,
-`clang` was not originally supporting [OpenMP](https://www.openmp.org/) but has
-been integrated to the llvm project for sufficiently recent version of their
-c-compiler (a.k.a. `clang`). If you really want to use
-[OpenMP](https://www.openmp.org/) with the Commons library compiled with an old
-version of `clang`, you may have to do it manually (using `omp-clang` for
-example) but for really old versions of `clang`, it will simply not be possible.
-That is why we recommand to compile the Commons library with `gcc` compiler on
-Linux systems.
+support [OpenMP](https://www.openmp.org/) (if you want to do so, this is only
+optional here). We recall that contrarily to the `gcc` compiler, `clang` was
+not originally supporting OpenMP but has been integrated to the
+[llvm](https://llvm.org/) project for sufficiently recent version of their
+c-compiler (a.k.a. `clang`). If you really want to use OpenMP with the Commons
+library compiled with an old version of `clang`, you may have to do it manually
+(using `omp-clang` for example) but for really old versions of `clang`, it will
+simply not be possible. That is why we recommand to compile the Commons library
+with `gcc` on Linux systems.
 
 If you are not familiar with Linux, we refer to the previous section for hints
 about how to search, install or upgrade a package with `apt`. We now detail how
@@ -216,14 +215,15 @@ remark below)
 strongly recommanded)
 * `git` (version >= 2.17.1)
 
-**Important remark:** if one uses the basic installation of Xcode
-(version >= 9.4.1), which is the software Apple imposes you to install from the
-Apple Store in order to deal with any development tools, the `gcc` and `clang`
-compilers are not the real ones. In fact, they are only symbolic links to the
-apple clang compiler. For user who are really using `clang` or `gcc`, the
-installation of the Commons library should also work in this case (although not
-currently tested). We refer to the previous similar Linux section to get details
-about the associated libraries that need to be linked.
+**Important remark:** if one uses the basic installation of
+[Xcode](https://developer.apple.com/xcode/) (version >= 9.4.1), which is the
+software Apple imposes you to install from the Apple Store in order to deal
+with any development tools, the `gcc` and `clang` compilers are not the real
+ones. In fact, they are only symbolic links to the apple clang compiler. For
+user who are really using `clang` or `gcc`, the installation of the Commons
+library should also work in this case and similar to the one of Linux systems
+(although not currently tested). We refer to the previous similar Linux section
+to get details about the associated libraries that need to be linked.
 
 We also mention that `git` is only used here to clone the repository on your
 computer but it is also possible to download the files manually from github in a
@@ -250,7 +250,7 @@ Then, you can search for a specific package name by typing in a command prompt
 ```
 brew search approximateNameOfYourPackageOrNameOfYourSearch
 ```
-We recall that you cannot use blank spaces in your search or if you want to do
+We recall that you cannot use blank spaces in your request or if you want to do
 so, simply put some `"` to begin and end your search. Finally, when you have
 found the precise name of the software/package you want to install, you can type
 in a command prompt
@@ -272,11 +272,11 @@ the Thread library *libpthread.dylib* should already be installed by default on
 your Mac OS system (and both be symbolic links pointing in fact to the
 *libSystem.B.dylib* library) as well as their associated header files.
 
-Optionally, you may want to benefit from multi-threading by using the
-[OpenMP](https://www.openmp.org/) library (*libomp.dylib* with apple clang).
-This library as well as its associated header files should not be installed on
-your computer by default, contrarily to the previous libraries. It is only
-optional and for installing it, just type in a command prompt
+Optionally, you may want to benefit from multi-threading by using
+[OpenMP](https://www.openmp.org/) (library named *libomp.dylib* with apple
+clang). This library as well as its associated header files should not be
+installed on your computer by default, contrarily to the previous libraries. It
+is only optional and for installing it, just type in a command prompt
 ```
 brew install libomp
 ```
@@ -284,17 +284,16 @@ brew install libomp
 *libiomp5.dylib* one. Hence, on old versions of Mac OS, you may have to search
 for the `libiomp` package instead of the `libomp` one. Moreover, your version of
 apple clang should not be currently less than 3.8 in order to properly support
-the [OpenMP](https://www.openmp.org/) library (if you want to do so, this is
-only optional here). We recall that contrarily to the `gcc` compiler, `clang`
-was not originally supporting [OpenMP](https://www.openmp.org/) but has been
-integrated to the llvm project for sufficiently recent version of their
-c-compiler (a.k.a. clang). If you really want to use
-[OpenMP](https://www.openmp.org/) with the Commons library compiled with an old
-version of `clang`, you may have to do it manually (using `omp-clang` for
-example) but for really old versions of `clang`, it will simply not be possible.
-Similarly, we recommand to use the most recent available version of `cmake`
-(>=3.12) if one wants the [OpenMP](https://www.openmp.org/) library to be
-properly targetted at the compilation of the Commons library on Mac OS systems.
+[OpenMP](https://www.openmp.org/) (if you want to do so, this is only optional
+here). We recall that contrarily to the `gcc` compiler, `clang` was not
+originally supporting OpenMP but has been integrated to the llvm project for
+sufficiently recent version of their c-compiler (a.k.a. clang). If you really
+want to use OpenMP with the Commons library compiled with an old version of
+`clang`, you may have to do it manually (using `omp-clang` for example) but for
+really old versions of `clang`, it will simply not be possible. Similarly, we
+recommand to use the most recent available version of `cmake` (>=3.12) if one
+wants the OpenMP library to be properly targetted at the compilation of the
+Commons library on Mac OS systems.
 
 If you are not familiar with Mac OS, we refer to the previous section for hints
 about how to search, install or upgrade a package with
@@ -355,8 +354,8 @@ cmake .. -DOPENMP=1
 to generate the Makefile with cmake (in order to use
 [OpenMP](https://www.openmp.org/) and benefit from multithreading, you need to
 add -DOPENMP=1 in the cmake command; note that if you use the older name of the
-[OpenMP](https://www.openmp.org/) library i.e. `libiomp`, you also have to add
-a second `-DFORCEIOMP=1` flag in the cmake command)
+OpenMP library i.e. `libiomp`, you also have to add a second `-DFORCEIOMP=1`
+flag in the cmake command)
 ```
 make
 ```
@@ -370,18 +369,21 @@ order to do that. In this case, you need to type in the command prompt
 ```
 sudo make install
 ```
+If an error occurs during the installation process, it is recommended to delete
+the content of the *build/* directory (follow the end of the next section
+description if you are not familiar with Linux) and start again the `cmake ..`
+and `make` commands, which only generated files in this local directory.
 
 ### Installation paths
 By typing `make install` in a command prompt, the Commons library will be
 installed by default in a *lib/iscd/* subdirectory of your *HOME* directory.
-You can type
+You can type in a command prompt
 ```
 echo ${HOME}
 ```
-in a command prompt to get the full absolute path of your *HOME* directory.
-Similarly, the public header files related to the Commons library will be
-installed by default in a *include/iscd/Commons/* subdirectory of your *HOME*
-directory.
+to get the full absolute path of your *HOME* directory. Similarly, the public
+header files related to the Commons library will be installed by default in a
+*include/iscd/Commons/* subdirectory of your *HOME* directory.
 
 If one wants to change the installation paths for the Commons library and
 associated public header files, one has to modify the *CMakeLists.txt* file
@@ -428,7 +430,7 @@ upper directory by typing
 ```
 cd ..
 ```
-Once you are in the correct build directory, you then have to remove all the
+Once you are in the correct *build/* directory, you then have to remove all the
 previous files by typing
 ```
 rm -r ./*
