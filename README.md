@@ -48,7 +48,7 @@ compilation part and finally, we focus on the installation and linking paths.
 ### Prerequisites
 
 The compilation of the Commons library has been tested on Linux and Mac OS
-systems for merely the `gcc` and `clang` compilers.
+systems for merely the gcc and clang compilers.
 
 #### Linux systems (tested on Ubuntu 14.04.5 and Ubuntu 16.04.4)
 
@@ -63,7 +63,7 @@ parenthesis the versions of the packages we have used to perform successful
 compilation tests. Hence, it is recommanded to have versions that are greater or
 equal than the ones given below.
 
-###### Required softwares
+##### Required softwares
 
 * `gcc` (version >= 4.8.4) or `clang` (version >= 3.8.0 is strongly recommanded)
 * `make` (version >= 3.81)
@@ -113,7 +113,7 @@ typing in a command prompt
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
 We recall that you cannot use blank spaces in your search or if you want to do
-so, simply put some `" "` to begin and end your search. Finally, when you have
+so, simply put some `"` to begin and end your search. Finally, when you have
 found the precise name of the software/package you want to install, you can type
 in a command prompt
 ```
@@ -251,7 +251,7 @@ Then, you can search for a specific package name by typing in a command prompt
 brew search approximateNameOfYourPackageOrNameOfYourSearch
 ```
 We recall that you cannot use blank spaces in your search or if you want to do
-so, simply put some `" "` to begin and end your search. Finally, when you have
+so, simply put some `"` to begin and end your search. Finally, when you have
 found the precise name of the software/package you want to install, you can type
 in a command prompt
 ```
