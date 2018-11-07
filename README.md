@@ -11,8 +11,9 @@ at the end sections of this file.
 
 ## Quick install (Linux & Mac OS)
 
-To install the Commons library on your system, some basic softwares (`gcc`/`clang`,
-`make`, `cmake`, `git`) and optional packages (`libgomp`/`libomp` to benefit from OpenMP)
+To install the Commons library on your system, some basic softwares
+(`gcc` / `clang`, `make`, `cmake`, `git`) and optional packages
+(`libgomp` / `libomp` to benefit from [OpenMP](https://www.openmp.org/))
 must have been previously installed. In a command prompt, first navigate to the
 directory where you want to save the files and type successively:
 ```
@@ -21,8 +22,8 @@ cd Commons
 mkdir build
 cd build
 ```
-Then, depending on whether or not you want to benefit from OpenMP parallel
-features, type in the command prompt
+Then, depending on whether or not you want to benefit from
+[OpenMP](https://www.openmp.org/) parallel features, type in the command prompt
 ```
 cmake ..
 ```
@@ -42,7 +43,7 @@ make install
 We try here to provide some details about how you can properly install the
 Commons library if the above procedure did not work. First, we describe what is
 needed before, distinguishing Linux from Mac OS systems. Then, we detail the
-compilation part and we finally focus on the installation and linking paths.
+compilation part and finally, we focus on the installation and linking paths.
 
 ### Prerequisites
 
@@ -64,17 +65,16 @@ equal than the ones given below.
 
 ##### Required softwares
 
-* gcc (version >= 4.8.4) or clang (version >= 3.8.0 is strongly recommanded)
-* make (version >= 3.81)
-* cmake (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
-* git (version >= 1.9.1)
+* `gcc` (version >= 4.8.4) or `clang` (version >= 3.8.0 is strongly recommanded)
+* `make` (version >= 3.81)
+* `cmake` (version >= 2.8(.12.2) is mandatory and version >= 3.9 is recommanded)
+* `git` (version >= 1.9.1)
 
-We mention that git is only used here to clone the Commons repository on your
+We mention that `git` is only used here to clone the Commons repository on your
 computer but it is also possible to download the files manually from github in a
-*.zip archive format if git is not installed on your computer (just go to the
-upper right part of the current
+*\*.zip* archive format (just go to the upper right part of the current
 [project page](https://github.com/ISCDtoolbox/Commons), click on the button
-Clone or download, and then Download ZIP).
+`Clone or download`, and then *Download ZIP*).
 
 In order to get the current version of a specific software installed on your
 computer (or simply to know if such a software is installed), you can type in a
