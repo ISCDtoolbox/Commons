@@ -4,11 +4,16 @@ The Commons library contains some code written in C that is shared by many ISCD
 softwares (Linear algebra, basic chronograph, input/output mesh,
 multi-threading).
 
-In the first two sections, we provide informations about how to install the Commons library, while in a third part, we explain how to install the full ISCDtoolbox suite. The authors, contributors, credits, and license are detailed at the end sections of this file.
+In the first two sections, we provide informations about how to install the
+Commons library, while in a third part, we explain how to install the full
+ISCDtoolbox suite. The authors, contributors, credits, and license are detailed
+at the end sections of this file.
 
 ## Quick install (Linux & Mac OS)
 
-To install the Commons library on your system, some basic softwares (gcc/clang, make, cmake, git) and optional packages (libgomp/libomp to benefit from OpenMP) must have been previously installed. In a command prompt, first navigate to the directory where you want to save the files and type successively:
+To install the Commons library on your system, some basic softwares
+(*gcc*/*clang*, *make*, *cmake*, *git*) and optional packages
+(*libgomp*/*libomp* to benefit from [OpenMP](https://www.openmp.org/)) must have been previously installed. In a command prompt, first navigate to the directory where you want to save the files and type successively:
 ```
 git clone https://github.com/ISCDtoolbox/Commons.git
 cd Commons
