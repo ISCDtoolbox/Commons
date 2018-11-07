@@ -1,6 +1,8 @@
 # Commons [![Build Status](https://travis-ci.org/ISCDtoolbox/Commons.svg?branch=test_future_update)](https://travis-ci.org/ISCDtoolbox/Commons)
 
-The Commons library contains some code written in C that is shared by many ISCD softwares (Linear algebra, basic chronograph, input/output mesh, multi-threading).
+The Commons library contains some code written in C that is shared by many ISCD
+softwares (Linear algebra, basic chronograph, input/output mesh,
+multi-threading).
 
 In the first two sections, we provide informations about how to install the Commons library, while in a third part, we explain how to install the full ISCDtoolbox suite. The authors, contributors, credits, and license are detailed at the end sections of this file.
 
