@@ -378,7 +378,7 @@ description if you are not familiar with Linux or Mac OS) and start again the
 ### Installation paths
 By typing `make install` in a command prompt, the Commons library will be
 installed by default in a *lib/iscd/* subdirectory of your *HOME* directory
-(often rezpresentedd by the `~` symbol). You can type in a command prompt
+(often represented by the `~` symbol). You can type in a command prompt
 ```
 echo ${HOME}
 ```
@@ -416,7 +416,7 @@ install(FILES sources/chrono.h
               sources/sparse.h DESTINATION "${PROJECT_SOURCE_DIR}/include")
 ```
 in the *CMakeLists.txt* file located in the *Commons/* directory. Then, you may
-need to re-install the Commons library. First, locate yourself in the build
+need to re-install the Commons library. First, locate yourself in the *build/*
 directory in a command prompt thanks to the `cd` and `ls` commands. You can also
 check in which directory you are by typing
 ```
@@ -501,6 +501,5 @@ and the github pages of the ISCD projects that use the Commons library
 ## License
 
 The Commons library is given under the terms of the
-[GNU Lesser General Public License]
-(https://github.com/ISCDtoolbox/Commons/blob/master/LICENSE).
+[GNU Lesser General Public License](https://github.com/ISCDtoolbox/Commons/blob/master/LICENSE).
 
