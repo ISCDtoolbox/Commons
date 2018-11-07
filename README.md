@@ -63,7 +63,7 @@ parenthesis the versions of the packages we have used to perform successful
 compilation tests. Hence, it is recommanded to have versions that are greater or
 equal than the ones given below.
 
-##### Required softwares
+###### Required softwares
 
 * `gcc` (version >= 4.8.4) or `clang` (version >= 3.8.0 is strongly recommanded)
 * `make` (version >= 3.81)
@@ -113,7 +113,7 @@ typing in a command prompt
 apt-cache search approximateNameOfYourPackageOrNameOfYourSearch
 ```
 We recall that you cannot use blank spaces in your search or if you want to do
-so, simply put some " " to begin and end your search. Finally, when you have
+so, simply put some `" "` to begin and end your search. Finally, when you have
 found the precise name of the software/package you want to install, you can type
 in a command prompt
 ```
@@ -251,7 +251,7 @@ Then, you can search for a specific package name by typing in a command prompt
 brew search approximateNameOfYourPackageOrNameOfYourSearch
 ```
 We recall that you cannot use blank spaces in your search or if you want to do
-so, simply put some " " to begin and end your search. Finally, when you have
+so, simply put some `" "` to begin and end your search. Finally, when you have
 found the precise name of the software/package you want to install, you can type
 in a command prompt
 ```
