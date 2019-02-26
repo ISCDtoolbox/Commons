@@ -24,5 +24,10 @@ file(                  GLOB_RECURSE header_files ${SOURCES_DIR}/*.h)
 include_directories(   ${SOURCES_DIR})
 add_library(           Commons SHARED ${source_files})
 TARGET_LINK_LIBRARIES( Commons ${LIBRARIES})
-INSTALL(               TARGETS Commons LIBRARY DESTINATION "$ENV{HOME}/lib")
+
+INSTALL(
+  TARGETS Commons
+  RUNTIME DESTINATION "$ENV{HOME}/lib"
+  LIBRARY DESTINATION "$ENV{HOME}/lib")
+
 INSTALL(               FILES   ${header_files} DESTINATION "$ENV{HOME}/include")
