@@ -186,7 +186,7 @@ int csrConjGrad(pCsr A,double *x,double *b,double *er,int *ni) {
       p[i] = y[i] + beta * p[i];
     }
     rm = rmn;
-    // printf("  GC1: it  %d err %E   rm %E\n",it,err,rmn);
+    //printf("  GC1: it  %d err %E   rm %E   beta %E\n",it,err,rmn,beta);
   }
   if ( it > nit )  ier = -2;
   *er = sqrt(rm / rmp);
@@ -376,6 +376,7 @@ int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
   free(y);
   free(ap);
   csrFree(L);
+
   return(ier);
 }
 
@@ -567,13 +568,12 @@ int csrGMRES(pCsr A,double *x,double *b,double *er,int *ni,int krylov,int prec) 
                                ( B  S ) ( P ) = ( 0 )
    solve B A^-1 Bt P = B A^-1 F - G  then  AU = F-Bt.P */
 int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char verb) {
-  double   *d,*z,*w,*r,*Ad,dp,alpha,beta,err,lerr,rm,rmp,rmn,nn;
+  double   *d,*z,*w,*r,*Ad,dp,alpha,beta,err,lerr,rm,rmp,rmn;
   int       m,n,it,nit,lnit,ier;
 
   /*--- 1. solve for p: B A^-1 Bt p = B A^-1 F */
   n  = A->nr;
   m  = B->nr;
-  nn = csrXY(p,p,m);
 
   /* 1.a compute Az = F; z = A^-1.F */
   /* w = F - Bt*p */
@@ -589,7 +589,8 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   ier = csrPrecondGrad(A,z,w,&err,&nit,1);
   if ( ier < 1 ) {
     if ( verb != '0' )  fprintf(stdout," ## csrUzawa: incomplete CG.\n");
-    free(z);  free(w);
+    free(z);
+    free(w);
     return(0);
   }
 
@@ -601,7 +602,9 @@ int csrUzawa(pCsr A,pCsr B,double *u,double *p,double *F,double *er,int *ni,char
   rmp = csrXY(r,r,m);    
   if ( sqrt(fabs(rmp)) < 5.0*err ) {
     if ( verb != '0' )  fprintf(stdout," ## csrUzawa: null residual.\n");
-    free(z);  free(r);  free(w);
+    free(z);
+    free(w);
+    free(r);
     return(1);
   }
 

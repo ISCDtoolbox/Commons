@@ -348,6 +348,12 @@ int csrFree(pCsr M) {
   return(1);
 }
 
+/* clean numerical values */
+void csrClear(pCsr M) {
+  memset(M->val,0,M->nbe*sizeof(double));
+}
+
+
 /* optimize allocation for matrix structure */
 static int csmPack(pCsr M) {
   if ( M->nbe < M->nmax ) {
@@ -791,7 +797,7 @@ static void csr_ax(int startAdr,int stopAdr,int PthIdx,CsrArg *arg) {
     for (i=startAdr-1; i<stopAdr; i++) {
       for (j=A->row[i]+1; j<A->row[i+1]; j++) {
         ic = A->col[j];
-	dd     = A->val[j] * x[i];
+	      dd     = A->val[j] * x[i];
         y[ic] += dd;
       }
     }

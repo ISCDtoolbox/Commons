@@ -66,6 +66,7 @@ int  csvSet(pCsv M,int i,int j,double val);
 pCsr csrNew(int nr,int nc,int nmax,char typ);
 void csrAlloc(pCsr M,int nr,int nc,int nmax,char typ);
 int  csrFree(pCsr M);
+void csrClear(pCsr M);
 int  csrPack(pCsr M);
 int  csrPut(pCsr M,int i,int j,double val);
 int  csrSet(pCsr M,int i,int j,double val);
