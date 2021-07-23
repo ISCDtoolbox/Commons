@@ -399,41 +399,41 @@ static int compval(const void *a,const void *b) {
 static void csmSort(pCsr M){
   int    i,j,k,siz,nitm;
 
-	/* memory alloc for sorting */
-	siz = 64;
-	_per = (int*)malloc(siz*sizeof(int));
-	assert(_per);
-	_col = (int*)malloc(siz*sizeof(int));
-	assert(_col);
-	_val = (double*)malloc(siz*sizeof(double));
-	assert(_val);
+  /* memory alloc for sorting */
+  siz = 64;
+  _per = (int*)malloc(siz*sizeof(int));
+  assert(_per);
+  _col = (int*)malloc(siz*sizeof(int));
+  assert(_col);
+  _val = (double*)malloc(siz*sizeof(double));
+  assert(_val);
 
   for (i=0; i<M->nr; i++) {
     nitm = M->row[i+1] - M->row[i];
-		if ( nitm > siz ) {
-			siz  = 1.5*nitm;
-			_per = (int*)realloc(_per,siz*sizeof(int));
-			assert(_per);
-			_col = (int*)realloc(_col,siz*sizeof(int));
-			assert(_col);
-			_val = (double*)realloc(_val,siz*sizeof(double));
-			assert(_val);
-		}
-		for (j=0; j<nitm; j++)  _per[j] = j;
-		memcpy(_col,&M->col[M->row[i]],nitm*sizeof(int));
-		memcpy(_val,&M->val[M->row[i]],nitm*sizeof(double));
+    if ( nitm > siz ) {
+    	siz  = 1.5*nitm;
+    	_per = (int*)realloc(_per,siz*sizeof(int));
+    	assert(_per);
+    	_col = (int*)realloc(_col,siz*sizeof(int));
+    	assert(_col);
+    	_val = (double*)realloc(_val,siz*sizeof(double));
+    	assert(_val);
+    }
+    for (j=0; j<nitm; j++)  _per[j] = j;
+    memcpy(_col,&M->col[M->row[i]],nitm*sizeof(int));
+    memcpy(_val,&M->val[M->row[i]],nitm*sizeof(double));
 
     qsort(_per,nitm,sizeof(int),compval);
 
-		for (j=M->row[i]; j<M->row[i+1]; j++) {
-			k = j - M->row[i];
+    for (j=M->row[i]; j<M->row[i+1]; j++) {
+    	k = j - M->row[i];
       M->col[j] = _col[_per[k]];
-			M->val[j] = _val[_per[k]];
-		}
+      M->val[j] = _val[_per[k]];
+    }
   }
-	free(_per);
-	free(_col);
-	free(_val);
+  free(_per);
+  free(_col);
+  free(_val);
 }
 
 /* convert from hash table to CSR matrix */
@@ -442,45 +442,49 @@ int csrPack(pCsr M) {
   hmat    *phm;
   int      i;
 
-  if ( !M->hm )  return(csmPack(M));
-  hm = M->hm;
+  if ( M->hm > 0 ) {
+    hm = M->hm;
 
-  M->val = (double*)malloc(hm->nbe*sizeof(double));
-  M->col = (int*)malloc(hm->nbe*sizeof(int));
-  M->row = (int*)malloc((M->nr+1)*sizeof(int));
-  assert(M->val);
-  assert(M->col);
-  assert(M->row);
+    /* allocate memory */
+    M->val = (double*)malloc(hm->nbe*sizeof(double));
+    assert(M->val);
+    M->col = (int*)malloc(hm->nbe*sizeof(int));
+    assert(M->col);
+    M->row = (int*)malloc((M->nr+1)*sizeof(int));
+    assert(M->row);
 
-  M->nbe = 0;
-  assert(M->nr == hm->siz);
-  for (i=0; i<M->nr; i++) {
-    phm = &hm->item[i];
-    if ( phm->j < 0 )  continue;
-    M->row[i] = M->nbe;
-    if ( fabs(phm->val) > CS_NUL ) {
-      M->col[M->nbe] = phm->j;
-      M->val[M->nbe] = phm->val;
-      M->nbe++;
-    }
-    while ( phm->nxt ) {
-      phm = &hm->item[phm->nxt];
+    M->nbe = 0;
+    assert(M->nr == hm->siz);
+    for (i=0; i<M->nr; i++) {
+      phm = &hm->item[i];
+      if ( phm->j < 0 )  continue;
+      M->row[i] = M->nbe;
       if ( fabs(phm->val) > CS_NUL ) {
         M->col[M->nbe] = phm->j;
         M->val[M->nbe] = phm->val;
         M->nbe++;
       }
+      while ( phm->nxt ) {
+        phm = &hm->item[phm->nxt];
+        if ( fabs(phm->val) > CS_NUL ) {
+          M->col[M->nbe] = phm->j;
+          M->val[M->nbe] = phm->val;
+          M->nbe++;
+        }
+      }
     }
+    assert(M->nbe <= hm->nbe);
+    M->row[M->nr] = M->nbe;
+    free(hm->item);
+    free(M->hm);
+    M->hm = 0;
+    M->nmax = M->nbe;
   }
-  assert(M->nbe <= hm->nbe);
-  M->row[M->nr] = M->nbe;
-  free(hm->item);
-  free(M->hm);
-  M->hm = 0;
-  M->nmax = M->nbe;
+  else if ( !csmPack(M) ) return(0);
 
-  /* optimization: sort ascending order of cols */
+  /* optimization: sort ascending order of cols */  
   csmSort(M);
+
   return(1);
 }
 
