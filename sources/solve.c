@@ -306,6 +306,7 @@ int csrPrecondGrad(pCsr A,double *x,double *b,double *er,int *ni,char tgv) {
   if ( !x || !b )  return(0);
   assert(A->nr == A->nc);
   n = A->nr;
+  assert(A->nbe >= A->nr);
   y = (double*)malloc(A->nr*sizeof(double));
   assert(y);
 
