@@ -10,7 +10,7 @@
 /*						& dependencies						*/
 /*	Author:				Loic MARECHAL						*/
 /*	Creation date:		feb 25 2008							*/
-/*	Last modification:	feb 15 2011							*/
+/*	Last modification:	jun 22 2024							*/
 /*															*/
 /*----------------------------------------------------------*/
 
@@ -30,6 +30,9 @@
 #include <assert.h>
 #include <errno.h>
 #include <unistd.h>
+#ifdef __FreeBSD__
+#include <pmc.h>
+#endif
 #include "lplib3.h"
 
 
@@ -1251,6 +1254,7 @@ void qsort_mt(void *a, size_t n, size_t es, cmp_t *cmp, int maxthreads, int fork
 		 * NPROC environment variable (BSD/OS, CrayOS)
 		 * sysctl hw.ncpu or kern.smp.cpus
 		 */
+		uint32_t ncpu;
 		if (pmc_init() == 0 && (ncpu = pmc_ncpu()) != -1)
 			maxthreads = ncpu;
 		else
