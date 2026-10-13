@@ -1244,19 +1244,14 @@ void qsort_mt(void *a, size_t n, size_t es, cmp_t *cmp, int maxthreads, int fork
 	if (n < forkelem)
 		goto f1;
 	errno = 0;
-#ifdef __FreeBSD__
 	if (maxthreads == 0) {
-		/*
-		 * Other candidates:
-		 * NPROC environment variable (BSD/OS, CrayOS)
-		 * sysctl hw.ncpu or kern.smp.cpus
-		 */
-		if (pmc_init() == 0 && (ncpu = pmc_ncpu()) != -1)
-			maxthreads = ncpu;
-		else
-			maxthreads = 2;
-	}
+		/* One thread per online CPU, or 2 if that is unknown. */
+		long ncpu = -1;
+#ifdef _SC_NPROCESSORS_ONLN
+		ncpu = sysconf(_SC_NPROCESSORS_ONLN);
 #endif
+		maxthreads = ncpu > 0 ? (int)ncpu : 2;
+	}
 	/* XXX temporarily disabled for stress and performance testing.
 	if (maxthreads == 1)
 		goto f1;
